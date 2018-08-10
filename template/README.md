@@ -1,11 +1,13 @@
-# Quickstart
+# Simple Phaser3 TypeScript game template
 
-- Install npm dependencies
+## Quickstart
+
+1. Install npm dependencies
 ```
 npm install
 ```
 
-- Run the game!
+2. Run the game!
 ```
 npm run dev
 ```
