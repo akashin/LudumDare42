@@ -3,12 +3,14 @@ import { GridCell } from "../objects/gridCell";
 import { ShapeConveyor } from "../objects/shapeConveyor";
 import { Robot, RobotType } from "../logic/robot";
 import { Task } from "../logic/task";
+import { TiledLayout, LayoutDirection } from "../utils/layout";
 
 export class MainScene extends Phaser.Scene {
   private grid: Array<Array<Phaser.GameObjects.Sprite>>;
   private robots: Array<Robot>;
   private shapeConveyor: ShapeConveyor;
   private memoryContainer: Phaser.GameObjects.Container;
+  private gameLayout: TiledLayout;
 
   constructor() {
     super({
