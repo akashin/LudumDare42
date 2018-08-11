@@ -26,12 +26,12 @@ export class MainScene extends Phaser.Scene {
   }
 
   create(): void {
-    this.createGrid();
-
     this.shapeConveyor = new ShapeConveyor(this, {
       x: 100,
       y: 300
     });
+
+    this.createGrid();
 
     this.input.on('gameobjectdown', function (pointer, gameObject) {
       if (gameObject instanceof GridCell) {
