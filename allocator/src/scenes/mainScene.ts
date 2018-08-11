@@ -1,6 +1,5 @@
 export class MainScene extends Phaser.Scene {
-  private playerUnit: Phaser.GameObjects.Graphics;
-	private cursors: CursorKeys;
+  private grid: Array<Array<Phaser.GameObjects.Graphics>>;
 
   constructor() {
     super({
@@ -9,28 +8,29 @@ export class MainScene extends Phaser.Scene {
   }
 
   init(): void {
-    this.cursors = this.input.keyboard.createCursorKeys();
+    this.grid = Array<Array<Phaser.GameObjects.Graphics>>();
   }
 
   preload(): void {
-    this.load.image("logo", "./assets/phaser.png");
   }
 
   create(): void {
-    this.playerUnit = this.add.graphics();
-    this.playerUnit.fillStyle(0xFFFFFF, 1.0);
-    this.playerUnit.fillCircle(350, 350, 30);
+    let GRID_HEIGHT = 5;
+    let GRID_WIDTH = 5;
+
+    for (var i = 0; i < GRID_HEIGHT; ++i) {
+      this.grid.push(Array<Phaser.GameObjects.Graphics>());
+      for (var j = 0; j < GRID_WIDTH; ++j) {
+        let cell = this.add.graphics();
+        cell.fillStyle(0xFFFFFF, 1.0)
+        cell.fillRect(100 + i * 31, 100 + j * 31, 30, 30);
+
+        this.grid[i].push(cell);
+      }
+    }
+
   }
 
   update(time): void {
-    if (this.cursors.right.isDown) {
-      this.playerUnit.x += 10;
-    } else if (this.cursors.left.isDown) {
-      this.playerUnit.x -= 10;
-    } else if (this.cursors.up.isDown) {
-      this.playerUnit.y -= 10;
-    } else if (this.cursors.down.isDown) {
-      this.playerUnit.y += 10;
-    }
   }
 }
