@@ -72,8 +72,8 @@ export class MainScene extends Phaser.Scene {
       this.grid.push(new Array<GridCell>());
       for (var w_index = 0; w_index < GRID_CONST.W_CELLS; ++w_index) {
         let cell = new GridCell(this, {
-          x: w_index * (GRID_CONST.CELL_WIDTH + GRID_CONST.CELL_BORDER_SIZE),
-          y: h_index * (GRID_CONST.CELL_HEIGHT + GRID_CONST.CELL_BORDER_SIZE)
+          x: w_index * GRID_CONST.CELL_WIDTH,
+          y: h_index * GRID_CONST.CELL_HEIGHT
         });
         this.grid[h_index].push(cell);
         container.add(cell);
