@@ -74,6 +74,8 @@ export class MainScene extends Phaser.Scene {
 
     let task = new Task(1, 1, mask);
     robot.setTask(task);
+
+    robot.addToContainer(this.shapeConveyor);
   }
 
   update(time, delta): void {

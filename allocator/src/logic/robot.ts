@@ -29,15 +29,23 @@ export class Robot {
         this.type = type;
         this.state = RobotState.WAITING;
 
-        this.sprite = scene.add.sprite(
+        this.sprite = scene.make.sprite({});
+        this.sprite.setPosition(
             GRID_CONST.CELL_WIDTH / 2,
-            GRID_CONST.CELL_HEIGHT / 2,
-            texture
+            GRID_CONST.CELL_HEIGHT / 2
         );
+        this.sprite.setTexture(texture);
+        this.sprite.setVisible(false);
+
         this.sprite.setScale(
             GRID_CONST.CELL_WIDTH / this.sprite.width,
             GRID_CONST.CELL_HEIGHT / this.sprite.height
         );
+    }
+
+    addToContainer(container: Phaser.GameObjects.Container) {
+        container.add(this.sprite);
+        this.sprite.setVisible(true);
     }
 
     setTask(task: Task) {
