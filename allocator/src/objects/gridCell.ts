@@ -1,3 +1,5 @@
+import { GRID_CONST } from "../const/const";
+
 export class GridCell extends Phaser.GameObjects.Sprite {
   constructor(params) {
     super(params.scene, params.x, params.y, 'cell');

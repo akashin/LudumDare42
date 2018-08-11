@@ -1,3 +1,4 @@
+import { CONST, GRID_CONST } from "../const/const";
 import { GridCell } from "../objects/gridCell";
 import { ShapeConveyor } from "../objects/shapeConveyor";
 import { Robot, RobotType } from "../logic/robot";
@@ -47,18 +48,15 @@ export class MainScene extends Phaser.Scene {
   }
 
   createGrid() {
-    let GRID_HEIGHT = 5;
-    let GRID_WIDTH = 5;
-
-    for (var i = 0; i < GRID_HEIGHT; ++i) {
+    for (var h_index = 0; h_index < GRID_CONST.H_CELLS; ++h_index) {
       this.grid.push(new Array<GridCell>());
-      for (var j = 0; j < GRID_WIDTH; ++j) {
+      for (var w_index = 0; w_index < GRID_CONST.W_CELLS; ++w_index) {
         let cell = new GridCell({
           scene: this,
-          x: 100 + i * 31,
-          y: 100 + j * 31
+          x: w_index * (GRID_CONST.CELL_WIDTH + GRID_CONST.CELL_BORDER_SIZE),
+          y: h_index * (GRID_CONST.CELL_HEIGHT + GRID_CONST.CELL_BORDER_SIZE)
         })
-        this.grid[i].push(cell);
+        this.grid[h_index].push(cell);
       }
     }
 
