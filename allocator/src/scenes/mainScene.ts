@@ -1,6 +1,7 @@
 import { CONST, GRID_CONST } from "../const/const";
 import { GridCell } from "../objects/gridCell";
 import { ShapeConveyor } from "../objects/shapeConveyor";
+import { MemoryShapeOnConveyor } from "../objects/memoryShapeOnConveyor";
 import { Robot, RobotType } from "../logic/robot";
 import { Task } from "../logic/task";
 import { TiledLayout, LayoutDirection } from "../utils/layout";
@@ -54,14 +55,21 @@ export class MainScene extends Phaser.Scene {
       if (gameObject instanceof GridCell) {
         gameObject.setOccupied();
       }
+      if (gameObject instanceof MemoryShapeOnConveyor) {
+        gameObject.setChosen();
+      }
     });
 
     this.input.on('gameobjectover', function (pointer, gameObject) {
-      gameObject.setTint(0x7878ff);
+      if (gameObject instanceof GridCell) {
+        gameObject.setTint(0x7878ff);
+      }
     });
 
     this.input.on('gameobjectout', function (pointer, gameObject) {
-      gameObject.clearTint();
+      if (gameObject instanceof GridCell) {
+        gameObject.clearTint();
+      }
     });
   }
 
@@ -73,6 +81,7 @@ export class MainScene extends Phaser.Scene {
           x: w_index * GRID_CONST.CELL_WIDTH,
           y: h_index * GRID_CONST.CELL_HEIGHT
         });
+        cell.setInteractive();
         this.grid[h_index].push(cell);
         container.add(cell);
       }

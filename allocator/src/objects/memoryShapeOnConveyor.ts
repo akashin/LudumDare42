@@ -9,7 +9,6 @@ export class MemoryShapeOnConveyor extends Phaser.GameObjects.Container {
     super(scene, params.x, params.y);
 
     this.memoryShape = shape;
-    this.setInteractive();
 
     for (var w = 0; w < this.memoryShape.getWidth(); ++w) {
       for (var h = 0; h < this.memoryShape.getHeight(); ++h) {
@@ -25,6 +24,17 @@ export class MemoryShapeOnConveyor extends Phaser.GameObjects.Container {
         }
       }
     }
+    this.setInteractive(new Phaser.Geom.Rectangle(
+      0, 0, this.getBounds().width, this.getBounds().height), Phaser.Geom.Rectangle.Contains);
+
+    this.on('pointerover', function() {
+      this.setAlpha(0.7);
+    });
+    this.on('pointerout', function() {
+      this.setAlpha(1.0);
+    });
+
+    this.on('pointerdown', this.setChosen);
 
     scene.add.existing(this);
   }

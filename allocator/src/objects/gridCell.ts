@@ -16,7 +16,6 @@ export class GridCell extends Phaser.GameObjects.Sprite {
 
     this.setOrigin(0, 0);
     this.setScale(wScale, hScale);
-    this.setInteractive();
   }
 
   setOccupied() {
