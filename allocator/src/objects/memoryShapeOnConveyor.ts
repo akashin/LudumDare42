@@ -2,7 +2,7 @@ import { CONST, CONVEYOR_CONST } from "../const/const";
 import { MemoryShape } from "./memoryShape";
 import { GridCell } from "./gridCell";
 
-class MemoryShapeOnConveyor extends Phaser.GameObjects.Container {
+export class MemoryShapeOnConveyor extends Phaser.GameObjects.Container {
   private memoryShape: MemoryShape;
 
   constructor(scene, shape, params) {
