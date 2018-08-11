@@ -19,6 +19,9 @@ export class MemoryShape {
   }
 
   static initShapes() {
+    MemoryShape.shapes = new Array<MemoryShape>();
+    MemoryShape.antiShapes = new Array<MemoryShape>();
+
     MemoryShape.addShape([
       "#  ",
       "###"
