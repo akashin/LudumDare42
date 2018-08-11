@@ -6,6 +6,7 @@ import { Robot, RobotType } from "../logic/robot";
 import { Task } from "../logic/task";
 import { TiledLayout, LayoutDirection } from "../utils/layout";
 import { Grid } from "../objects/grid";
+import { MemoryShape } from "../objects/memoryShape";
 
 export class MainScene extends Phaser.Scene {
   private grid: Grid;
@@ -15,6 +16,7 @@ export class MainScene extends Phaser.Scene {
   private gameLayout: TiledLayout;
   private chosenMemoryShape: MemoryShapeOnConveyor = null;
   private accumulatedDelta: number = 0;
+  private overlappedGridShape: Array<GridCell>;
 
   constructor() {
     super({
@@ -59,21 +61,36 @@ export class MainScene extends Phaser.Scene {
   }
 
   setupInputs() {
-    this.input.on('gameobjectdown', function (pointer, gameObject) {
+    this.input.on('gameobjectdown', (pointer, gameObject) => {
       if (gameObject instanceof GridCell) {
-        gameObject.setOccupied();
+        if (this.overlappedGridShape != null) {
+          this.overlappedGridShape.forEach((value) => {value.setIsOccupied(true)});
+        } else {
+          gameObject.setIsOccupied(true);
+        }
       }
     });
 
-    this.input.on('gameobjectover', function (pointer, gameObject) {
+    this.input.on('gameobjectover', (pointer, gameObject) => {
       if (gameObject instanceof GridCell) {
-        gameObject.setTint(0x7878ff);
+        if (this.chosenMemoryShape != null) {
+          this.overlappedGridShape = this.grid.getAllOverlappedCells(gameObject, this.chosenMemoryShape.getMemoryShape());
+          this.overlappedGridShape.forEach((value) => {value.setTint(0x7878ff)});  
+        }
+        else {
+          gameObject.setTint(0x7878ff);
+        }
       }
     });
 
-    this.input.on('gameobjectout', function (pointer, gameObject) {
+    this.input.on('gameobjectout', (pointer, gameObject) => {
       if (gameObject instanceof GridCell) {
-        gameObject.clearTint();
+        if (this.overlappedGridShape != null) {
+          this.overlappedGridShape.forEach((value) => {value.clearTint()});
+        }
+        else {
+          gameObject.clearTint();
+        }
       }
     });
   }

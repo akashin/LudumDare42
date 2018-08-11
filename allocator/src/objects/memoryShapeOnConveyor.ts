@@ -51,6 +51,10 @@ export class MemoryShapeOnConveyor extends Phaser.GameObjects.Container {
     });
   }
 
+  getMemoryShape() : MemoryShape {
+    return this.memoryShape;
+  }
+
   setChosen(isChosen: boolean) {
     this.isChosen = isChosen;
     if (isChosen) {

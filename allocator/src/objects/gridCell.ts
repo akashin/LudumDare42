@@ -1,6 +1,8 @@
 import { CONST, GRID_CONST } from "../const/const";
 
 export class GridCell extends Phaser.GameObjects.Sprite {
+  private is_occupied: boolean;
+
   constructor(scene, params) {
     super(scene, params.x, params.y, 'cell');
 
@@ -18,7 +20,16 @@ export class GridCell extends Phaser.GameObjects.Sprite {
     this.setScale(wScale, hScale);
   }
 
-  setOccupied() {
-    this.setAlpha(0.5);
+  setIsOccupied(is_occupied: boolean) {
+    this.is_occupied = is_occupied;
+    if (is_occupied) {
+      this.setAlpha(0.5);
+    } else {
+      this.setAlpha(1.0);
+    }
+  }
+
+  getIsOccupied(): boolean {
+    return this.is_occupied;
   }
 }
