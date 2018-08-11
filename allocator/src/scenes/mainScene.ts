@@ -1,9 +1,11 @@
 import { GridCell } from "../objects/gridCell";
+import { ShapeConveyor } from "../objects/shapeConveyor";
 import { Robot, RobotType } from "../logic/robot";
 
 export class MainScene extends Phaser.Scene {
   private grid: Array<Array<Phaser.GameObjects.Sprite>>;
   private robots: Array<Robot>;
+  private shapeConveyor: ShapeConveyor;
 
   constructor() {
     super({
@@ -23,6 +25,11 @@ export class MainScene extends Phaser.Scene {
 
   create(): void {
     this.createGrid();
+
+    this.shapeConveyor = new ShapeConveyor(this, {
+      x: 100,
+      y: 100
+    });
 
     this.input.on('gameobjectdown', function (pointer, gameObject) {
       if (gameObject instanceof GridCell) {

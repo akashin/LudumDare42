@@ -8,4 +8,16 @@ export class MemoryShape {
   hasCell(x: number, y: number): boolean {
     return false;
   }
+
+  getHeight(): number {
+    return 1;
+  }
+
+  getWidth(): number {
+    return 1;
+  }
+
+  static generateShape(): MemoryShape {
+    return new MemoryShape();
+  }
 }
