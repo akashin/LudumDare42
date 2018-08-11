@@ -2,6 +2,8 @@ import { CONST, GRID_CONST } from "../const/const";
 
 export class GridCell extends Phaser.GameObjects.Sprite {
   private is_occupied: boolean;
+  private index_w = 0;
+  private index_h = 0;
 
   constructor(scene, params) {
     super(scene, params.x, params.y, 'cell');
@@ -14,6 +16,12 @@ export class GridCell extends Phaser.GameObjects.Sprite {
     }
     if ("height" in params) {
       hScale = (params.height - GRID_CONST.CELL_BORDER_SIZE) / 300.0;
+    }
+    if ("index_w" in params) {
+      this.index_w = params.index_w;
+    }
+    if ("index_h" in params) {
+      this.index_h = params.index_h;
     }
 
     this.setOrigin(0, 0);
@@ -31,5 +39,13 @@ export class GridCell extends Phaser.GameObjects.Sprite {
 
   getIsOccupied(): boolean {
     return this.is_occupied;
+  }
+
+  getIntexW(): number {
+    return this.index_w;
+  }
+
+  getIntexH(): number {
+    return this.index_h;
   }
 }
