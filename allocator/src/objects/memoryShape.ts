@@ -11,7 +11,7 @@ export class MemoryShape {
     for (let row of strMask) {
       let shapeRow = new Array<boolean>();
       for (let i = 0; i < row.length; i++) {
-        shapeRow.push(row.charAt(i) == '#')
+        shapeRow.push(row.charAt(i) == "#")
       }
       shape.mask.push(shapeRow);
     }
@@ -19,52 +19,64 @@ export class MemoryShape {
   }
 
   static initShapes() {
-    MemoryShape.addShape([
-      "#  ",
-      "###"
-    ], MemoryShape.shapes);
-    MemoryShape.addShape([
-      "##",
-      "##"
-    ], MemoryShape.shapes);
-    MemoryShape.addShape([
-      "## ",
-      " ##"
-    ], MemoryShape.shapes);
-    MemoryShape.addShape([
-      "##",
-      " #",
-      " #"
-    ], MemoryShape.shapes);
-    MemoryShape.addShape([
-      " # ",
-      "###"
-    ], MemoryShape.shapes);
-    MemoryShape.addShape([
-      "###",
-      "  #"
-    ], MemoryShape.shapes);
+    let shapes = [
+      [
+        "#  ",
+        "###"
+      ],
+      [
+        "##",
+        "##"
+      ],
+      [
+        "## ",
+        " ##"
+      ],
+      [
+        "##",
+        " #",
+        " #"
+      ],
+      [
+        " # ",
+        "###"
+      ],
+      [
+        "###",
+        "  #"
+      ]
+    ];
 
-    MemoryShape.addShape([
-      "###",
-      "###",
-      "###"
-    ], MemoryShape.antiShapes);
-    MemoryShape.addShape([
-      " # ",
-      "###",
-      " # "
-    ], MemoryShape.antiShapes);
-    MemoryShape.addShape([
-      "#####"
-    ], MemoryShape.antiShapes);
-    MemoryShape.addShape([
-      "#",
-      "#",
-      "#",
-      "#",
-      "#"
-    ], MemoryShape.antiShapes);
+    for (let shape of shapes) {
+      MemoryShape.addShape(shape, MemoryShape.shapes);
+    }
+
+    let antiShapes = [
+      [
+        "###",
+        "###",
+        "###"
+      ],
+      [
+        " # ",
+        "###",
+        " # "
+      ],
+      [
+        "#####"
+      ],
+      [
+        "#",
+        "#",
+        "#",
+        "#",
+        "#"
+      ],
+    ];
+
+    for (let antiShape of antiShapes) {
+      MemoryShape.addShape(antiShape, MemoryShape.antiShapes);
+    }
   }
 
   static randomShape() : MemoryShape {
