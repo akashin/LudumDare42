@@ -34,17 +34,21 @@ export class MainScene extends Phaser.Scene {
     this.gameLayout = new TiledLayout(
       this,
       LayoutDirection.Vertical,
-      /* spacing = */ 100,
-      /* center_elements = */ true
+      /* spacing = */ 50,
+      /* center_elements = */ true,
+      /* size = */ 700
     );
+    this.gameLayout.y = 50
 
-    this.shapeConveyor = new ShapeConveyor(this, {
-      x: 100,
-      y: 300
-    });
+    this.shapeConveyor = new ShapeConveyor(this, { x: 0, y: 0 });
 
-    this.memoryContainer = this.add.container(0, 0);
+    this.memoryContainer = this.make.container({}, false);
     this.createGrid(this.memoryContainer);
+
+    this.gameLayout.addItem(this.memoryContainer);
+    this.gameLayout.addItem(this.shapeConveyor);
+
+    this.add.existing(this.gameLayout);
 
     this.createRobots();
 
@@ -106,7 +110,6 @@ export class MainScene extends Phaser.Scene {
   }
 
   setChosenMemoryShape(memoryShape: MemoryShapeOnConveyor) {
-    console.log("Shape on conveyor clicked");
     if (this.chosenMemoryShape != null) {
       this.chosenMemoryShape.setChosen(false);
     }

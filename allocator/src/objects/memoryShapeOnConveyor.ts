@@ -35,7 +35,6 @@ export class MemoryShapeOnConveyor extends Phaser.GameObjects.Container {
       }
     });
     this.on('pointerout', function() {
-      console.log("pointerout", this.isChosen);
       if (!this.isChosen) {
         this.setAlpha(1.0);
       }

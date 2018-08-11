@@ -13,12 +13,12 @@ export class TiledLayout extends Phaser.GameObjects.Container {
                 spacing: number,
                 center_elements: boolean = false,
                 size: number = 0) {
-        super(scene);
+      super(scene);
 
-        this.direction = direction;
-        this.spacing = spacing;
-        this.center_elements = center_elements;
-        this.size = size;
+      this.direction = direction;
+      this.spacing = spacing;
+      this.center_elements = center_elements;
+      this.size = size;
     }
 
     apply_centering() {
@@ -26,9 +26,9 @@ export class TiledLayout extends Phaser.GameObjects.Container {
         let drawableChild: any = child;
 
         if (this.direction === LayoutDirection.Horizontal) {
-          drawableChild.y += (this.size - drawableChild.getBounds().height) / 2;
+          drawableChild.y = (this.size - drawableChild.getBounds().height) / 2;
         } else {
-          drawableChild.x += (this.size - drawableChild.getBounds().width) / 2;
+          drawableChild.x = (this.size - drawableChild.getBounds().width) / 2;
         }
       }
     }
@@ -42,10 +42,10 @@ export class TiledLayout extends Phaser.GameObjects.Container {
         }
       }
       this.add(item);
-      // TODO: Finish implementing this.
-      // if (this.center_elements) {
-      //     this.apply_centering();
-      // }
+
+      if (this.center_elements) {
+        this.apply_centering();
+      }
     }
 };
 

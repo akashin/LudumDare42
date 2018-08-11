@@ -13,8 +13,6 @@ export class ShapeConveyor extends Phaser.GameObjects.Container {
     this.shapes = new Array<MemoryShapeOnConveyor>();
 
     this.createShapes(scene);
-
-    scene.add.existing(this);
   }
 
   createShapes(scene): void {
