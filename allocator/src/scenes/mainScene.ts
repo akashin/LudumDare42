@@ -5,9 +5,10 @@ import { MemoryShapeOnConveyor } from "../objects/memoryShapeOnConveyor";
 import { Robot, RobotType } from "../logic/robot";
 import { Task } from "../logic/task";
 import { TiledLayout, LayoutDirection } from "../utils/layout";
+import { Grid } from "../objects/grid";
 
 export class MainScene extends Phaser.Scene {
-  private grid: Array<Array<Phaser.GameObjects.Sprite>>;
+  private grid: Grid;
   private robots: Array<Robot>;
   private shapeConveyor: ShapeConveyor;
   private memoryContainer: Phaser.GameObjects.Container;
@@ -21,7 +22,7 @@ export class MainScene extends Phaser.Scene {
   }
 
   init(): void {
-    this.grid = new Array<Array<GridCell>>();
+    this.grid = new Grid(this);
     this.robots = new Array<Robot>();
   }
 
@@ -43,7 +44,7 @@ export class MainScene extends Phaser.Scene {
     this.shapeConveyor = new ShapeConveyor(this, { x: 0, y: 0 });
 
     this.memoryContainer = this.make.container({}, false);
-    this.createGrid(this.memoryContainer);
+    this.grid.createGrid(this.memoryContainer);
 
     this.gameLayout.addItem(this.memoryContainer);
     this.gameLayout.addItem(this.shapeConveyor);
@@ -73,21 +74,6 @@ export class MainScene extends Phaser.Scene {
         gameObject.clearTint();
       }
     });
-  }
-
-  createGrid(container: Phaser.GameObjects.Container) {
-    for (var h_index = 0; h_index < GRID_CONST.H_CELLS; ++h_index) {
-      this.grid.push(new Array<GridCell>());
-      for (var w_index = 0; w_index < GRID_CONST.W_CELLS; ++w_index) {
-        let cell = new GridCell(this, {
-          x: w_index * GRID_CONST.CELL_WIDTH,
-          y: h_index * GRID_CONST.CELL_HEIGHT
-        });
-        cell.setInteractive();
-        this.grid[h_index].push(cell);
-        container.add(cell);
-      }
-    }
   }
 
   createRobots() {
