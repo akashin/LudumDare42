@@ -3,8 +3,8 @@ import {randomInt} from "../logic/math";
 export class MemoryShape {
   mask: Array<Array<boolean>>;
 
-  private static shapes : Array<MemoryShape>;
-  private static antiShapes : Array<MemoryShape>;
+  private static shapes = new Array<MemoryShape>();
+  private static antiShapes = new Array<MemoryShape>();
 
   private static addShape(strMask: Array<string>, container: Array<MemoryShape>) {
     let shape = new MemoryShape();
@@ -19,9 +19,6 @@ export class MemoryShape {
   }
 
   static initShapes() {
-    MemoryShape.shapes = new Array<MemoryShape>();
-    MemoryShape.antiShapes = new Array<MemoryShape>();
-
     MemoryShape.addShape([
       "#  ",
       "###"
