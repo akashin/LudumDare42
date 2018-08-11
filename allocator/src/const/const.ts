@@ -13,8 +13,8 @@ export let GRID_CONST = {
 // Conveyor constants.
 export let CONVEYOR_CONST = {
   SHAPE_COUNT: 5,
-  SHAPE_CELL_WIDTH: 20,
-  SHAPE_CELL_HEIGHT: 20,
+  SHAPE_CELL_WIDTH: 30,
+  SHAPE_CELL_HEIGHT: 30,
   SHAPE_COLOR: "0x00FF00",
 }
 

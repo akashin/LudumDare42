@@ -1,8 +1,11 @@
 import { CONST, CONVEYOR_CONST } from "../const/const";
 import { MemoryShape } from "./memoryShape";
+import { GridCell } from "./gridCell";
+import { TiledLayout, LayoutDirection } from "../utils/layout";
 
 export class ShapeConveyor extends Phaser.GameObjects.Container {
   private shapes: Array<MemoryShapeOnConveyor>;
+  private layout: TiledLayout;
 
   constructor(scene, params) {
     super(scene, params.x, params.y);
@@ -15,15 +18,17 @@ export class ShapeConveyor extends Phaser.GameObjects.Container {
   }
 
   createShapes(scene): void {
-    // TODO: Use horizontal layout here.
+    let layout = new TiledLayout(scene, LayoutDirection.Horizontal, /* spacing = */ 30);
     for (var i = 0; i < CONVEYOR_CONST.SHAPE_COUNT; ++i) {
       let shape = new MemoryShapeOnConveyor(scene, MemoryShape.randomShape(), {
-        x: i * CONVEYOR_CONST.SHAPE_CELL_WIDTH * 5,
+        x: 0,
         y: 0
       });
+      console.log(shape.getBounds());
       this.shapes.push(shape);
+      layout.addItem(shape);
     }
-    this.add(this.shapes);
+    this.add(layout);
   }
 }
 
@@ -38,14 +43,11 @@ class MemoryShapeOnConveyor extends Phaser.GameObjects.Container {
     for (var w = 0; w < this.memoryShape.getWidth(); ++w) {
       for (var h = 0; h < this.memoryShape.getHeight(); ++h) {
         if (this.memoryShape.hasCell(w, h)) {
-          let cell = scene.make.graphics({
-            fillStyle: { color: CONVEYOR_CONST.SHAPE_COLOR, alpha: 1.0 }
-          }).fillRect(
-            w * CONVEYOR_CONST.SHAPE_CELL_WIDTH,
-            h * CONVEYOR_CONST.SHAPE_CELL_HEIGHT,
-            CONVEYOR_CONST.SHAPE_CELL_WIDTH,
-            CONVEYOR_CONST.SHAPE_CELL_HEIGHT
-          );
+          // TODO: Use a separate grid cell type.
+          let cell = new GridCell(scene, {
+            x: w * CONVEYOR_CONST.SHAPE_CELL_WIDTH,
+            y: h * CONVEYOR_CONST.SHAPE_CELL_HEIGHT
+          });
           this.add(cell);
         }
       }
