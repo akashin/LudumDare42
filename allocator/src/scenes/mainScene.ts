@@ -29,6 +29,13 @@ export class MainScene extends Phaser.Scene {
   }
 
   create(): void {
+    this.gameLayout = new TiledLayout(
+      this,
+      LayoutDirection.Vertical,
+      /* spacing = */ 100,
+      /* center_elements = */ true
+    );
+
     this.shapeConveyor = new ShapeConveyor(this, {
       x: 100,
       y: 300
@@ -37,6 +44,12 @@ export class MainScene extends Phaser.Scene {
     this.memoryContainer = this.add.container(0, 0);
     this.createGrid(this.memoryContainer);
 
+    this.createRobots();
+
+    this.setupInputs();
+  }
+
+  setupInputs() {
     this.input.on('gameobjectdown', function (pointer, gameObject) {
       if (gameObject instanceof GridCell) {
         gameObject.setOccupied();
@@ -50,7 +63,23 @@ export class MainScene extends Phaser.Scene {
     this.input.on('gameobjectout', function (pointer, gameObject) {
       gameObject.clearTint();
     });
+  }
 
+  createGrid(container: Phaser.GameObjects.Container) {
+    for (var h_index = 0; h_index < GRID_CONST.H_CELLS; ++h_index) {
+      this.grid.push(new Array<GridCell>());
+      for (var w_index = 0; w_index < GRID_CONST.W_CELLS; ++w_index) {
+        let cell = new GridCell(this, {
+          x: w_index * GRID_CONST.CELL_WIDTH,
+          y: h_index * GRID_CONST.CELL_HEIGHT
+        });
+        this.grid[h_index].push(cell);
+        container.add(cell);
+      }
+    }
+  }
+
+  createRobots() {
     let robot = new Robot(this, 100 + 31 / 2, 100 + 31 / 2, RobotType.Engineer);
     this.robots.push(robot);
 
@@ -67,20 +96,6 @@ export class MainScene extends Phaser.Scene {
     robot.setTask(task);
 
     robot.addToContainer(this.memoryContainer);
-  }
-
-  createGrid(container: Phaser.GameObjects.Container) {
-    for (var h_index = 0; h_index < GRID_CONST.H_CELLS; ++h_index) {
-      this.grid.push(new Array<GridCell>());
-      for (var w_index = 0; w_index < GRID_CONST.W_CELLS; ++w_index) {
-        let cell = new GridCell(this, {
-          x: w_index * GRID_CONST.CELL_WIDTH,
-          y: h_index * GRID_CONST.CELL_HEIGHT
-        });
-        this.grid[h_index].push(cell);
-        container.add(cell);
-      }
-    }
   }
 
   update(time, delta): void {
