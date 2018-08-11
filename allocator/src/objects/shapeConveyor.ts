@@ -16,15 +16,24 @@ export class ShapeConveyor extends Phaser.GameObjects.Container {
   }
 
   createShapes(scene): void {
-    let layout = new TiledLayout(scene, LayoutDirection.Horizontal, /* spacing = */ 30);
+    this.layout = new TiledLayout(scene, LayoutDirection.Horizontal, /* spacing = */ 30);
     for (var i = 0; i < CONVEYOR_CONST.SHAPE_COUNT; ++i) {
-      let shape = new MemoryShapeOnConveyor(scene, MemoryShape.randomShape(), {
-        x: 0,
-        y: 0
-      });
-      this.shapes.push(shape);
-      layout.addItem(shape);
+      this.addNewShape(scene);
     }
-    this.add(layout);
+    this.add(this.layout);
+  }
+
+  shapeCount(): number {
+    return this.shapes.length;
+  }
+
+  addNewShape(scene): void {
+    console.log("Adding shape");
+    let shape = new MemoryShapeOnConveyor(scene, MemoryShape.randomShape(), {
+      x: 0,
+      y: 0
+    });
+    this.shapes.push(shape);
+    this.layout.addItem(shape);
   }
 }

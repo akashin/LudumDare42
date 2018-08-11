@@ -14,6 +14,7 @@ export class MainScene extends Phaser.Scene {
   private memoryContainer: Phaser.GameObjects.Container;
   private gameLayout: TiledLayout;
   private chosenMemoryShape: MemoryShapeOnConveyor = null;
+  private accumulatedDelta: number = 0;
 
   constructor() {
     super({
@@ -108,6 +109,14 @@ export class MainScene extends Phaser.Scene {
     for (var i = 0; i < this.robots.length; ++i) {
       let robot: Robot = this.robots[i];
       robot.update(time, delta);
+    }
+
+    this.accumulatedDelta += delta;
+    while (this.accumulatedDelta > 3) {
+      this.accumulatedDelta -= 3;
+      if (this.shapeConveyor.shapeCount() < 10) {
+        this.shapeConveyor.addNewShape(this);
+      }
     }
   }
 }

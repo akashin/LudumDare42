@@ -49,8 +49,6 @@ export class MemoryShapeOnConveyor extends Phaser.GameObjects.Container {
         scene.setChosenMemoryShape(this);
       }
     });
-
-    scene.add.existing(this);
   }
 
   setChosen(isChosen: boolean) {
