@@ -62,4 +62,5 @@ typings/
 
 build/
 
-.vs
+.vs/
+.vscode/
