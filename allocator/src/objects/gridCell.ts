@@ -9,4 +9,8 @@ export class GridCell extends Phaser.GameObjects.Sprite {
 
     params.scene.add.existing(this);
   }
+
+  setOccupied() {
+    this.setAlpha(0.5);
+  }
 }
