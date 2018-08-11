@@ -1,7 +1,9 @@
 import { GridCell } from "../objects/gridCell";
+import { Robot, RobotType } from "../logic/robot";
 
 export class MainScene extends Phaser.Scene {
   private grid: Array<Array<Phaser.GameObjects.Sprite>>;
+  private robots: Array<Robot>;
 
   constructor() {
     super({
@@ -11,10 +13,12 @@ export class MainScene extends Phaser.Scene {
 
   init(): void {
     this.grid = Array<Array<Phaser.GameObjects.Sprite>>();
+    this.robots = Array<Robot>();
   }
 
   preload(): void {
     this.load.image('cell', 'assets/cell.png');
+    this.load.image("engineer", "./assets/engineer.png");
   }
 
   create(): void {
@@ -50,6 +54,12 @@ export class MainScene extends Phaser.Scene {
         this.grid[i].push(cell);
       }
     }
+
+    let robot = new Robot(this, 100 + 31 / 2, 100 + 31 / 2, RobotType.Engineer);
+    robot.setScale(31 / 256);
+    this.robots.push(robot);
+
+    robot.setDestinationPoint(100 + 31 * 3.5, 100 + 31 * 4.5);
   }
 
   update(time): void {
