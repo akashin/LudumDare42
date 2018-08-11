@@ -33,7 +33,7 @@ export class MainScene extends Phaser.Scene {
     });
 
     this.memoryContainer = this.add.container(0, 0);
-    this.createGrid();
+    this.createGrid(this.memoryContainer);
 
     this.input.on('gameobjectdown', function (pointer, gameObject) {
       if (gameObject instanceof GridCell) {
@@ -67,7 +67,7 @@ export class MainScene extends Phaser.Scene {
     robot.addToContainer(this.memoryContainer);
   }
 
-  createGrid() {
+  createGrid(container: Phaser.GameObjects.Container) {
     for (var h_index = 0; h_index < GRID_CONST.H_CELLS; ++h_index) {
       this.grid.push(new Array<GridCell>());
       for (var w_index = 0; w_index < GRID_CONST.W_CELLS; ++w_index) {
@@ -76,6 +76,7 @@ export class MainScene extends Phaser.Scene {
           y: h_index * (GRID_CONST.CELL_HEIGHT + GRID_CONST.CELL_BORDER_SIZE)
         });
         this.grid[h_index].push(cell);
+        container.add(cell);
       }
     }
   }
