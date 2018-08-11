@@ -4,8 +4,18 @@ export class GridCell extends Phaser.GameObjects.Sprite {
   constructor(scene, params) {
     super(scene, params.x, params.y, 'cell');
 
+    let wScale = 0.1;
+    let hScale = 0.1;
+
+    if ("width" in params) {
+      wScale = params.width / 300.0;
+    }
+    if ("height" in params) {
+      hScale = params.height / 300.0;
+    }
+
     this.setOrigin(0, 0);
-    this.setScale(0.1, 0.1);
+    this.setScale(wScale, hScale);
     this.setInteractive();
 
     scene.add.existing(this);

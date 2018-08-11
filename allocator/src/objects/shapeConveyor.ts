@@ -45,7 +45,9 @@ class MemoryShapeOnConveyor extends Phaser.GameObjects.Container {
           // TODO: Use a separate grid cell type.
           let cell = new GridCell(scene, {
             x: w * CONVEYOR_CONST.SHAPE_CELL_WIDTH,
-            y: h * CONVEYOR_CONST.SHAPE_CELL_HEIGHT
+            y: h * CONVEYOR_CONST.SHAPE_CELL_HEIGHT,
+            width: CONVEYOR_CONST.SHAPE_CELL_WIDTH,
+            height: CONVEYOR_CONST.SHAPE_CELL_HEIGHT,
           });
           this.add(cell);
         }
