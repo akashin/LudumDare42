@@ -24,7 +24,6 @@ export class ShapeConveyor extends Phaser.GameObjects.Container {
         x: 0,
         y: 0
       });
-      console.log(shape.getBounds());
       this.shapes.push(shape);
       layout.addItem(shape);
     }

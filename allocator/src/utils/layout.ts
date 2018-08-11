@@ -34,7 +34,6 @@ export class TiledLayout extends Phaser.GameObjects.Container {
     }
 
     addItem(item, spacing: number = 0) {
-      console.log(this.getBounds());
       if (this.length > 0) {
         if (this.direction === LayoutDirection.Horizontal) {
           item.x += this.getBounds().width + this.spacing + spacing;
