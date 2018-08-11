@@ -12,8 +12,8 @@ export class MainScene extends Phaser.Scene {
   }
 
   init(): void {
-    this.grid = Array<Array<Phaser.GameObjects.Sprite>>();
-    this.robots = Array<Robot>();
+    this.grid = new Array<Array<Phaser.GameObjects.Sprite>>();
+    this.robots = new Array<Robot>();
   }
 
   preload(): void {
@@ -44,7 +44,7 @@ export class MainScene extends Phaser.Scene {
     let GRID_WIDTH = 5;
 
     for (var i = 0; i < GRID_HEIGHT; ++i) {
-      this.grid.push(Array<Phaser.GameObjects.Sprite>());
+      this.grid.push(new Array<Phaser.GameObjects.Sprite>());
       for (var j = 0; j < GRID_WIDTH; ++j) {
         let cell = new GridCell({
           scene: this,
