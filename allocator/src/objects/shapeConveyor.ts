@@ -32,12 +32,19 @@ class MemoryShapeOnConveyor extends Phaser.GameObjects.Container {
 
     this.memoryShape = shape;
 
-    let g = scene.add.graphics({
-      x: 10,
-      y: 10,
-      fillStyle: { color: "0xFFFFFF", alpha: 1.0 }
-    }).fillRect(100, 100, 100, 100);
-    this.add(g);
+    let CELL_HEIGHT = 10;
+    let CELL_WIDTH = 10;
+
+    for (var h = 0; h < this.memoryShape.getHeight(); ++h) {
+      for (var w = 0; w < this.memoryShape.getWidth(); ++w) {
+        let cell = scene.make.graphics({
+          x: 10,
+          y: 10,
+          fillStyle: { color: "0xFFFFFF", alpha: 1.0 }
+        }).fillRect(10, 10, CELL_HEIGHT, CELL_WIDTH);
+        this.add(cell);
+      }
+    }
 
     scene.add.existing(this);
   }

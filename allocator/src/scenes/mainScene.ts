@@ -28,7 +28,7 @@ export class MainScene extends Phaser.Scene {
 
     this.shapeConveyor = new ShapeConveyor(this, {
       x: 100,
-      y: 100
+      y: 300
     });
 
     this.input.on('gameobjectdown', function (pointer, gameObject) {
