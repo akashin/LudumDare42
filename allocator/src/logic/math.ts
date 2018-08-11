@@ -27,6 +27,10 @@ export class Vec2 {
         let length = this.length();
         return new Vec2(this.x / length, this.y / length);
     }
+
+    toString() {
+        return "(" + this.x + ", " + this.y + ")";
+    }
 }
 
 export function randomInt(max: integer) : integer {

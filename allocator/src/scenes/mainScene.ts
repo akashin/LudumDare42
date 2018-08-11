@@ -2,6 +2,7 @@ import { CONST, GRID_CONST } from "../const/const";
 import { GridCell } from "../objects/gridCell";
 import { ShapeConveyor } from "../objects/shapeConveyor";
 import { Robot, RobotType } from "../logic/robot";
+import { Task } from "../logic/task";
 
 export class MainScene extends Phaser.Scene {
   private grid: Array<Array<Phaser.GameObjects.Sprite>>;
@@ -61,12 +62,27 @@ export class MainScene extends Phaser.Scene {
     }
 
     let robot = new Robot(this, 100 + 31 / 2, 100 + 31 / 2, RobotType.Engineer);
-    robot.setScale(31 / 256);
     this.robots.push(robot);
 
-    robot.setDestinationPoint(100 + 31 * 3.5, 100 + 31 * 4.5);
+    let mask = new Array<Array<boolean>>();
+    for (var x = 0; x < 3; ++x) {
+      let column = Array<boolean>();
+      for (var y = 0; y < 3; ++y) {
+        column.push((x + y) % 2 == 0);
+      }
+      mask.push(column);
+    }
+
+    let task = new Task(1, 1, mask);
+    robot.setTask(task);
   }
 
-  update(time): void {
+  update(time, delta): void {
+    delta /= 1000
+
+    for (var i = 0; i < this.robots.length; ++i) {
+      let robot: Robot = this.robots[i];
+      robot.update(time, delta);
+    }
   }
 }
