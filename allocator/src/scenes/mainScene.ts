@@ -36,7 +36,7 @@ export class MainScene extends Phaser.Scene {
       LayoutDirection.Vertical,
       /* spacing = */ 50,
       /* center_elements = */ true,
-      /* size = */ 700
+      /* size = */ this.sys.canvas.width
     );
     this.gameLayout.y = 50
 
