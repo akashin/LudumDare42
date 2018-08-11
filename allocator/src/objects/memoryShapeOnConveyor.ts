@@ -4,6 +4,8 @@ import { GridCell } from "./gridCell";
 
 export class MemoryShapeOnConveyor extends Phaser.GameObjects.Container {
   private memoryShape: MemoryShape;
+  private currentScene;
+  private isChosen: boolean = false;
 
   constructor(scene, shape, params) {
     super(scene, params.x, params.y);
@@ -28,19 +30,36 @@ export class MemoryShapeOnConveyor extends Phaser.GameObjects.Container {
       0, 0, this.getBounds().width, this.getBounds().height), Phaser.Geom.Rectangle.Contains);
 
     this.on('pointerover', function() {
-      this.setAlpha(0.7);
+      if (!this.isChosen) {
+        this.setAlpha(0.7);
+      }
     });
     this.on('pointerout', function() {
-      this.setAlpha(1.0);
+      console.log("pointerout", this.isChosen);
+      if (!this.isChosen) {
+        this.setAlpha(1.0);
+      }
     });
 
-    this.on('pointerdown', this.setChosen);
+    this.on('pointerdown', function() {
+      if (this.isChosen) {
+        this.setChosen(false);
+        scene.setChosenMemoryShape(null);
+      } else {
+        this.setChosen(true);
+        scene.setChosenMemoryShape(this);
+      }
+    });
 
     scene.add.existing(this);
   }
 
-  setChosen() {
-    console.log("Shape on conveyor clicked");
-    this.setAlpha(0.5);
+  setChosen(isChosen: boolean) {
+    this.isChosen = isChosen;
+    if (isChosen) {
+      this.setAlpha(0.5);
+    } else {
+      this.setAlpha(1.0);
+    }
   }
 }

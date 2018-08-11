@@ -12,6 +12,7 @@ export class MainScene extends Phaser.Scene {
   private shapeConveyor: ShapeConveyor;
   private memoryContainer: Phaser.GameObjects.Container;
   private gameLayout: TiledLayout;
+  private chosenMemoryShape: MemoryShapeOnConveyor = null;
 
   constructor() {
     super({
@@ -54,9 +55,6 @@ export class MainScene extends Phaser.Scene {
     this.input.on('gameobjectdown', function (pointer, gameObject) {
       if (gameObject instanceof GridCell) {
         gameObject.setOccupied();
-      }
-      if (gameObject instanceof MemoryShapeOnConveyor) {
-        gameObject.setChosen();
       }
     });
 
@@ -105,6 +103,14 @@ export class MainScene extends Phaser.Scene {
     robot.setTask(task);
 
     robot.addToContainer(this.memoryContainer);
+  }
+
+  setChosenMemoryShape(memoryShape: MemoryShapeOnConveyor) {
+    console.log("Shape on conveyor clicked");
+    if (this.chosenMemoryShape != null) {
+      this.chosenMemoryShape.setChosen(false);
+    }
+    this.chosenMemoryShape = memoryShape;
   }
 
   update(time, delta): void {
