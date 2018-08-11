@@ -1,4 +1,4 @@
-import { GRID_CONST } from "../const/const";
+import { CONST, GRID_CONST } from "../const/const";
 
 export class GridCell extends Phaser.GameObjects.Sprite {
   constructor(params) {

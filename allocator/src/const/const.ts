@@ -10,9 +10,15 @@ export let GRID_CONST = {
   CELL_BORDER_SIZE: 1,
 }
 
+// Conveyor constants.
 export let CONVEYOR_CONST = {
   SHAPE_COUNT: 5,
   SHAPE_CELL_WIDTH: 20,
   SHAPE_CELL_HEIGHT: 20,
   SHAPE_COLOR: "0x00FF00",
+}
+
+// Robot constants.
+export let ROBOT_CONST = {
+  SPEED: 50,
 }

@@ -1,3 +1,4 @@
+import { CONST, ROBOT_CONST } from "../const/const";
 import { Vec2 } from "./math"
 
 export enum RobotType {
@@ -31,8 +32,7 @@ export class Robot extends Phaser.GameObjects.Sprite {
             return;
         }
 
-        let SPEED: number = 50;
-        distance = Math.min(distance, SPEED * delta);
+        distance = Math.min(distance, ROBOT_CONST.SPEED * delta);
 
         direction.scale(distance);
 
