@@ -37,7 +37,8 @@ export class MainScene extends Phaser.Scene {
       this,
       LayoutDirection.Vertical,
       /* spacing = */ 50,
-      /* center_elements = */ true,
+      // TODO: Why centering breaks redraws?
+      /* center_elements = */ false,
       /* size = */ this.sys.canvas.width
     );
     this.gameLayout.y = 50
