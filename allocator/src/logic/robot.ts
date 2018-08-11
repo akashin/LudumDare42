@@ -35,7 +35,6 @@ export class Robot {
             GRID_CONST.CELL_HEIGHT / 2
         );
         this.sprite.setTexture(texture);
-        this.sprite.setVisible(false);
 
         this.sprite.setScale(
             GRID_CONST.CELL_WIDTH / this.sprite.width,
@@ -45,7 +44,6 @@ export class Robot {
 
     addToContainer(container: Phaser.GameObjects.Container) {
         container.add(this.sprite);
-        this.sprite.setVisible(true);
     }
 
     setTask(task: Task) {
