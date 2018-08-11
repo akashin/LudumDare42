@@ -28,3 +28,7 @@ export class Vec2 {
         return new Vec2(this.x / length, this.y / length);
     }
 }
+
+export function randomInt(max: integer) : integer {
+    return Math.floor(Math.random() * max);
+}
