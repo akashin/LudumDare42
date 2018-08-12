@@ -19,11 +19,13 @@ export class MainScene extends Phaser.Scene {
   private gameLayout: TiledLayout;
   private picker: Picker;
   private playerInfo: PlayerInfo;
+  private deathTimerText: Phaser.GameObjects.Text;
   private shapeGenerator: ShapeGenerator;
   private gameSpeed: number = CONST.BASE_GAME_SPEED;
   private timeTicker: number = 0;
   private health: number;
   private wastebin: Phaser.GameObjects.Sprite;
+  private deathTimer: number = null;
 
   constructor() {
     super({
@@ -63,9 +65,13 @@ export class MainScene extends Phaser.Scene {
     this.playerInfo = new PlayerInfo(this);
     this.grid = new Grid(this);
 
+    this.deathTimerText = this.make.text({}, false);
+    this.deathTimerText.setText("");
+
     this.gameLayout.addItem(this.playerInfo);
     this.gameLayout.addItem(this.grid);
     this.gameLayout.addItem(this.shapeConveyor);
+    this.gameLayout.addItem(this.deathTimerText);
 
     this.add.existing(this.gameLayout);
 
@@ -139,7 +145,17 @@ export class MainScene extends Phaser.Scene {
   updateStep(): void {
     this.shapeConveyor.update();
     if (this.shapeConveyor.isFull()) {
-      this.loseLife();
+      if (this.deathTimer == null) {
+        this.deathTimer = CONVEYOR_CONST.DEATH_TIMER_TICKS;
+      }
+      this.deathTimer = Math.max(0, this.deathTimer - 1);
+      this.deathTimerText.setText(this.deathTimer.toString());
+      if (this.deathTimer == 0) {
+        this.loseLife();
+      }
+    } else {
+      this.deathTimer = null;
+      this.deathTimerText.setText("");
     }
 
     if (this.tasks.length > 0) {
