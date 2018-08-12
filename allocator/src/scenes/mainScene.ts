@@ -236,7 +236,7 @@ export class MainScene extends Phaser.Scene {
       }
     }
 
-    for (var i = 0; i < finishedTasks.length; ++i) {
+    for (var i = finishedTasks.length - 1; i >= 0; --i) {
       this.tasks.splice(finishedTasks[i], 1);
     }
 
@@ -262,11 +262,11 @@ export class MainScene extends Phaser.Scene {
       this.shapeConveyor.clear();
       this.picker.clear();
       this.alarmSound.stop();
-  
+
       // TODO: test v2 as well. whe we delete only picked cell.
       //this.timeTicker = 0;
       //this.shapeConveyor.deleteShape(this.picker.pickedShape);
-      //this.picker.clear();  
+      //this.picker.clear();
     });
   }
 
