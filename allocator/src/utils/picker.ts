@@ -34,8 +34,8 @@ export class Picker {
     alert("Unrecognized shape type.");
   }
 
-  onGridCellDown(gridCell: GridCell, placementCallback) {
-    if (!this.coveredCells) {
+  onGridCellDown(gridCell: GridCell, grid: Grid, placementCallback) {
+    if (!this.pickedShape || !this.coveredCells) {
       return;
     }
     if (!this.canPlace) {
@@ -43,10 +43,15 @@ export class Picker {
       return;
     }
 
+    let centerCell = this.getCenterCell(gridCell, grid);
+    if (!centerCell) {
+      return;
+    }
+
     let task: Task = new Task(
       this.getTaskType(this.pickedShape.shapeType),
-      gridCell.getRow(),
-      gridCell.getColumn(),
+      centerCell.getRow(),
+      centerCell.getColumn(),
       this.pickedShape.memoryShape.mask
     );
     placementCallback(task);
@@ -55,19 +60,33 @@ export class Picker {
     return;
   }
 
+  getCenterCell(gridCell: GridCell, grid: Grid) {
+    let row = Math.round(gridCell.getRow() - this.pickedShape.memoryShape.getHeight() / 2);
+    let column = Math.round(gridCell.getColumn() - this.pickedShape.memoryShape.getWidth() / 2);
+    if (row < 0 || column < 0) {
+      return null;
+    }
+    return grid.getCell(row, column);
+  }
+
   onGridCellHover(gridCell: GridCell, grid: Grid): void {
     if (!this.pickedShape) {
       return;
     }
 
+    let centerCell = this.getCenterCell(gridCell, grid);
+    if (!centerCell) {
+      return;
+    }
+
     [this.coveredCells, this.canPlace] =
-      grid.getCoveredCells(gridCell, this.pickedShape.memoryShape, this.pickedShape.shapeType);
+      grid.getCoveredCells(centerCell, this.pickedShape.memoryShape, this.pickedShape.shapeType);
 
     this.coveredCells.forEach((cell) => { cell.setHovered(this.canPlace); });
   }
 
   onGridCellOut(gridCell: GridCell): void {
-    if (!this.pickedShape) {
+    if (!this.pickedShape || !this.coveredCells) {
       return;
     }
 
