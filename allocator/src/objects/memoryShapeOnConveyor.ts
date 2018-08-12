@@ -35,7 +35,7 @@ export class MemoryShapeOnConveyor extends Phaser.GameObjects.Container {
   }
 
   moveAnimated(x: number) {
-    let moveDelay = 5000;
+    let moveDelay = 500;
     this.scene.tweens.add({
       targets: [ this ],
       x: x,

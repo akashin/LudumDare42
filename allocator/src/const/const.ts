@@ -55,7 +55,7 @@ export let SCORE_CONST = {
 export let PLAYER_CONST = {
   STARTING_HEALTH: 5,
   STARTING_RECYCLES: 0,
-  MAX_RECYVLES: 1,
+  MAX_RECYCLES: 2,
 }
 
 export let RECYCLE_CONST = {

@@ -59,7 +59,7 @@ export class PlayerInfo extends Phaser.GameObjects.Container {
     var oldScoreBucket = Math.trunc(this.score / RECYCLE_CONST.BONUS_ONE_FOR_SCORE);
     var newScoreBucket = Math.trunc(newScore / RECYCLE_CONST.BONUS_ONE_FOR_SCORE);
     this.recycles += (newScoreBucket - oldScoreBucket) > 0 ? 1 : 0;
-    this.recycles = Math.min(PLAYER_CONST.MAX_RECYVLES, this.recycles);
+    this.recycles = Math.min(PLAYER_CONST.MAX_RECYCLES, this.recycles);
 
     this._score = newScore;
     this.score_text.setText(SCORE_CONST.TITLE + this.score);
