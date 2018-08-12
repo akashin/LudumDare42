@@ -31,33 +31,25 @@ export class PlayerInfo extends Phaser.GameObjects.Container {
 
     this.score_text = scene.make.text({}, false);
     this.createText(this.score_text, SCORE_CONST.TITLE + this.score);
-    this.score_text.setPosition(
-      SCORE_CONST.B_BOX_W_START,
-      SCORE_CONST.B_BOX_H_START
-    );
 
     this.recycles_text = scene.make.text({}, false);
     this.createText(this.recycles_text, RECYCLE_CONST.TITLE + this.recycles);
-    this.recycles_text.setPosition(
-      RECYCLE_CONST.B_BOX_W_START,
-      RECYCLE_CONST.B_BOX_H_START
-    );
 
     for (var i = 0; i < this.healthSprites.length; ++i) {
       this.layout.addItem(this.healthSprites[i]);
     }
     this.layout.addItem(this.score_text);
-    this.layout.addItem(this.recycles_text);
+    this.layout.addItem(this.recycles_text, 20);
     this.add(this.layout);
   }
 
   private createText(textBox: Phaser.GameObjects.Text, text: string) {
-    this.score_text.setText(text);
-    this.score_text.setStyle({
+    textBox.setText(text);
+    textBox.setStyle({
       fontSize: SCORE_CONST.FONT_SIZE,
       fill: SCORE_CONST.TEXT_FILL
     });
-    this.score_text.setColor(SCORE_CONST.TEXT_COLOR);
+    textBox.setColor(SCORE_CONST.TEXT_COLOR);
   }
 
   get score() {
