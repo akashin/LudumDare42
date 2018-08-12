@@ -81,11 +81,11 @@ export class Picker {
     let midRow = this.pickedShape.memoryShape.getHeight() / 2;
     let midColumn = this.pickedShape.memoryShape.getWidth() / 2;
 
-    let posX = (gridCell.getRow() - midRow) * gridCell.height + dy;
-    let posY = (gridCell.getColumn() - midColumn) * gridCell.width + dx;
+    let posX = (gridCell.getColumn() - midColumn) * gridCell.width - dx;
+    let posY = (gridCell.getRow() - midRow) * gridCell.height - dy;
 
-    let row = Math.round(posX / gridCell.height);
-    let column = Math.round(posY / gridCell.width);
+    let row = Math.round(posY / gridCell.width);
+    let column = Math.round(posX / gridCell.height);
     console.log(x, pointer.x, y, pointer.y, row, column);
 
     if (row < 0 || column < 0) {
