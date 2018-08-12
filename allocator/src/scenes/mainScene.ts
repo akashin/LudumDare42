@@ -213,7 +213,7 @@ export class MainScene extends Phaser.Scene {
     if (this.shapeConveyor.isFull()) {
       if (this.deathTimer == null) {
         this.deathTimer = CONVEYOR_CONST.DEATH_TIMER_TICKS;
-        this.alarmSound.play();
+        //this.alarmSound.play();
       }
       this.deathTimer = Math.max(0, this.deathTimer - 1);
       this.deathTimerText.setText(this.deathTimer.toString());
@@ -261,6 +261,7 @@ export class MainScene extends Phaser.Scene {
       this.timeTicker = 0;
       this.shapeConveyor.clear();
       this.picker.clear();
+      this.alarmSound.stop();
   
       // TODO: test v2 as well. whe we delete only picked cell.
       //this.timeTicker = 0;
