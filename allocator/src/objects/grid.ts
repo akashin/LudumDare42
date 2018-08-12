@@ -47,7 +47,7 @@ export class Grid extends Phaser.GameObjects.Container {
                       overlapped_cells.push(this.grid[row + h_index][column + w_index] as GridCell);
 
                       if ((this.grid[row + h_index][column + w_index] as GridCell).getIsOccupied()) {
-                        is_occupied = true;                    
+                        is_occupied = true;
                       }
                     }
                   }
