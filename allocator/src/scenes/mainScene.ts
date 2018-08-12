@@ -70,10 +70,22 @@ export class MainScene extends Phaser.Scene {
     this.deathTimerText = this.make.text({}, false);
     this.deathTimerText.setText("");
 
+    this.wastebin = this.make.sprite({
+      // TODO: Why do we need this constant?
+      x: 100,
+      key: 'wastebin',
+      scale: 0.5,
+    }, false);
+    this.wastebin.setInteractive();
+    this.wastebin.on('pointerdown', function() {
+      this.tryRecycleConveyor();
+    });
+
     this.gameLayout.addItem(this.playerInfo);
     this.gameLayout.addItem(this.grid);
     this.gameLayout.addItem(this.shapeConveyor);
     this.gameLayout.addItem(this.deathTimerText);
+    //this.gameLayout.addItem(this.wastebin, 150);
 
     this.add.existing(this.gameLayout);
 
@@ -175,6 +187,10 @@ export class MainScene extends Phaser.Scene {
     this.shapeConveyor.clear();
     this.picker.clear();
     this.playerInfo.damage();
+  }
+
+  tryRecycleConveyor() {
+    // TODO: Recycle conveyor here.
   }
 
   addTask(task: Task): void {
