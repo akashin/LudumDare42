@@ -1,4 +1,4 @@
-import { CONST, GRID_CONST } from "../const/const";
+import { CONST, GRID_CONST, COLOR_CONST } from "../const/const";
 
 export class GridCell extends Phaser.GameObjects.Sprite {
   private _isOccupied: boolean;
@@ -38,5 +38,17 @@ export class GridCell extends Phaser.GameObjects.Sprite {
 
   getRow(): number {
     return this.row;
+  }
+
+  setHovered(withCorrectPlacement: boolean = true) {
+    if (withCorrectPlacement) {
+      this.setTint(COLOR_CONST.UNOCCUPIED_HOVER);
+    } else {
+      this.setTint(COLOR_CONST.OCCUPIED_HOVER);
+    }
+  }
+
+  clearHover() {
+    this.clearTint();
   }
 }

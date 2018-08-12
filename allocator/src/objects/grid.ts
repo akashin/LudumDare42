@@ -37,30 +37,33 @@ export class Grid extends Phaser.GameObjects.Container {
     return (row < 0 || row >= GRID_CONST.H_CELLS) || (column < 0 || column >= GRID_CONST.W_CELLS);
   }
 
-  getAllOverlappedCells(cell: GridCell, memoryShape: MemoryShape): [Array<GridCell>, boolean] {
-    var overlappedCells = new Array<GridCell>();
-    var isOccupied = false;
+  getCoveredCells(cell: GridCell, memoryShape: MemoryShape): [Array<GridCell>, boolean] {
+    var coveredCells = new Array<GridCell>();
+    var canPlace = true;
 
     for (var shapeRow = 0; shapeRow < memoryShape.getHeight(); ++shapeRow) {
       for (var shapeColumn = 0; shapeColumn < memoryShape.getWidth(); ++shapeColumn) {
-        let gridRow = cell.getRow() + shapeRow;
-        let gridColumn = cell.getColumn() + shapeColumn;
-
-        if (this.isOutOfGrid(gridRow, gridColumn)) {
+        // Skip all cells that are not set.
+        if (!memoryShape.hasCell(shapeRow, shapeColumn)) {
           continue;
         }
 
-        if (memoryShape.hasCell(shapeRow, shapeColumn)) {
-          let currentCell = this.grid[gridRow][gridColumn];
+        let gridRow = cell.getRow() + shapeRow;
+        let gridColumn = cell.getColumn() + shapeColumn;
+        if (this.isOutOfGrid(gridRow, gridColumn)) {
+          canPlace = false;
+          continue;
+        }
 
-          overlappedCells.push(currentCell);
-          if (currentCell.isOccupied) {
-            isOccupied = true;
-          }
+        let currentCell = this.grid[gridRow][gridColumn];
+        coveredCells.push(currentCell);
+        // If we overlap with already placed cell, then we can't place shape here.
+        if (currentCell.isOccupied) {
+          canPlace = false;
         }
       }
     }
 
-    return [overlappedCells, isOccupied];
+    return [coveredCells, canPlace];
   }
 }
