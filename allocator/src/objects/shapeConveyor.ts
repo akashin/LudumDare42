@@ -19,14 +19,14 @@ export class ShapeConveyor extends Phaser.GameObjects.Container {
 
     this.layout = new TiledLayout(scene, LayoutDirection.Horizontal, /* spacing = */ 30);
 
-    this.conveyor = scene.make.tileSprite({
-      x: 100,
-      y: 50,
-      width: 128,
-      height: 128,
-      key: 'conveyor',
-      add: true
-    });
+    //this.conveyor = scene.make.tileSprite({
+      //x: 100,
+      //y: 50,
+      //width: 128,
+      //height: 128,
+      //key: 'conveyor',
+      //add: true
+    //});
     //this.add(this.conveyor);
 
     this.add(this.layout);
