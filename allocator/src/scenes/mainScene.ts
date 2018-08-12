@@ -1,3 +1,4 @@
+import { CONST, CONVEYOR_CONST } from "../const/const";
 import { GridCell } from "../objects/gridCell";
 import { ShapeConveyor } from "../objects/shapeConveyor";
 import { MemoryShapeOnConveyor } from "../objects/memoryShapeOnConveyor";
@@ -120,10 +121,12 @@ export class MainScene extends Phaser.Scene {
     }
 
     this.accumulatedDelta += delta;
-    while (this.accumulatedDelta > 3) {
-      this.accumulatedDelta -= 3;
-      if (this.shapeConveyor.shapeCount() < 10) {
+    while (this.accumulatedDelta > CONVEYOR_CONST.SHAPE_GEN_PERIOD) {
+      this.accumulatedDelta -= CONVEYOR_CONST.SHAPE_GEN_PERIOD;
+      if (this.shapeConveyor.shapeCount() < CONVEYOR_CONST.SHAPE_CAPACITY) {
         this.shapeConveyor.addNewShape(this);
+      } else {
+        // TODO: Show end game screen.
       }
     }
   }

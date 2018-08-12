@@ -14,7 +14,9 @@ export let GRID_CONST = {
 
 // Conveyor constants.
 export let CONVEYOR_CONST = {
-  SHAPE_COUNT: 2,
+  SHAPE_CAPACITY: 5,
+  SHAPE_GEN_PERIOD: 3,
+  SHAPE_COUNT: 1,
   SHAPE_CELL_WIDTH: 20,
   SHAPE_CELL_HEIGHT: 20,
   SHAPE_COLOR: "0x00FF00",

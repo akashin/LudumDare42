@@ -21,7 +21,34 @@ export class TiledLayout extends Phaser.GameObjects.Container {
       this.size = size;
     }
 
-    apply_centering() {
+    addItem(item, itemSpacing: number = 0) {
+      // Save applied spacing in the element itself to allow redraws.
+      item.layoutSpacing = itemSpacing;
+
+      let spacing = itemSpacing;
+      // Don't apply base spacing to the first element.
+      if (this.length > 0) {
+        spacing += this.spacing;
+      }
+
+      if (this.direction === LayoutDirection.Horizontal) {
+        item.x = this.getBounds().width + spacing;
+      } else {
+        item.y = this.getBounds().height + spacing;
+      }
+      this.add(item);
+
+      if (this.center_elements) {
+        this.applyCentering();
+      }
+    }
+
+    removeItem(item) {
+      this.remove(item);
+      this.recomputeShifts();
+    }
+
+    applyCentering() {
       for (let child of this.list) {
         let drawableChild: any = child;
 
@@ -33,24 +60,21 @@ export class TiledLayout extends Phaser.GameObjects.Container {
       }
     }
 
-    addItem(item, spacing: number = 0) {
-      if (this.length > 0) {
+    recomputeShifts() {
+      let currentShift = 0;
+      for (let child of this.list) {
+        let drawableChild: any = child;
+
+        currentShift += drawableChild.layoutSpacing;
         if (this.direction === LayoutDirection.Horizontal) {
-          item.x += this.getBounds().width + this.spacing + spacing;
+          drawableChild.x = currentShift;
+          currentShift += drawableChild.getBounds().width;
         } else {
-          item.y += this.getBounds().height + this.spacing + spacing;
+          drawableChild.y = currentShift;
+          currentShift += drawableChild.getBounds().height;
         }
+        currentShift += this.spacing;
       }
-      this.add(item);
-
-      if (this.center_elements) {
-        this.apply_centering();
-      }
-    }
-
-    removeItem(item) {
-      this.remove(item);
-      // TODO: refresh positioning of all remaining elements.
     }
 };
 
