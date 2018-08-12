@@ -1,19 +1,28 @@
 import { MemoryShape } from './memoryShape';
 import { CONST, SCORE_CONST } from '../const/const';
 
-export class ScoreManager {
+export class ScoreManager extends Phaser.GameObjects.Container {
   private score_text: Phaser.GameObjects.Text;
   private _score: number = 0;
 
   constructor(scene: Phaser.Scene) {
-    this.score_text = scene.add.text(
-      SCORE_CONST.B_BOX_W_START, SCORE_CONST.B_BOX_H_START,
-      SCORE_CONST.TITLE + this.score, {
-        fontSize: SCORE_CONST.FONT_SIZE,
-        fill: SCORE_CONST.TEXT_FILL
-      });
+    super(scene);
 
+    this.score_text = scene.make.text({}, false);
+    this.score_text.setPosition(
+      SCORE_CONST.B_BOX_W_START,
+      SCORE_CONST.B_BOX_H_START
+    );
+    this.score_text.setText(
+      SCORE_CONST.TITLE + this.score
+    );
+    this.score_text.setStyle({
+      fontSize: SCORE_CONST.FONT_SIZE,
+      fill: SCORE_CONST.TEXT_FILL
+    });
     this.score_text.setColor(SCORE_CONST.TEXT_COLOR);
+
+    this.add(this.score_text);
   }
 
   get score() {

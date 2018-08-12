@@ -1,4 +1,4 @@
-import { CONST, CONVEYOR_CONST, GRID_CONST } from "../const/const";
+import { CONST, CONVEYOR_CONST, GRID_CONST, PLAYER_CONST } from "../const/const";
 import { GridCell } from "../objects/gridCell";
 import { ShapeConveyor } from "../objects/shapeConveyor";
 import { MemoryShapeOnConveyor } from "../objects/memoryShapeOnConveyor";
@@ -21,6 +21,7 @@ export class MainScene extends Phaser.Scene {
   private scoreManager: ScoreManager;
   private shapeGenerator: ShapeGenerator;
   private gameSpeed: number = 1;
+  private health: number;
 
   constructor() {
     super({
@@ -32,6 +33,7 @@ export class MainScene extends Phaser.Scene {
     this.robots = new Array<Robot>();
     this.tasks = new Array<Task>();
     this.picker = new Picker();
+    this.health = PLAYER_CONST.STARTING_HEALTH;
   }
 
   preload(): void {
@@ -59,6 +61,7 @@ export class MainScene extends Phaser.Scene {
     this.scoreManager = new ScoreManager(this);
     this.grid = new Grid(this);
 
+    this.gameLayout.addItem(this.scoreManager);
     this.gameLayout.addItem(this.grid);
     this.gameLayout.addItem(this.shapeConveyor);
 
@@ -134,8 +137,16 @@ export class MainScene extends Phaser.Scene {
       task.updateGrid(this.grid);
       if (task.isFinished()) {
         this.tasks.splice(0, 1);
+
+        // TODO: remove this and make health disappear correcly
+        this.health = Math.max(0, this.health - 1);
+        this.updateHealthBar();
       }
     }
+  }
+
+  updateHealthBar() {
+
   }
 
   addTask(task: Task): void {

@@ -43,3 +43,7 @@ export let SCORE_CONST = {
   TITLE: "Score: ",
   GRID_CELL_VALUE: 1
 }
+
+export let PLAYER_CONST = {
+  STARTING_HEALTH: 5,
+}
