@@ -6,6 +6,8 @@ import { MemoryShapeOnConveyor } from "./memoryShapeOnConveyor";
 export class ShapeConveyor extends Phaser.GameObjects.Container {
   private shapes: Array<MemoryShapeOnConveyor>;
   private shapeGenerator: ShapeGenerator;
+  private layout: TiledLayout;
+  private conveyor: Phaser.GameObjects.Sprite;
   private generationCounter: number;
 
   constructor(scene, params) {
@@ -13,6 +15,20 @@ export class ShapeConveyor extends Phaser.GameObjects.Container {
 
     this.initBegin();
     this.shapeGenerator = params.shapeGenerator;
+
+    this.layout = new TiledLayout(scene, LayoutDirection.Horizontal, /* spacing = */ 30);
+
+    this.conveyor = scene.make.tileSprite({
+      x: 100,
+      y: 50,
+      width: 128,
+      height: 128,
+      key: 'conveyor',
+      add: true
+    });
+    this.add(this.conveyor);
+
+    this.add(this.layout);
 
     this.createShapes(scene);
   }

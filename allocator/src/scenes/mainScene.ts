@@ -46,6 +46,7 @@ export class MainScene extends Phaser.Scene {
     this.load.image("engineer", "./assets/engineer.png");
     this.load.image("heart", "./assets/heart.png");
     this.load.image("wastebin", "./assets/wastebin.png");
+    this.load.image("conveyor", "./assets/conveyor.png");
   }
 
   create(): void {
