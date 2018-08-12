@@ -61,15 +61,37 @@ export class Picker {
     return;
   }
 
+  getXYwrtScene(object: any) : [number, number] {
+    let x = 0;
+    let y = 0;
+    while (object != null) {
+      x += object.x;
+      y += object.y;
+      object = object.parentContainer;
+    }
+    return [x, y];
+  }
+
   getCenterCell(pointer, gridCell: GridCell, grid: Grid) {
-    return gridCell;
-    //console.log(gridCell.x, pointer.x, gridCell.y, pointer.y);
-    //let row = Math.ceil(pointer.y - this.pickedShape.memoryShape.getHeight() / 2);
-    //let column = Math.ceil(gridCell.getColumn() - this.pickedShape.memoryShape.getWidth() / 2);
-    //if (row < 0 || column < 0) {
-      //return null;
-    //}
-    //return grid.getCell(row, column);
+    //return gridCell;
+    let [x, y] = this.getXYwrtScene(gridCell);
+    let dx = x - pointer.x;
+    let dy = y - pointer.y;
+
+    let midRow = this.pickedShape.memoryShape.getHeight() / 2;
+    let midColumn = this.pickedShape.memoryShape.getWidth() / 2;
+
+    let posX = (gridCell.getRow() - midRow) * gridCell.height + dy;
+    let posY = (gridCell.getColumn() - midColumn) * gridCell.width + dx;
+
+    let row = Math.round(posX / gridCell.height);
+    let column = Math.round(posY / gridCell.width);
+    console.log(x, pointer.x, y, pointer.y, row, column);
+
+    if (row < 0 || column < 0) {
+      return null;
+    }
+    return grid.getCell(row, column);
   }
 
   onGridCellHover(pointer, gridCell: GridCell, grid: Grid): void {
