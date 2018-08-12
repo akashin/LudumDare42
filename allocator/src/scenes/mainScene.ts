@@ -50,7 +50,6 @@ export class MainScene extends Phaser.Scene {
       /* center_elements = */ false,
       /* size = */ this.sys.canvas.width
     );
-    this.gameLayout.y = 50
 
     this.shapeGenerator = new ShapeGenerator();
     this.shapeConveyor = new ShapeConveyor(this, {
