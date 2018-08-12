@@ -1,4 +1,4 @@
-import { CONST, CONVEYOR_CONST, GRID_CONST, PLAYER_CONST, SCORE_CONST } from "../const/const";
+import { CONST, CONVEYOR_CONST, GRID_CONST, SCORE_CONST } from "../const/const";
 import { GridCell } from "../objects/gridCell";
 import { ShapeConveyor } from "../objects/shapeConveyor";
 import { MemoryShapeOnConveyor } from "../objects/memoryShapeOnConveyor";
@@ -8,7 +8,7 @@ import { Task, TaskType } from "../logic/task";
 import { TiledLayout, LayoutDirection } from "../utils/layout";
 import { Grid } from "../objects/grid";
 import { Picker } from '../utils/picker';
-import { ScoreManager } from '../objects/scoreManager';
+import { PlayerInfo } from '../objects/playerInfo';
 import { MemoryShape } from "../objects/memoryShape";
 
 export class MainScene extends Phaser.Scene {
@@ -18,11 +18,10 @@ export class MainScene extends Phaser.Scene {
   private shapeConveyor: ShapeConveyor;
   private gameLayout: TiledLayout;
   private picker: Picker;
-  private scoreManager: ScoreManager;
+  private playerInfo: PlayerInfo;
   private shapeGenerator: ShapeGenerator;
   private gameSpeed: number = CONST.BASE_GAME_SPEED;
   private timeTicker: number = 0;
-  private health: number;
 
   constructor() {
     super({
@@ -34,19 +33,19 @@ export class MainScene extends Phaser.Scene {
     this.robots = new Array<Robot>();
     this.tasks = new Array<Task>();
     this.picker = new Picker();
-    this.health = PLAYER_CONST.STARTING_HEALTH;
   }
 
   preload(): void {
     this.load.image('cell', 'assets/cell.png');
     this.load.image("engineer", "./assets/engineer.png");
+    this.load.image("heart", "./assets/heart.png");
   }
 
   create(): void {
     this.gameLayout = new TiledLayout(
       this,
       LayoutDirection.Vertical,
-      /* spacing = */ 50,
+      /* spacing = */ 25,
       // TODO: Why centering breaks redraws?
       /* center_elements = */ false,
       /* size = */ this.sys.canvas.width
@@ -58,10 +57,10 @@ export class MainScene extends Phaser.Scene {
       y: 0,
       shapeGenerator: this.shapeGenerator,
     });
-    this.scoreManager = new ScoreManager(this);
+    this.playerInfo = new PlayerInfo(this);
     this.grid = new Grid(this);
 
-    this.gameLayout.addItem(this.scoreManager);
+    this.gameLayout.addItem(this.playerInfo);
     this.gameLayout.addItem(this.grid);
     this.gameLayout.addItem(this.shapeConveyor);
 
@@ -82,7 +81,7 @@ export class MainScene extends Phaser.Scene {
         if (isShapePlaced) {
           this.addTask(task);
           this.shapeConveyor.deleteShape(this.picker.pickedShape);
-          this.scoreManager.onMemoryShapePlaced(this.picker.pickedShape.memoryShape);
+          this.playerInfo.onMemoryShapePlaced(this.picker.pickedShape.memoryShape);
           this.picker.pickedShape = null;
         }
       }
@@ -149,7 +148,7 @@ export class MainScene extends Phaser.Scene {
         this.tasks.splice(0, 1);
 
         // TODO: remove this and make health disappear correcly
-        this.health = Math.max(0, this.health - 1);
+        this.playerInfo.damage();
         this.updateHealthBar();
       }
     }

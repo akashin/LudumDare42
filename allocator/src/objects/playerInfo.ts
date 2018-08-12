@@ -1,12 +1,29 @@
 import { MemoryShape } from './memoryShape';
-import { CONST, SCORE_CONST } from '../const/const';
+import { CONST, SCORE_CONST, PLAYER_CONST } from '../const/const';
+import { TiledLayout, LayoutDirection } from '../utils/layout'
 
-export class ScoreManager extends Phaser.GameObjects.Container {
+export class PlayerInfo extends Phaser.GameObjects.Container {
+  private health: number;
+  private healthSprites: Array<Phaser.GameObjects.Sprite>;
   private score_text: Phaser.GameObjects.Text;
   private _score: number = 0;
+  private layout: TiledLayout;
 
   constructor(scene: Phaser.Scene) {
     super(scene);
+
+    this.layout = new TiledLayout(scene, LayoutDirection.Horizontal, 0);
+
+    this.health = PLAYER_CONST.STARTING_HEALTH;
+    this.healthSprites = Array<Phaser.GameObjects.Sprite>();
+
+    for (var i = 0; i < this.health; ++i) {
+      let sprite = scene.make.sprite({}, false);
+      sprite.setTexture("heart");
+      sprite.setScale(64 / sprite.width, 64 / sprite.height);
+      sprite.setOrigin(0, 0);
+      this.healthSprites.push(sprite);
+    }
 
     this.score_text = scene.make.text({}, false);
     this.score_text.setPosition(
@@ -22,7 +39,12 @@ export class ScoreManager extends Phaser.GameObjects.Container {
     });
     this.score_text.setColor(SCORE_CONST.TEXT_COLOR);
 
-    this.add(this.score_text);
+    for (var i = 0; i < this.healthSprites.length; ++i) {
+      this.layout.addItem(this.healthSprites[i]);
+    }
+    this.layout.addItem(this.score_text);
+
+    this.add(this.layout);
   }
 
   get score() {
@@ -44,5 +66,10 @@ export class ScoreManager extends Phaser.GameObjects.Container {
       }
     }
     return cost;
+  }
+
+  damage() {
+    this.health = Math.max(0, this.health - 1);
+    this.healthSprites[this.health].setAlpha(0.5);
   }
 }
