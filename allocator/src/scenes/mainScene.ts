@@ -73,8 +73,12 @@ export class MainScene extends Phaser.Scene {
   setupInputs() {
     this.input.on('gameobjectdown', (pointer, gameObject) => {
       if (gameObject instanceof GridCell) {
-        let isShapePlaced = this.picker.onGridCellDown(gameObject);
+        let isShapePlaced: boolean;
+        let task: Task;
+        [isShapePlaced, task] = this.picker.onGridCellDown(gameObject);
+
         if (isShapePlaced) {
+          this.addTask(task);
           this.shapeConveyor.deleteShape(this.picker.pickedShape);
           this.scoreManager.onMemoryShapePlaced(this.picker.pickedShape.getMemoryShape());
           this.picker.pickedShape = null;

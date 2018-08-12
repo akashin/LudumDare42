@@ -2,6 +2,7 @@ import { MemoryShapeOnConveyor } from '../objects/memoryShapeOnConveyor';
 import { GridCell } from '../objects/gridCell';
 import { COLOR_CONST } from '../const/const';
 import { Grid } from '../objects/grid';
+import { Task, TaskType } from '../logic/task'
 
 export class Picker {
   private _pickedShape: MemoryShapeOnConveyor = null;
@@ -22,19 +23,24 @@ export class Picker {
     this._pickedShape = memoryShape;
   }
 
-  onGridCellDown(gridCell: GridCell): boolean {
+  onGridCellDown(gridCell: GridCell): [boolean, Task] {
     if (!this.coveredCells) {
-      return false;
+      return [false, null];
     }
     if (!this.canPlace) {
       console.log("Placing on a forbidden space!");
-      return false;
+      return [false, null];
     }
 
-    this.coveredCells.forEach((cell) => { cell.isOccupied = true; });
+    let task: Task = new Task(
+      TaskType.ALLOCATE,
+      gridCell.getRow(),
+      gridCell.getColumn(),
+      this._pickedShape.getMemoryShape().mask
+    );
     this.onGridCellOut(gridCell);
     this.coveredCells = null;
-    return true;
+    return [true, task];
   }
 
   onGridCellHover(gridCell: GridCell, grid: Grid): void {
