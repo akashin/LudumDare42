@@ -1,4 +1,4 @@
-import { CONST, CONVEYOR_CONST, GRID_CONST, PLAYER_CONST } from "../const/const";
+import { CONST, CONVEYOR_CONST, GRID_CONST, PLAYER_CONST, SCORE_CONST } from "../const/const";
 import { GridCell } from "../objects/gridCell";
 import { ShapeConveyor } from "../objects/shapeConveyor";
 import { MemoryShapeOnConveyor } from "../objects/memoryShapeOnConveyor";
@@ -20,7 +20,8 @@ export class MainScene extends Phaser.Scene {
   private picker: Picker;
   private scoreManager: ScoreManager;
   private shapeGenerator: ShapeGenerator;
-  private gameSpeed: number = 1;
+  private gameSpeed: number = CONST.BASE_GAME_SPEED;
+  private timeTicker: number = 0;
   private health: number;
 
   constructor() {
@@ -120,10 +121,20 @@ export class MainScene extends Phaser.Scene {
     this.picker.pickedShape = memoryShape;
   }
 
-  setGameSpeed(gameSpeed: number): void {
+  updateGameSpeed(): void {
+    let speedMultiplier = SCORE_CONST.GAME_SPEED_PER_SCORE_CHANGE * this.scoreManager.score;
+    this.gameSpeed = CONST.BASE_GAME_SPEED / (1 + speedMultiplier);
   }
 
-  update(): void {
+  update(time: number, delta: number): void {
+    this.timeTicker += delta;
+    while (this.timeTicker > this.gameSpeed) {
+      this.updateStep();
+      this.timeTicker -= this.gameSpeed;
+    }
+  }
+
+  updateStep(): void {
     this.shapeConveyor.update();
     if (this.shapeConveyor.isFull()) {
       // TODO: Show end game screen.
@@ -142,6 +153,8 @@ export class MainScene extends Phaser.Scene {
         this.updateHealthBar();
       }
     }
+
+    this.updateGameSpeed();
   }
 
   updateHealthBar() {

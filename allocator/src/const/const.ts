@@ -1,6 +1,7 @@
 export let CONST = {
   GAME_WIDTH: 800,
-  GAME_HEIGHT: 600
+  GAME_HEIGHT: 600,
+  BASE_GAME_SPEED: 40,
 }
 
 // Game grid constants.
@@ -41,7 +42,8 @@ export let SCORE_CONST = {
   FONT_SIZE: '32px',
   TEXT_FILL: '#000',
   TITLE: "Score: ",
-  GRID_CELL_VALUE: 1
+  GRID_CELL_VALUE: 1,
+  GAME_SPEED_PER_SCORE_CHANGE: 1.0 / 200,
 }
 
 export let PLAYER_CONST = {
