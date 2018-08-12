@@ -11,18 +11,18 @@ export enum TaskType {
 
 export class Task {
     type: TaskType;
-    h_index: number;
-    w_index: number;
+    row: number;
+    column: number;
     mask: Array<Array<boolean>>;
     private maskWidth: number;
     private maskHeight: number;
     underСonstruction: boolean;
     timer: number;
 
-    constructor(type: TaskType, h_index: number, w_index: number, mask: Array<Array<boolean>>) {
+    constructor(type: TaskType, row: number, column: number, mask: Array<Array<boolean>>) {
         this.type = type;
-        this.h_index = h_index;
-        this.w_index = w_index;
+        this.row = row;
+        this.column = column;
         this.mask = mask;
         this.underСonstruction = false;
         this.timer = 60;
@@ -40,10 +40,10 @@ export class Task {
     }
 
     updateGrid(grid: Grid): void {
-        for (var h_index = 0; h_index < this.maskHeight; ++h_index) {
-            for (var w_index = 0; w_index < this.maskWidth; ++w_index) {
-                if (this.mask[h_index][w_index]) {
-                    let gridCell: GridCell = grid.getCell(this.h_index + h_index, this.w_index + w_index);
+        for (var row = 0; row < this.maskHeight; ++row) {
+            for (var column = 0; column < this.maskWidth; ++column) {
+                if (this.mask[row][column]) {
+                    let gridCell: GridCell = grid.getCell(this.row + row, this.column + column);
                     if (this.isFinished()) {
                         if (this.type == TaskType.ALLOCATE) {
                             gridCell.setStatus(CellStatus.ALLOCATED);
