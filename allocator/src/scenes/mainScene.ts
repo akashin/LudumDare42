@@ -88,7 +88,7 @@ export class MainScene extends Phaser.Scene {
       // TODO: Why do we need this constant?
       x: 100,
       key: 'wastebin',
-      scale: 0.5,
+      scale: 0.3,
     }, false);
     this.wastebin.setInteractive();
     this.wastebin.on('pointerdown', () => {
@@ -99,13 +99,11 @@ export class MainScene extends Phaser.Scene {
     this.gameLayout.addItem(this.grid);
     this.gameLayout.addItem(this.shapeConveyor);
     this.gameLayout.addItem(this.deathTimerText);
-    this.gameLayout.addItem(this.wastebin, 150);
+    this.gameLayout.addItem(this.wastebin, 20);
 
     this.add.existing(this.gameLayout);
 
     this.createEmitters();
-
-    this.createRobots();
 
     this.setupInputs();
 
@@ -176,22 +174,6 @@ export class MainScene extends Phaser.Scene {
       alert("Wrong shape type!");
       return null;
     }
-  }
-
-  createRobots() {
-    let mask = new Array<Array<boolean>>();
-    for (var x = 0; x < 3; ++x) {
-      let column = Array<boolean>();
-      for (var y = 0; y < 3; ++y) {
-        column.push((x + y) % 2 == 0);
-      }
-      mask.push(column);
-    }
-
-    let task1 = new Task(TaskType.ALLOCATE, 1, 1, mask);
-    let task2 = new Task(TaskType.ALLOCATE, 1, 5, mask);
-    this.addTask(task1);
-    this.addTask(task2);
   }
 
   setChosenMemoryShape(memoryShape: MemoryShapeOnConveyor) {

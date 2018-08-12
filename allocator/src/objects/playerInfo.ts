@@ -92,7 +92,6 @@ export class PlayerInfo extends Phaser.GameObjects.Container {
 
   damage() {
     this.health = Math.max(0, this.health - 1);
-    this.recycles = PLAYER_CONST.STARTING_RECYCLES;
     this.healthSprites[this.health].setAlpha(0.5);
   }
 
