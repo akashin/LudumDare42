@@ -1,6 +1,6 @@
 import { CONST, ROBOT_CONST, GRID_CONST } from "../const/const";
-import { Vec2 } from "./math"
-import { Task } from "./task"
+import { Vec2 } from "../logic/math"
+import { Task } from "../logic/task"
 
 export enum RobotType {
     Engineer,

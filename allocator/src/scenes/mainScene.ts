@@ -108,21 +108,11 @@ export class MainScene extends Phaser.Scene {
     this.picker.memoryShapeOnConveyor = memoryShape;
   }
 
-  update(time, delta): void {
-    delta /= 1000;
-
+  update(): void {
     for (var i = 0; i < this.robots.length; ++i) {
       this.robots[i].update();
     }
 
-    this.accumulatedDelta += delta;
-    while (this.accumulatedDelta > CONVEYOR_CONST.SHAPE_GEN_PERIOD) {
-      this.accumulatedDelta -= CONVEYOR_CONST.SHAPE_GEN_PERIOD;
-      if (this.shapeConveyor.shapeCount() < CONVEYOR_CONST.SHAPE_CAPACITY) {
-        this.shapeConveyor.addNewShape(this);
-      } else {
-        // TODO: Show end game screen.
-      }
-    }
+    this.shapeConveyor.update();
   }
 }

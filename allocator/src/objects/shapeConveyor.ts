@@ -6,6 +6,7 @@ import { TiledLayout, LayoutDirection } from "../utils/layout";
 export class ShapeConveyor extends Phaser.GameObjects.Container {
   private shapes: Array<MemoryShapeOnConveyor>;
   private layout: TiledLayout;
+  private generationCounter: number = CONVEYOR_CONST.SHAPE_GEN_PERIOD;
 
   constructor(scene, params) {
     super(scene, params.x, params.y);
@@ -41,5 +42,17 @@ export class ShapeConveyor extends Phaser.GameObjects.Container {
     console.log("Deleting shape");
     this.shapes = this.shapes.filter(shape => shape !== shape_on_conveyor);
     this.layout.removeItem(shape_on_conveyor);
+  }
+
+  update() {
+    --this.generationCounter;
+    if (this.generationCounter == 0) {
+      if (this.shapeCount() < CONVEYOR_CONST.SHAPE_CAPACITY) {
+        this.addNewShape(this.scene);
+        this.generationCounter = CONVEYOR_CONST.SHAPE_GEN_PERIOD;
+      } else {
+        // TODO: Show end game screen.
+      }
+    }
   }
 }
