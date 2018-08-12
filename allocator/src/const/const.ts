@@ -41,5 +41,5 @@ export let SCORE_CONST = {
   FONT_SIZE: '32px',
   TEXT_FILL: '#000',
   TITLE: "Score: ",
-  GRID_CELL_VALUE: 3
+  GRID_CELL_VALUE: 1
 }

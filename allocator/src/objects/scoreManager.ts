@@ -3,7 +3,7 @@ import { CONST, SCORE_CONST } from '../const/const';
 
 export class ScoreManager {
   private score_text: Phaser.GameObjects.Text;
-  private score: number = 0;
+  private _score: number = 0;
 
   constructor(scene: Phaser.Scene) {
     this.score_text = scene.add.text(
@@ -16,8 +16,12 @@ export class ScoreManager {
     this.score_text.setColor(SCORE_CONST.TEXT_COLOR);
   }
 
+  get score() {
+    return this._score;
+  }
+
   onMemoryShapePlaced(memory_shape: MemoryShape) {
-    this.score += this.calculateMemoryShapeCost(memory_shape);
+    this._score += this.calculateMemoryShapeCost(memory_shape);
     this.score_text.setText(SCORE_CONST.TITLE + this.score);
   }
 

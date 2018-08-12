@@ -20,8 +20,7 @@ export class MainScene extends Phaser.Scene {
   private picker: Picker;
   private scoreManager: ScoreManager;
   private shapeGenerator: ShapeGenerator;
-
-  private accumulatedDelta: number = 0;
+  private gameSpeed: number = 1;
 
   constructor() {
     super({
@@ -117,6 +116,9 @@ export class MainScene extends Phaser.Scene {
 
   setChosenMemoryShape(memoryShape: MemoryShapeOnConveyor) {
     this.picker.pickedShape = memoryShape;
+  }
+
+  setGameSpeed(gameSpeed: number): void {
   }
 
   update(): void {
