@@ -1,10 +1,12 @@
 import { CONST, CONVEYOR_CONST } from "../const/const";
 import { MemoryShape } from "./memoryShape";
+import { ShapeGenerator } from "../logic/shapeGenerator";
 import { MemoryShapeOnConveyor } from "./memoryShapeOnConveyor";
 import { TiledLayout, LayoutDirection } from "../utils/layout";
 
 export class ShapeConveyor extends Phaser.GameObjects.Container {
   private shapes: Array<MemoryShapeOnConveyor>;
+  private shapeGenerator: ShapeGenerator;
   private layout: TiledLayout;
   private generationCounter: number = CONVEYOR_CONST.SHAPE_GEN_PERIOD;
 
@@ -12,6 +14,7 @@ export class ShapeConveyor extends Phaser.GameObjects.Container {
     super(scene, params.x, params.y);
 
     this.shapes = new Array<MemoryShapeOnConveyor>();
+    this.shapeGenerator = params.shapeGenerator;
 
     this.createShapes(scene);
   }
@@ -34,7 +37,7 @@ export class ShapeConveyor extends Phaser.GameObjects.Container {
 
   addNewShape(scene): void {
     console.log("Adding shape");
-    let shape = new MemoryShapeOnConveyor(scene, MemoryShape.randomShape(), {
+    let shape = new MemoryShapeOnConveyor(scene, this.shapeGenerator.generateShape(), {
       x: 0,
       y: 0
     });

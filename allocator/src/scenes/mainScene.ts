@@ -2,6 +2,7 @@ import { CONST, CONVEYOR_CONST } from "../const/const";
 import { GridCell } from "../objects/gridCell";
 import { ShapeConveyor } from "../objects/shapeConveyor";
 import { MemoryShapeOnConveyor } from "../objects/memoryShapeOnConveyor";
+import { ShapeGenerator } from "../logic/shapeGenerator";
 import { Robot, RobotType } from "../objects/robot";
 import { Task } from "../logic/task";
 import { TiledLayout, LayoutDirection } from "../utils/layout";
@@ -16,6 +17,7 @@ export class MainScene extends Phaser.Scene {
   private gameLayout: TiledLayout;
   private picker: Picker;
   private scoreManager: ScoreManager;
+  private shapeGenerator: ShapeGenerator;
 
   private accumulatedDelta: number = 0;
 
@@ -46,7 +48,12 @@ export class MainScene extends Phaser.Scene {
     );
     this.gameLayout.y = 50
 
-    this.shapeConveyor = new ShapeConveyor(this, { x: 0, y: 0 });
+    this.shapeGenerator = new ShapeGenerator();
+    this.shapeConveyor = new ShapeConveyor(this, {
+      x: 0,
+      y: 0,
+      shapeGenerator: this.shapeGenerator,
+    });
     this.scoreManager = new ScoreManager(this);
     this.grid = new Grid(this);
 
