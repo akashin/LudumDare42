@@ -3,6 +3,7 @@ import { GridCell } from '../objects/gridCell';
 import { COLOR_CONST } from '../const/const';
 import { Grid } from '../objects/grid';
 import { Task, TaskType } from '../logic/task'
+import { ShapeType } from '../logic/shapeType'
 
 export class Picker {
   private _pickedShape: MemoryShapeOnConveyor = null;
@@ -23,6 +24,16 @@ export class Picker {
     this._pickedShape = memoryShape;
   }
 
+  getTaskType(shapeType: ShapeType) {
+    if (this.pickedShape.shapeType == ShapeType.Creator) {
+      return TaskType.ALLOCATE;
+    }
+    if (this.pickedShape.shapeType == ShapeType.Eraser) {
+      return TaskType.FREE;
+    }
+    alert("Unrecognized shape type.");
+  }
+
   onGridCellDown(gridCell: GridCell): [boolean, Task] {
     if (!this.coveredCells) {
       return [false, null];
@@ -32,8 +43,9 @@ export class Picker {
       return [false, null];
     }
 
+
     let task: Task = new Task(
-      TaskType.ALLOCATE,
+      this.getTaskType(this.pickedShape.shapeType),
       gridCell.getRow(),
       gridCell.getColumn(),
       this.pickedShape.memoryShape.mask
