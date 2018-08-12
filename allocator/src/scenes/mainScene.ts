@@ -157,6 +157,11 @@ export class MainScene extends Phaser.Scene {
     this.updateGameSpeed();
   }
 
+  loseLife() {
+    // TODO: Refresh conveyer here.
+    // TODO: Show animations.
+  }
+
   updateHealthBar() {
 
   }
