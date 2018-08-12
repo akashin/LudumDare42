@@ -53,10 +53,10 @@ export class ShapeConveyor extends Phaser.GameObjects.Container {
     if (this.generationCounter == 0) {
       if (this.shapeCount() < CONVEYOR_CONST.SHAPE_CAPACITY) {
         this.addNewShape(this.scene);
-        this.generationCounter = CONVEYOR_CONST.SHAPE_GEN_PERIOD;
       } else {
         console.log("Conveyor is full.");
       }
+      this.generationCounter = CONVEYOR_CONST.SHAPE_GEN_PERIOD;
     }
   }
 }
