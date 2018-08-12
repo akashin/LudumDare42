@@ -4,7 +4,7 @@ import { TiledLayout, LayoutDirection } from '../utils/layout'
 
 export class PlayerInfo extends Phaser.GameObjects.Container {
   private health: number;
-  private recycles: number;
+  private _recycles: number = PLAYER_CONST.RECYCLES;
   private healthSprites: Array<Phaser.GameObjects.Sprite>;
   private score_text: Phaser.GameObjects.Text;
   private _score: number = 0;
@@ -17,8 +17,7 @@ export class PlayerInfo extends Phaser.GameObjects.Container {
     this.layout = new TiledLayout(scene, LayoutDirection.Horizontal, 0);
 
     this.health = PLAYER_CONST.STARTING_HEALTH;
-    this.recycles = PLAYER_CONST.RECYCLES;
-
+    
     this.healthSprites = Array<Phaser.GameObjects.Sprite>();
 
     for (var i = 0; i < this.health; ++i) {
@@ -39,7 +38,7 @@ export class PlayerInfo extends Phaser.GameObjects.Container {
       this.layout.addItem(this.healthSprites[i]);
     }
     this.layout.addItem(this.score_text);
-    this.layout.addItem(this.recycles_text, 20);
+    this.layout.addItem(this.recycles_text, 50);
     this.add(this.layout);
   }
 
@@ -59,13 +58,23 @@ export class PlayerInfo extends Phaser.GameObjects.Container {
   set score(newScore: number) {
     var oldScoreBucket = Math.trunc(this.score / RECYCLE_CONST.BONUS_ONE_FOR_SCORE);
     var newScoreBucket = Math.trunc(newScore / RECYCLE_CONST.BONUS_ONE_FOR_SCORE);
-    this._score = newScore;
     this.recycles += (newScoreBucket - oldScoreBucket) > 0 ? 1 : 0;
+
+    this._score = newScore;
+    this.score_text.setText(SCORE_CONST.TITLE + this.score);
+  }
+
+  get recycles() {
+    return this._recycles;
+  }
+
+  set recycles(newRecycles: number) {
+    this._recycles = newRecycles;
+    this.recycles_text.setText(RECYCLE_CONST.TITLE + this.recycles);
   }
 
   onMemoryShapePlaced(memory_shape: MemoryShape) {
     this.score += this.calculateMemoryShapeCost(memory_shape);
-    this.score_text.setText(SCORE_CONST.TITLE + this.score);
   }
 
   calculateMemoryShapeCost(memory_shape: MemoryShape): number {
@@ -86,7 +95,13 @@ export class PlayerInfo extends Phaser.GameObjects.Container {
     this.healthSprites[this.health].setAlpha(0.5);
   }
 
-  isRecyclingAllowed(): boolean {
-    return this.recycles > 0;
+  tryRecycle(successCallback) {
+    if (this.recycles > 0) {
+      --this.recycles;
+      successCallback();
+    }
+    else {
+      console.log("Recycling not allowed!");
+    }
   }
 }

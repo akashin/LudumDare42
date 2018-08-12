@@ -244,19 +244,16 @@ export class MainScene extends Phaser.Scene {
   }
 
   tryRecycleConveyor() {
-    if (!this.playerInfo.isRecyclingAllowed()) {
-      console.log("Recycling not allowed!");
-      return;
-    }
-    
-    this.timeTicker = 0;
-    this.shapeConveyor.clear();
-    this.picker.clear();
-
-    // TODO: test v2 as well. whe we delete only picked cell.
-    //this.timeTicker = 0;
-    //this.shapeConveyor.deleteShape(this.picker.pickedShape);
-    //this.picker.clear();
+    this.playerInfo.tryRecycle(() => {
+      this.timeTicker = 0;
+      this.shapeConveyor.clear();
+      this.picker.clear();
+  
+      // TODO: test v2 as well. whe we delete only picked cell.
+      //this.timeTicker = 0;
+      //this.shapeConveyor.deleteShape(this.picker.pickedShape);
+      //this.picker.clear();  
+    });
   }
 
   addTask(task: Task): void {
