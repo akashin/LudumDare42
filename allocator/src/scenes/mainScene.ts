@@ -28,6 +28,7 @@ export class MainScene extends Phaser.Scene {
   private wastebin: Phaser.GameObjects.Sprite;
   private deathTimer: number = null;
   private shapePlacedMusic: Phaser.Sound.HTML5AudioSound;
+  private alarmMusic: Phaser.Sound.HTML5AudioSound;
 
   private emitters = new Array<Phaser.GameObjects.Particles.ParticleEmitter>();
 
@@ -106,6 +107,9 @@ export class MainScene extends Phaser.Scene {
     this.setupInputs();
 
     this.shapePlacedMusic = <Phaser.Sound.HTML5AudioSound> this.sound.add('shapePlaced', {
+      volume: 0.2,
+    });
+    this.alarmMusic = <Phaser.Sound.HTML5AudioSound> this.sound.add('alarm', {
       volume: 0.2,
     });
   }
@@ -204,6 +208,7 @@ export class MainScene extends Phaser.Scene {
     if (this.shapeConveyor.isFull()) {
       if (this.deathTimer == null) {
         this.deathTimer = CONVEYOR_CONST.DEATH_TIMER_TICKS;
+        this.alarmMusic.play();
       }
       this.deathTimer = Math.max(0, this.deathTimer - 1);
       this.deathTimerText.setText(this.deathTimer.toString());
