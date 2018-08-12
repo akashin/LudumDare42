@@ -4,7 +4,7 @@ import { TiledLayout, LayoutDirection } from '../utils/layout'
 
 export class PlayerInfo extends Phaser.GameObjects.Container {
   private health: number;
-  private _recycles: number = PLAYER_CONST.RECYCLES;
+  private _recycles: number = PLAYER_CONST.STARTING_RECYCLES;
   private healthSprites: Array<Phaser.GameObjects.Sprite>;
   private score_text: Phaser.GameObjects.Text;
   private _score: number = 0;
@@ -17,7 +17,7 @@ export class PlayerInfo extends Phaser.GameObjects.Container {
     this.layout = new TiledLayout(scene, LayoutDirection.Horizontal, 0);
 
     this.health = PLAYER_CONST.STARTING_HEALTH;
-    
+
     this.healthSprites = Array<Phaser.GameObjects.Sprite>();
 
     for (var i = 0; i < this.health; ++i) {
@@ -59,6 +59,7 @@ export class PlayerInfo extends Phaser.GameObjects.Container {
     var oldScoreBucket = Math.trunc(this.score / RECYCLE_CONST.BONUS_ONE_FOR_SCORE);
     var newScoreBucket = Math.trunc(newScore / RECYCLE_CONST.BONUS_ONE_FOR_SCORE);
     this.recycles += (newScoreBucket - oldScoreBucket) > 0 ? 1 : 0;
+    this.recycles = Math.min(PLAYER_CONST.MAX_RECYVLES, this.recycles);
 
     this._score = newScore;
     this.score_text.setText(SCORE_CONST.TITLE + this.score);
@@ -91,7 +92,7 @@ export class PlayerInfo extends Phaser.GameObjects.Container {
 
   damage() {
     this.health = Math.max(0, this.health - 1);
-    this.recycles += PLAYER_CONST.RECYCLES;
+    this.recycles = PLAYER_CONST.STARTING_RECYCLES;
     this.healthSprites[this.health].setAlpha(0.5);
   }
 
