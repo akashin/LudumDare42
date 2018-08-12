@@ -22,6 +22,8 @@ export class MainScene extends Phaser.Scene {
   private shapeGenerator: ShapeGenerator;
   private gameSpeed: number = CONST.BASE_GAME_SPEED;
   private timeTicker: number = 0;
+  private health: number;
+  private wastebin: Phaser.GameObjects.Sprite;
 
   constructor() {
     super({
@@ -39,6 +41,7 @@ export class MainScene extends Phaser.Scene {
     this.load.image('cell', 'assets/cell.png');
     this.load.image("engineer", "./assets/engineer.png");
     this.load.image("heart", "./assets/heart.png");
+    this.load.image("wastebin", "./assets/wastebin.png");
   }
 
   create(): void {
