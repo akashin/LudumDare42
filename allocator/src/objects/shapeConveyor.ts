@@ -37,12 +37,13 @@ export class ShapeConveyor extends Phaser.GameObjects.Container {
 
   addNewShape(scene): void {
     console.log("Adding shape");
-    let shape = new MemoryShapeOnConveyor(scene, this.shapeGenerator.generateShape(), {
+    let [shape, shapeType] = this.shapeGenerator.generateShape();
+    let shapeOnConveyor = new MemoryShapeOnConveyor(scene, shape, shapeType, {
       x: 0,
       y: 0
     });
-    this.shapes.push(shape);
-    this.layout.addItem(shape);
+    this.shapes.push(shapeOnConveyor);
+    this.layout.addItem(shapeOnConveyor);
   }
 
   deleteShape(shapeOnConveyor: MemoryShapeOnConveyor) {

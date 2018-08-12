@@ -1,5 +1,6 @@
 import { randomInt } from "../logic/math";
 import { MemoryShape } from "../objects/memoryShape";
+import { ShapeType } from "../logic/shapeType";
 
 export class ShapeGenerator {
   private shapes = new Array<MemoryShape>();
@@ -19,17 +20,19 @@ export class ShapeGenerator {
     }
   }
 
-  generateShape() : MemoryShape {
+  generateShape() : [MemoryShape, ShapeType] {
     let shape = this.shapes[randomInt(this.shapes.length)];
     for (var it = 0; it < randomInt(5); ++it) {
       shape = shape.rotatedClockwise();
     }
-    return shape;
+    // TODO: Make this more extensible.
+    let shapeType = ShapeType.Creator;
+    if (randomInt(2) == 0) {
+      shapeType = ShapeType.Eraser;
+    }
+    return [shape, shapeType];
   }
 
-  generateAntiShape() : MemoryShape {
-    return this.antiShapes[randomInt(this.antiShapes.length)];
-  }
 }
 
 let SHAPES = [

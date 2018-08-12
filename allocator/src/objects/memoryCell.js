@@ -1,4 +1,5 @@
 import { CONST, GRID_CONST, CONVEYOR_CONST } from "../const/const";
+import { ShapeType } from "../logic/shapeType";
 
 export class MemoryCell extends Phaser.GameObjects.Sprite {
   constructor(scene, params) {
@@ -10,7 +11,13 @@ export class MemoryCell extends Phaser.GameObjects.Sprite {
       (CONVEYOR_CONST.SHAPE_CELL_WIDTH - CONVEYOR_CONST.SHAPE_CELL_BORDER_SIZE) / this.width,
       (CONVEYOR_CONST.SHAPE_CELL_HEIGHT - CONVEYOR_CONST.SHAPE_CELL_BORDER_SIZE) / this.height
     );
-    // Color in red to distinguish from grid cells.
-    this.setTint(0xFF00FF);
+    // Color to distinguish from grid cells.
+    if (params.shapeType == ShapeType.Creator) {
+      this.setTint(CONVEYOR_CONST.CREATOR_SHAPE_COLOR);
+    } else if (params.shapeType == ShapeType.Eraser) {
+      this.setTint(CONVEYOR_CONST.ERASER_SHAPE_COLOR);
+    } else {
+      alert("Wrong shape type!");
+    }
   }
 }
