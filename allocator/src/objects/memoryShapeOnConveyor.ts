@@ -94,4 +94,26 @@ export class MemoryShapeOnConveyor extends Phaser.GameObjects.Container {
       this.setAlpha(1.0);
     }
   }
+
+  getXYwrtScene(object: any) : [number, number] {
+    let x = 0;
+    let y = 0;
+    while (object != null) {
+      x += object.x;
+      y += object.y;
+      object = object.parentContainer;
+    }
+    return [x, y];
+  }
+
+  // Not to be confused with getRect
+  getRekt() {
+    for (let childIt of this.list) {
+      let child = childIt as any;
+      let [x, y] = this.getXYwrtScene(child);
+      let emitter = (this.scene as any).getEmitter(this._shapeType);
+      emitter.setScale({start: child.scaleX * 0.75, end: 0});
+      emitter.explode(6, x, y);
+    }
+  }
 }

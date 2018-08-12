@@ -1,4 +1,4 @@
-import { CONST, CONVEYOR_CONST, GRID_CONST, SCORE_CONST } from "../const/const";
+import { CONST, CONVEYOR_CONST, GRID_CONST, SCORE_CONST, COLOR_CONST } from "../const/const";
 import { GridCell } from "../objects/gridCell";
 import { ShapeConveyor } from "../objects/shapeConveyor";
 import { MemoryShapeOnConveyor } from "../objects/memoryShapeOnConveyor";
@@ -10,6 +10,7 @@ import { Grid } from "../objects/grid";
 import { Picker } from '../utils/picker';
 import { PlayerInfo } from '../objects/playerInfo';
 import { MemoryShape } from "../objects/memoryShape";
+import { ShapeType } from "../logic/shapeType";
 
 export class MainScene extends Phaser.Scene {
   private grid: Grid;
@@ -26,6 +27,8 @@ export class MainScene extends Phaser.Scene {
   private health: number;
   private wastebin: Phaser.GameObjects.Sprite;
   private deathTimer: number = null;
+
+  private emitters = new Array<Phaser.GameObjects.Particles.ParticleEmitter>();
 
   constructor() {
     super({
@@ -90,6 +93,8 @@ export class MainScene extends Phaser.Scene {
 
     this.add.existing(this.gameLayout);
 
+    this.createEmitters();
+
     this.createRobots();
 
     this.setupInputs();
@@ -118,6 +123,36 @@ export class MainScene extends Phaser.Scene {
         this.picker.onGridCellOut(gameObject);
       }
     });
+  }
+
+  createEmitters() {
+    let textures = ['positive_atom', 'negative_atom'];
+    let tints = [CONVEYOR_CONST.CREATOR_SHAPE_COLOR, CONVEYOR_CONST.ERASER_SHAPE_COLOR];
+
+    for (let i = 0; i < 2; i++) {
+      let particles = this.add.particles(textures[i]);
+      let params = {
+        lifespan: 1000,
+        speed: { min: 300, max: 400 },
+        alpha: { start: 1, end: 0 },
+        tint: tints[i],
+        rotate: { start: 0, end: 360, ease: 'Power2' },
+        blendMode: 'ADD',
+        on: false
+      };
+      this.emitters.push(particles.createEmitter(params));
+    }
+  }
+
+  getEmitter(type: ShapeType) : Phaser.GameObjects.Particles.ParticleEmitter {
+    if (type == ShapeType.Creator) {
+      return this.emitters[0];
+    } else if (type == ShapeType.Eraser) {
+      return this.emitters[1];
+    } else {
+      alert("Wrong shape type!");
+      return null;
+    }
   }
 
   createRobots() {
