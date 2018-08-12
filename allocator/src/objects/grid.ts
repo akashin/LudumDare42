@@ -20,7 +20,7 @@ export class Grid extends Phaser.GameObjects.Container {
             x: w_index * GRID_CONST.CELL_WIDTH,
             y: h_index * GRID_CONST.CELL_HEIGHT,
             index_w: w_index,
-            index_h: h_index
+            index_h: h_index,
           });
           cell.setInteractive();
           this.grid[h_index].push(cell);

@@ -8,24 +8,14 @@ export class GridCell extends Phaser.GameObjects.Sprite {
   constructor(scene, params) {
     super(scene, params.x, params.y, 'cell');
 
-    let wScale = (GRID_CONST.CELL_WIDTH - GRID_CONST.CELL_BORDER_SIZE) / this.width;
-    let hScale = (GRID_CONST.CELL_HEIGHT - GRID_CONST.CELL_BORDER_SIZE) / this.height;
-
-    if ("width" in params) {
-      wScale = (params.width - GRID_CONST.CELL_BORDER_SIZE) / 300.0;
-    }
-    if ("height" in params) {
-      hScale = (params.height - GRID_CONST.CELL_BORDER_SIZE) / 300.0;
-    }
-    if ("index_w" in params) {
-      this.index_w = params.index_w;
-    }
-    if ("index_h" in params) {
-      this.index_h = params.index_h;
-    }
+    this.index_w = params.index_w;
+    this.index_h = params.index_h;
 
     this.setOrigin(0, 0);
-    this.setScale(wScale, hScale);
+    this.setScale(
+      (GRID_CONST.CELL_WIDTH - GRID_CONST.CELL_BORDER_SIZE) / this.width,
+      (GRID_CONST.CELL_HEIGHT - GRID_CONST.CELL_BORDER_SIZE) / this.height
+    );
   }
 
   setIsOccupied(is_occupied: boolean) {
