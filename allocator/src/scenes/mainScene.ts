@@ -237,6 +237,11 @@ export class MainScene extends Phaser.Scene {
   }
 
   tryRecycleConveyor() {
+    if (!this.playerInfo.isRecyclingAllowed()) {
+      console.log("Recycling not allowed!");
+      return;
+    }
+    
     this.timeTicker = 0;
     this.shapeConveyor.clear();
     this.picker.clear();
