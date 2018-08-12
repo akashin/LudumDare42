@@ -14,6 +14,7 @@ import { ShapeType } from "../logic/shapeType";
 
 export class MainScene extends Phaser.Scene {
   private grid: Grid;
+  private lastHoverCell: GridCell;
   private robots: Array<Robot>;
   private tasks: Array<Task>;
   private shapeConveyor: ShapeConveyor;
@@ -42,6 +43,7 @@ export class MainScene extends Phaser.Scene {
     this.robots = new Array<Robot>();
     this.tasks = new Array<Task>();
     this.picker = new Picker();
+    this.lastHoverCell = null;
   }
 
   preload(): void {
@@ -122,7 +124,7 @@ export class MainScene extends Phaser.Scene {
           gameObject, (task: Task) => {
             this.addTask(task);
             this.shapeConveyor.deleteShape(this.picker.pickedShape);
-            this.playerInfo.onMemoryShapePlaced(this.picker.pickedShape.memoryShape);  
+            this.playerInfo.onMemoryShapePlaced(this.picker.pickedShape.memoryShape);
             this.shapePlacedMusic.play();
           });
       }
@@ -131,12 +133,14 @@ export class MainScene extends Phaser.Scene {
     this.input.on('gameobjectover', (pointer, gameObject) => {
       if (gameObject instanceof GridCell) {
         this.picker.onGridCellHover(gameObject, this.grid);
+        this.lastHoverCell = gameObject as GridCell;
       }
     });
 
     this.input.on('gameobjectout', (pointer, gameObject) => {
       if (gameObject instanceof GridCell) {
         this.picker.onGridCellOut(gameObject);
+        this.lastHoverCell = null;
       }
     });
   }
@@ -221,17 +225,26 @@ export class MainScene extends Phaser.Scene {
       this.deathTimerText.setText("");
     }
 
-    if (this.tasks.length > 0) {
-      let task: Task = this.tasks[0];
+    let finishedTasks = new Array<number>();
+    for (var i = 0; i < this.tasks.length; ++i) {
+      let task: Task = this.tasks[i];
 
       task.update();
       task.updateGrid(this.grid);
       if (task.isFinished()) {
-        this.tasks.splice(0, 1);
+        finishedTasks.push(i);
       }
     }
 
+    for (var i = 0; i < finishedTasks.length; ++i) {
+      this.tasks.splice(finishedTasks[i], 1);
+    }
+
     this.updateGameSpeed();
+
+    if (this.lastHoverCell != null) {
+      this.picker.onGridCellHover(this.lastHoverCell, this.grid);
+    }
   }
 
   loseLife() {

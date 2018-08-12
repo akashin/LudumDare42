@@ -1,4 +1,5 @@
 import { CONST, GRID_CONST, COLOR_CONST } from "../const/const";
+import { ShapeType } from "../logic/shapeType"
 
 export enum CellStatus {
   FREE,
@@ -27,8 +28,12 @@ export class GridCell extends Phaser.GameObjects.Sprite {
     this.status = CellStatus.FREE;
   }
 
-  get isOccupied(): boolean {
-    return this.status != CellStatus.FREE;
+  isSuitableFor(shapeType: ShapeType): boolean {
+    if (shapeType == ShapeType.Creator) {
+      return this.status == CellStatus.FREE;
+    } else {
+      return this.status == CellStatus.ALLOCATED;
+    }
   }
 
   getColumn(): number {

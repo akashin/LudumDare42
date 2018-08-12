@@ -2,7 +2,7 @@ import { Vec2 } from "./math"
 import { CellStatus } from "../objects/gridCell";
 import { Grid } from '../objects/grid'
 import { GridCell } from '../objects/gridCell'
-import { GRID_CONST } from '../const/const'
+import { GRID_CONST, TASK_CONST } from '../const/const'
 
 export enum TaskType {
     ALLOCATE,
@@ -25,7 +25,7 @@ export class Task {
         this.column = column;
         this.mask = mask;
         this.underСonstruction = false;
-        this.timer = 60;
+        this.timer = TASK_CONST.EXECUTION_TICKS;
 
         this.maskHeight = mask.length;
         this.maskWidth = mask[0].length;

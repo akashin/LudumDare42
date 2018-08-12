@@ -61,16 +61,8 @@ export class Grid extends Phaser.GameObjects.Container {
         let currentCell = this.grid[gridRow][gridColumn];
         coveredCells.push(currentCell);
 
-        if (shapeType == ShapeType.Creator) {
-          // If we overlap with already placed cell, then we can't place a shape here.
-          if (currentCell.isOccupied) {
-            canPlace = false;
-          }
-        } else if (shapeType == ShapeType.Eraser) {
-          // If current cell is not covered, then we can't place a shape here.
-          if (!currentCell.isOccupied) {
-            canPlace = false;
-          }
+        if (!currentCell.isSuitableFor(shapeType)) {
+          canPlace = false;
         }
       }
     }
