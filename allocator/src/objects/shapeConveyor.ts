@@ -2,6 +2,7 @@ import { CONST, CONVEYOR_CONST } from "../const/const";
 import { MemoryShape } from "./memoryShape";
 import { ShapeGenerator } from "../logic/shapeGenerator";
 import { MemoryShapeOnConveyor } from "./memoryShapeOnConveyor";
+import { TiledLayout, LayoutDirection } from "../utils/layout";
 
 export class ShapeConveyor extends Phaser.GameObjects.Container {
   private shapes: Array<MemoryShapeOnConveyor>;
@@ -26,7 +27,7 @@ export class ShapeConveyor extends Phaser.GameObjects.Container {
       key: 'conveyor',
       add: true
     });
-    this.add(this.conveyor);
+    //this.add(this.conveyor);
 
     this.add(this.layout);
 
