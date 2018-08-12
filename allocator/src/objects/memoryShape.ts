@@ -91,8 +91,8 @@ export class MemoryShape {
     this.mask = new Array<Array<boolean>>();
   }
 
-  hasCell(x: number, y: number): boolean {
-    return this.mask[y][x];
+  hasCell(row: number, column: number): boolean {
+    return this.mask[row][column];
   }
 
   getHeight(): number {

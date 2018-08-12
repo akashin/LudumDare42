@@ -11,13 +11,12 @@ export class MemoryShapeOnConveyor extends Phaser.GameObjects.Container {
 
     this.memoryShape = shape;
 
-    for (var w = 0; w < this.memoryShape.getWidth(); ++w) {
-      for (var h = 0; h < this.memoryShape.getHeight(); ++h) {
-        if (this.memoryShape.hasCell(w, h)) {
-          // TODO: Use a separate grid cell type.
+    for (var row = 0; row < this.memoryShape.getHeight(); ++row) {
+      for (var column = 0; column < this.memoryShape.getWidth(); ++column) {
+        if (this.memoryShape.hasCell(row, column)) {
           let cell = new MemoryCell(scene, {
-            x: w * CONVEYOR_CONST.SHAPE_CELL_WIDTH,
-            y: h * CONVEYOR_CONST.SHAPE_CELL_HEIGHT,
+            x: column * CONVEYOR_CONST.SHAPE_CELL_WIDTH,
+            y: row * CONVEYOR_CONST.SHAPE_CELL_HEIGHT,
           });
           this.add(cell);
         }

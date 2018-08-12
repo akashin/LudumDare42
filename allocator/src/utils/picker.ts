@@ -4,31 +4,30 @@ import { COLOR_CONST } from '../const/const';
 import { Grid } from '../objects/grid';
 
 export class Picker {
-    private _memoryShapeOnConveyor: MemoryShapeOnConveyor = null;
-    private memoryShapeAndGridOverlap: Array<GridCell>;
+    private _pickedShape: MemoryShapeOnConveyor = null;
+    private memoryShapeAndGridOverlap: Array<GridCell> = null;
     private isOccupiedPlacement: boolean = false;
 
     constructor() {
     }
 
-    get memoryShapeOnConveyor(): MemoryShapeOnConveyor {
-      return this._memoryShapeOnConveyor;
+    get pickedShape(): MemoryShapeOnConveyor {
+      return this._pickedShape;
     }
 
-    set memoryShapeOnConveyor(memoryShape: MemoryShapeOnConveyor) {
-      if (this._memoryShapeOnConveyor != null) {
-        this._memoryShapeOnConveyor.setChosen(false);
+    set pickedShape(memoryShape: MemoryShapeOnConveyor) {
+      if (this._pickedShape != null) {
+        this._pickedShape.setChosen(false);
       }
-      this._memoryShapeOnConveyor = memoryShape;
+      this._pickedShape = memoryShape;
     }
 
     onGridCellDown(gridCell: GridCell): boolean {
-      if (this.memoryShapeAndGridOverlap != null) {
+      if (this.memoryShapeAndGridOverlap) {
         if (this.isOccupiedPlacement) {
           console.log("Placing on a forbidden space!");
-        }
-        else {
-          this.memoryShapeAndGridOverlap.forEach((value) => {value.setIsOccupied(true)});
+        } else {
+          this.memoryShapeAndGridOverlap.forEach((value) => {value.isOccupied = true});
           this.onGridCellOut(gridCell);
           this.memoryShapeAndGridOverlap = null;
 
@@ -36,23 +35,23 @@ export class Picker {
         }
       }
       else {
-        gridCell.setIsOccupied(true);
+        gridCell.isOccupied = true;
       }
 
       return false;
     }
 
     onGridCellHover(gridCell: GridCell, grid: Grid) {
-      if (this.memoryShapeOnConveyor != null) {
+      if (this.pickedShape) {
         [this.memoryShapeAndGridOverlap, this.isOccupiedPlacement] =
-          grid.getAllOverlappedCells(gridCell, this.memoryShapeOnConveyor.getMemoryShape());
+          grid.getAllOverlappedCells(gridCell, this.pickedShape.getMemoryShape());
 
         if (this.isOccupiedPlacement) {
           this.memoryShapeAndGridOverlap.forEach((value) => {value.setTint(COLOR_CONST.OCCUPIED_HOVER)});
         } else {
           this.memoryShapeAndGridOverlap.forEach((value) => {value.setTint(COLOR_CONST.UNOCCUPIED_HOVER)});
         }
-      } else if (gridCell.getIsOccupied()){
+      } else if (gridCell.isOccupied){
         gridCell.setTint(COLOR_CONST.OCCUPIED_HOVER);
       } else {
         gridCell.setTint(COLOR_CONST.UNOCCUPIED_HOVER);
@@ -62,8 +61,7 @@ export class Picker {
     onGridCellOut(gridCell: GridCell) {
       if (this.memoryShapeAndGridOverlap != null) {
         this.memoryShapeAndGridOverlap.forEach((value) => {value.clearTint()});
-      }
-      else {
+      } else {
         gridCell.clearTint();
       }
     }
