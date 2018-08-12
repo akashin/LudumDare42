@@ -9,30 +9,22 @@ export class ShapeGenerator {
     this.initShapes();
   }
 
-  addShape(strMask: Array<string>, container: Array<MemoryShape>) {
-    let shape = new MemoryShape();
-    for (let row of strMask) {
-      let shapeRow = new Array<boolean>();
-      for (let i = 0; i < row.length; i++) {
-        shapeRow.push(row.charAt(i) == "#")
-      }
-      shape.mask.push(shapeRow);
-    }
-    container.push(shape);
-  }
-
   initShapes() {
     for (let shape of SHAPES) {
-      this.addShape(shape, this.shapes);
+      this.shapes.push(MemoryShape.fromString(shape));
     }
 
-    for (let antiShape of ANTI_SHAPES) {
-      this.addShape(antiShape, this.antiShapes);
+    for (let shape of ANTI_SHAPES) {
+      this.antiShapes.push(MemoryShape.fromString(shape));
     }
   }
 
   generateShape() : MemoryShape {
-    return this.shapes[randomInt(this.shapes.length)];
+    let shape = this.shapes[randomInt(this.shapes.length)];
+    for (var it = 0; it < randomInt(5); ++it) {
+      shape = shape.rotatedClockwise();
+    }
+    return shape;
   }
 
   generateAntiShape() : MemoryShape {
