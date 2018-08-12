@@ -28,6 +28,10 @@ export class ShapeConveyor extends Phaser.GameObjects.Container {
     return this.shapes.length;
   }
 
+  isFull(): boolean {
+    return this.shapes.length == CONVEYOR_CONST.SHAPE_CAPACITY;
+  }
+
   addNewShape(scene): void {
     console.log("Adding shape");
     let shape = new MemoryShapeOnConveyor(scene, MemoryShape.randomShape(), {
@@ -51,7 +55,7 @@ export class ShapeConveyor extends Phaser.GameObjects.Container {
         this.addNewShape(this.scene);
         this.generationCounter = CONVEYOR_CONST.SHAPE_GEN_PERIOD;
       } else {
-        // TODO: Show end game screen.
+        console.log("Conveyor is full.");
       }
     }
   }

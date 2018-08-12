@@ -114,5 +114,8 @@ export class MainScene extends Phaser.Scene {
     }
 
     this.shapeConveyor.update();
+    if (this.shapeConveyor.isFull()) {
+      // TODO: Show end game screen.
+    }
   }
 }
