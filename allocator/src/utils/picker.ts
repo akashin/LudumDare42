@@ -43,7 +43,6 @@ export class Picker {
       return [false, null];
     }
 
-
     let task: Task = new Task(
       this.getTaskType(this.pickedShape.shapeType),
       gridCell.getRow(),
