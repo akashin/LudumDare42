@@ -13,7 +13,6 @@ export class MainScene extends Phaser.Scene {
   private grid: Grid;
   private robots: Array<Robot>;
   private shapeConveyor: ShapeConveyor;
-  private memoryContainer: Phaser.GameObjects.Container;
   private gameLayout: TiledLayout;
   private picker: Picker;
   private scoreManager: ScoreManager;
@@ -27,7 +26,6 @@ export class MainScene extends Phaser.Scene {
   }
 
   init(): void {
-    this.grid = new Grid(this);
     this.robots = new Array<Robot>();
     this.picker = new Picker();
   }
@@ -50,11 +48,9 @@ export class MainScene extends Phaser.Scene {
 
     this.shapeConveyor = new ShapeConveyor(this, { x: 0, y: 0 });
     this.scoreManager = new ScoreManager(this);
+    this.grid = new Grid(this);
 
-    this.memoryContainer = this.make.container({}, false);
-    this.grid.createGrid(this.memoryContainer);
-
-    this.gameLayout.addItem(this.memoryContainer);
+    this.gameLayout.addItem(this.grid);
     this.gameLayout.addItem(this.shapeConveyor);
 
     this.add.existing(this.gameLayout);
@@ -90,7 +86,7 @@ export class MainScene extends Phaser.Scene {
   }
 
   createRobots() {
-    let robot = new Robot(this, 100 + 31 / 2, 100 + 31 / 2, RobotType.Engineer);
+    let robot = new Robot(this, 0, 0, RobotType.Engineer);
     this.robots.push(robot);
 
     let mask = new Array<Array<boolean>>();
@@ -105,7 +101,7 @@ export class MainScene extends Phaser.Scene {
     let task = new Task(1, 1, mask);
     robot.setTask(task);
 
-    robot.addToContainer(this.memoryContainer);
+    this.grid.addObject(robot);
   }
 
   setChosenMemoryShape(memoryShape: MemoryShapeOnConveyor) {
@@ -113,11 +109,10 @@ export class MainScene extends Phaser.Scene {
   }
 
   update(time, delta): void {
-    delta /= 1000
+    delta /= 1000;
 
     for (var i = 0; i < this.robots.length; ++i) {
-      let robot: Robot = this.robots[i];
-      robot.update(time, delta);
+      this.robots[i].update();
     }
 
     this.accumulatedDelta += delta;
