@@ -27,7 +27,7 @@ export class MainScene extends Phaser.Scene {
   private health: number;
   private wastebin: Phaser.GameObjects.Sprite;
   private deathTimer: number = null;
-  private shapePlacedMusic: Phaser.Sound.BaseSound;
+  private shapePlacedMusic: Phaser.Sound.HTML5AudioSound;
 
   private emitters = new Array<Phaser.GameObjects.Particles.ParticleEmitter>();
 
@@ -104,10 +104,9 @@ export class MainScene extends Phaser.Scene {
 
     this.setupInputs();
 
-    this.shapePlacedMusic = this.sound.add('shapePlaced', {
+    this.shapePlacedMusic = <Phaser.Sound.HTML5AudioSound> this.sound.add('shapePlaced', {
       volume: 0.2,
     });
-    //this.shapePlacedMusic.setVolume(0);
   }
 
   setupInputs() {
