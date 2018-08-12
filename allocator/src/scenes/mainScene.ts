@@ -83,16 +83,12 @@ export class MainScene extends Phaser.Scene {
   setupInputs() {
     this.input.on('gameobjectdown', (pointer, gameObject) => {
       if (gameObject instanceof GridCell) {
-        let isShapePlaced: boolean;
-        let task: Task;
-        [isShapePlaced, task] = this.picker.onGridCellDown(gameObject);
-
-        if (isShapePlaced) {
-          this.addTask(task);
-          this.shapeConveyor.deleteShape(this.picker.pickedShape);
-          this.playerInfo.onMemoryShapePlaced(this.picker.pickedShape.memoryShape);
-          this.picker.pickedShape = null;
-        }
+        this.picker.onGridCellDown(
+          gameObject, (task: Task) => {
+            this.addTask(task);
+            this.shapeConveyor.deleteShape(this.picker.pickedShape);
+            this.playerInfo.onMemoryShapePlaced(this.picker.pickedShape.memoryShape);  
+          });
       }
     });
 
@@ -175,6 +171,7 @@ export class MainScene extends Phaser.Scene {
     console.log("Life is lost!");
     this.timeTicker = 0;
     this.shapeConveyor.clear();
+    this.picker.clear();
     this.playerInfo.damage();
   }
 

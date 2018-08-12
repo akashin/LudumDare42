@@ -34,13 +34,13 @@ export class Picker {
     alert("Unrecognized shape type.");
   }
 
-  onGridCellDown(gridCell: GridCell): [boolean, Task] {
+  onGridCellDown(gridCell: GridCell, placementCallback) {
     if (!this.coveredCells) {
-      return [false, null];
+      return;
     }
     if (!this.canPlace) {
       console.log("Placing on a forbidden space!");
-      return [false, null];
+      return;
     }
 
     let task: Task = new Task(
@@ -48,10 +48,11 @@ export class Picker {
       gridCell.getRow(),
       gridCell.getColumn(),
       this.pickedShape.memoryShape.mask
-    );
-    this.onGridCellOut(gridCell);
-    this.coveredCells = null;
-    return [true, task];
+    );    
+    placementCallback(task);
+
+    this.clear();
+    return;
   }
 
   onGridCellHover(gridCell: GridCell, grid: Grid): void {
@@ -71,5 +72,15 @@ export class Picker {
     }
 
     this.coveredCells.forEach((cell) => { cell.clearHover(); });
+  }
+
+  clear() {
+    if (!this.pickedShape) {
+      return;
+    }
+    this.coveredCells.forEach((cell) => { cell.clearHover(); });
+    this.coveredCells = null;  
+    this.canPlace = true;
+    this.pickedShape = null;
   }
 }
