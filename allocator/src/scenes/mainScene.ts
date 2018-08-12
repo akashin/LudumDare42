@@ -78,7 +78,7 @@ export class MainScene extends Phaser.Scene {
       scale: 0.5,
     }, false);
     this.wastebin.setInteractive();
-    this.wastebin.on('pointerdown', function() {
+    this.wastebin.on('pointerdown', () => {
       this.tryRecycleConveyor();
     });
 
@@ -191,7 +191,14 @@ export class MainScene extends Phaser.Scene {
   }
 
   tryRecycleConveyor() {
-    // TODO: Recycle conveyor here.
+    this.timeTicker = 0;
+    this.shapeConveyor.clear();
+    this.picker.clear();
+
+    // TODO: test v2 as well. whe we delete only picked cell.
+    //this.timeTicker = 0;
+    //this.shapeConveyor.deleteShape(this.picker.pickedShape);
+    //this.picker.clear();
   }
 
   addTask(task: Task): void {

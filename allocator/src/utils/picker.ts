@@ -48,7 +48,7 @@ export class Picker {
       gridCell.getRow(),
       gridCell.getColumn(),
       this.pickedShape.memoryShape.mask
-    );    
+    );
     placementCallback(task);
 
     this.clear();
@@ -75,11 +75,10 @@ export class Picker {
   }
 
   clear() {
-    if (!this.pickedShape) {
-      return;
+    if (this.coveredCells != null) {
+      this.coveredCells.forEach((cell) => { cell.clearHover(); });
+      this.coveredCells = null;  
     }
-    this.coveredCells.forEach((cell) => { cell.clearHover(); });
-    this.coveredCells = null;  
     this.canPlace = true;
     this.pickedShape = null;
   }
