@@ -11,7 +11,8 @@ const config: GameConfig = {
   height: CONST.GAME_HEIGHT,
   type: Phaser.AUTO,
   parent: "game",
-  scene: [MainScene, TitleScene],
+  // TODO change order here to disable menu screen.
+  scene: [TitleScene, MainScene],
   physics: {
     default: "arcade",
     arcade: {
