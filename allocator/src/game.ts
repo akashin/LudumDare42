@@ -18,6 +18,9 @@ const config: GameConfig = {
     arcade: {
       gravity: { y: 200 }
     }
+  },
+  audio: {
+    disableWebAudio: true
   }
 };
 

@@ -27,6 +27,7 @@ export class MainScene extends Phaser.Scene {
   private health: number;
   private wastebin: Phaser.GameObjects.Sprite;
   private deathTimer: number = null;
+  private shapePlacedMusic: Phaser.Sound.BaseSound;
 
   private emitters = new Array<Phaser.GameObjects.Particles.ParticleEmitter>();
 
@@ -43,6 +44,7 @@ export class MainScene extends Phaser.Scene {
   }
 
   preload(): void {
+    // Load images.
     this.load.image('cell', 'assets/cell.png');
     this.load.image('positive_atom', 'assets/positive.png');
     this.load.image('negative_atom', 'assets/negative.png');
@@ -50,6 +52,9 @@ export class MainScene extends Phaser.Scene {
     this.load.image("heart", "./assets/heart.png");
     this.load.image("wastebin", "./assets/wastebin.png");
     this.load.image("conveyor", "./assets/conveyor.png");
+
+    // Load sounds.
+    this.load.audio('shapePlaced', './assets/sounds/put.wav');
   }
 
   create(): void {
@@ -98,6 +103,11 @@ export class MainScene extends Phaser.Scene {
     this.createRobots();
 
     this.setupInputs();
+
+    this.shapePlacedMusic = this.sound.add('shapePlaced', {
+      volume: 0.2,
+    });
+    //this.shapePlacedMusic.setVolume(0);
   }
 
   setupInputs() {
@@ -108,6 +118,7 @@ export class MainScene extends Phaser.Scene {
             this.addTask(task);
             this.shapeConveyor.deleteShape(this.picker.pickedShape);
             this.playerInfo.onMemoryShapePlaced(this.picker.pickedShape.memoryShape);  
+            this.shapePlacedMusic.play();
           });
       }
     });

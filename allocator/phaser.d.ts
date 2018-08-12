@@ -504,6 +504,10 @@ declare type GameConfig = {
      * [description]
      */
     physics?: object;
+    /**
+     * [description]
+     */
+    audio?: object;
 };
 
 declare type TimeStepCallback = (time: number, average: number, interpolation: number)=>void;
