@@ -1,18 +1,20 @@
-import { CONST, CONVEYOR_CONST } from "../const/const";
+import { CONST, CONVEYOR_CONST, GRID_CONST } from "../const/const";
 import { GridCell } from "../objects/gridCell";
 import { ShapeConveyor } from "../objects/shapeConveyor";
 import { MemoryShapeOnConveyor } from "../objects/memoryShapeOnConveyor";
 import { ShapeGenerator } from "../logic/shapeGenerator";
 import { Robot, RobotType } from "../objects/robot";
-import { Task } from "../logic/task";
+import { Task, TaskType } from "../logic/task";
 import { TiledLayout, LayoutDirection } from "../utils/layout";
 import { Grid } from "../objects/grid";
 import { Picker } from '../utils/picker';
 import { ScoreManager } from '../objects/scoreManager';
+import { MemoryShape } from "../objects/memoryShape";
 
 export class MainScene extends Phaser.Scene {
   private grid: Grid;
   private robots: Array<Robot>;
+  private tasks: Array<Task>;
   private shapeConveyor: ShapeConveyor;
   private gameLayout: TiledLayout;
   private picker: Picker;
@@ -29,6 +31,7 @@ export class MainScene extends Phaser.Scene {
 
   init(): void {
     this.robots = new Array<Robot>();
+    this.tasks = new Array<Task>();
     this.picker = new Picker();
   }
 
@@ -93,9 +96,6 @@ export class MainScene extends Phaser.Scene {
   }
 
   createRobots() {
-    let robot = new Robot(this, 0, 0, RobotType.Engineer);
-    this.robots.push(robot);
-
     let mask = new Array<Array<boolean>>();
     for (var x = 0; x < 3; ++x) {
       let column = Array<boolean>();
@@ -105,10 +105,10 @@ export class MainScene extends Phaser.Scene {
       mask.push(column);
     }
 
-    let task = new Task(1, 1, mask);
-    robot.setTask(task);
-
-    this.grid.addObject(robot);
+    let task1 = new Task(TaskType.ALLOCATE, 1, 1, mask);
+    let task2 = new Task(TaskType.ALLOCATE, 1, 5, mask);
+    this.addTask(task1);
+    this.addTask(task2);
   }
 
   setChosenMemoryShape(memoryShape: MemoryShapeOnConveyor) {
@@ -116,13 +116,23 @@ export class MainScene extends Phaser.Scene {
   }
 
   update(): void {
-    for (var i = 0; i < this.robots.length; ++i) {
-      this.robots[i].update();
-    }
-
     this.shapeConveyor.update();
     if (this.shapeConveyor.isFull()) {
       // TODO: Show end game screen.
     }
+
+    if (this.tasks.length > 0) {
+      let task: Task = this.tasks[0];
+
+      task.update();
+      task.updateGrid(this.grid);
+      if (task.isFinished()) {
+        this.tasks.splice(0, 1);
+      }
+    }
+  }
+
+  addTask(task: Task): void {
+    this.tasks.push(task);
   }
 }

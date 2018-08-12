@@ -66,4 +66,8 @@ export class Grid extends Phaser.GameObjects.Container {
 
     return [coveredCells, canPlace];
   }
+
+  getCell(h_index: number, w_index: number): GridCell {
+    return this.grid[h_index][w_index] as GridCell;
+  }
 }

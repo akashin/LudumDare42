@@ -1,9 +1,17 @@
 import { CONST, GRID_CONST, COLOR_CONST } from "../const/const";
 
+export enum CellStatus {
+  FREE,
+  ALLOCATED,
+  FREEING,
+  ALLOCATING,
+}
+
 export class GridCell extends Phaser.GameObjects.Sprite {
   private _isOccupied: boolean;
   private column;
   private row;
+  private status: CellStatus;
 
   constructor(scene, params) {
     super(scene, params.x, params.y, 'cell');
@@ -16,6 +24,8 @@ export class GridCell extends Phaser.GameObjects.Sprite {
       (GRID_CONST.CELL_WIDTH - GRID_CONST.CELL_BORDER_SIZE) / this.width,
       (GRID_CONST.CELL_HEIGHT - GRID_CONST.CELL_BORDER_SIZE) / this.height
     );
+
+    this.status = CellStatus.FREE;
   }
 
   set isOccupied(isOccupied: boolean) {
@@ -50,5 +60,19 @@ export class GridCell extends Phaser.GameObjects.Sprite {
 
   clearHover() {
     this.clearTint();
+  }
+
+  setStatus(status: CellStatus) {
+    this.status = status;
+
+    if (this.status == CellStatus.FREE) {
+      this.setAlpha(1.0);
+    } else if (this.status == CellStatus.ALLOCATED) {
+      this.setAlpha(0.5);
+    } else if (this.status == CellStatus.FREEING) {
+      this.setAlpha(0.7);
+    } else if (this.status == CellStatus.ALLOCATING) {
+      this.setAlpha(0.8);
+    }
   }
 }
