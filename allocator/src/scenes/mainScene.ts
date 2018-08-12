@@ -6,6 +6,7 @@ import { Task } from "../logic/task";
 import { TiledLayout, LayoutDirection } from "../utils/layout";
 import { Grid } from "../objects/grid";
 import { Picker } from '../utils/picker';
+import { ScoreManager } from '../objects/scoreManager';
 
 export class MainScene extends Phaser.Scene {
   private grid: Grid;
@@ -14,6 +15,7 @@ export class MainScene extends Phaser.Scene {
   private memoryContainer: Phaser.GameObjects.Container;
   private gameLayout: TiledLayout;
   private picker: Picker;
+  private scoreManager: ScoreManager;
 
   private accumulatedDelta: number = 0;
 
@@ -46,6 +48,7 @@ export class MainScene extends Phaser.Scene {
     this.gameLayout.y = 50
 
     this.shapeConveyor = new ShapeConveyor(this, { x: 0, y: 0 });
+    this.scoreManager = new ScoreManager(this);
 
     this.memoryContainer = this.make.container({}, false);
     this.grid.createGrid(this.memoryContainer);
@@ -66,6 +69,7 @@ export class MainScene extends Phaser.Scene {
         var shape_placed = this.picker.onGridCellDown(gameObject);
         if (shape_placed) {
           this.shapeConveyor.deleteShape(this.picker.memoryShapeOnConveyor);
+          this.scoreManager.onMemoryShapePlaced(this.picker.memoryShapeOnConveyor.getMemoryShape());
           this.picker.memoryShapeOnConveyor = null;
         } 
       }

@@ -3,11 +3,12 @@
 import "phaser";
 import { MainScene } from "./scenes/mainScene";
 import { TitleScene } from "./scenes/titleScene";
+import { CONST } from './const/const';
 
 // main game configuration
 const config: GameConfig = {
-  width: 800,
-  height: 600,
+  width: CONST.GAME_WIDTH,
+  height: CONST.GAME_HEIGHT,
   type: Phaser.AUTO,
   parent: "game",
   scene: [MainScene, TitleScene],

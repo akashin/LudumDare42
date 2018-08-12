@@ -1,4 +1,6 @@
 export let CONST = {
+  GAME_WIDTH: 800,
+  GAME_HEIGHT: 600
 }
 
 // Game grid constants.
@@ -25,5 +27,15 @@ export let ROBOT_CONST = {
 
 export let COLOR_CONST = {
   OCCUPIED_HOVER: 0xff0000,
-  UNOCCUPIED_HOVER: 0x00ff00
+  UNOCCUPIED_HOVER: 0x00ff00,
+}
+
+export let SCORE_CONST = {
+  B_BOX_W_START: CONST.GAME_WIDTH - CONST.GAME_WIDTH / 3,
+  B_BOX_H_START: 16,
+  TEXT_COLOR: "#FFFFFF",
+  FONT_SIZE: '32px',
+  TEXT_FILL: '#000',
+  TITLE: "Score: ",
+  GRID_CELL_VALUE: 3
 }
