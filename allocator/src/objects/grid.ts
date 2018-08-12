@@ -28,20 +28,26 @@ export class Grid {
         }
     }
 
-    getAllOverlappedCells(cell: GridCell, memoryShape: MemoryShape): Array<GridCell> {
+    getAllOverlappedCells(cell: GridCell, memoryShape: MemoryShape): [Array<GridCell>, boolean] {
         var row = cell.getIntexH();
         var column = cell.getIntexW();
         var overlapped_cells = new Array<GridCell>();
+        var is_occupied = false;
+
         for (var h_index = 0; 
             h_index < Math.min(memoryShape.getHeight(), GRID_CONST.H_CELLS - row); ++h_index) {
             for (var w_index = 0; 
                 w_index < Math.min(memoryShape.getWidth(), GRID_CONST.W_CELLS - column); ++w_index) {
-                    if (memoryShape.hasCell(w_index, h_index)) { 
+                    if (memoryShape.hasCell(w_index, h_index)) {
                         overlapped_cells.push(this.grid[row + h_index][column + w_index] as GridCell);
+
+                        if ((this.grid[row + h_index][column + w_index] as GridCell).getIsOccupied()) {
+                            is_occupied = true;                    
+                        }
                     }
             }
         }
 
-        return overlapped_cells;
+        return [overlapped_cells, is_occupied];
     }
 }

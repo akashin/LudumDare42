@@ -22,3 +22,8 @@ export let CONVEYOR_CONST = {
 export let ROBOT_CONST = {
   SPEED: 50,
 }
+
+export let COLOR_CONST = {
+  OCCUPIED_HOVER: 0xff0000,
+  UNOCCUPIED_HOVER: 0x00ff00
+}

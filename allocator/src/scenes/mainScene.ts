@@ -1,4 +1,3 @@
-import { CONST, GRID_CONST } from "../const/const";
 import { GridCell } from "../objects/gridCell";
 import { ShapeConveyor } from "../objects/shapeConveyor";
 import { MemoryShapeOnConveyor } from "../objects/memoryShapeOnConveyor";
@@ -6,7 +5,7 @@ import { Robot, RobotType } from "../logic/robot";
 import { Task } from "../logic/task";
 import { TiledLayout, LayoutDirection } from "../utils/layout";
 import { Grid } from "../objects/grid";
-import { MemoryShape } from "../objects/memoryShape";
+import { Picker } from '../utils/picker';
 
 export class MainScene extends Phaser.Scene {
   private grid: Grid;
@@ -14,9 +13,9 @@ export class MainScene extends Phaser.Scene {
   private shapeConveyor: ShapeConveyor;
   private memoryContainer: Phaser.GameObjects.Container;
   private gameLayout: TiledLayout;
-  private chosenMemoryShape: MemoryShapeOnConveyor = null;
+  private picker: Picker;
+
   private accumulatedDelta: number = 0;
-  private overlappedGridShape: Array<GridCell>;
 
   constructor() {
     super({
@@ -27,6 +26,7 @@ export class MainScene extends Phaser.Scene {
   init(): void {
     this.grid = new Grid(this);
     this.robots = new Array<Robot>();
+    this.picker = new Picker();
   }
 
   preload(): void {
@@ -63,34 +63,19 @@ export class MainScene extends Phaser.Scene {
   setupInputs() {
     this.input.on('gameobjectdown', (pointer, gameObject) => {
       if (gameObject instanceof GridCell) {
-        if (this.overlappedGridShape != null) {
-          this.overlappedGridShape.forEach((value) => {value.setIsOccupied(true)});
-        } else {
-          gameObject.setIsOccupied(true);
-        }
+        this.picker.onGridCellDown(gameObject);
       }
     });
 
     this.input.on('gameobjectover', (pointer, gameObject) => {
       if (gameObject instanceof GridCell) {
-        if (this.chosenMemoryShape != null) {
-          this.overlappedGridShape = this.grid.getAllOverlappedCells(gameObject, this.chosenMemoryShape.getMemoryShape());
-          this.overlappedGridShape.forEach((value) => {value.setTint(0x7878ff)});  
-        }
-        else {
-          gameObject.setTint(0x7878ff);
-        }
+        this.picker.onGridCellHower(gameObject, this.grid);
       }
     });
 
     this.input.on('gameobjectout', (pointer, gameObject) => {
       if (gameObject instanceof GridCell) {
-        if (this.overlappedGridShape != null) {
-          this.overlappedGridShape.forEach((value) => {value.clearTint()});
-        }
-        else {
-          gameObject.clearTint();
-        }
+        this.picker.onGridCellOut(gameObject);
       }
     });
   }
@@ -115,10 +100,7 @@ export class MainScene extends Phaser.Scene {
   }
 
   setChosenMemoryShape(memoryShape: MemoryShapeOnConveyor) {
-    if (this.chosenMemoryShape != null) {
-      this.chosenMemoryShape.setChosen(false);
-    }
-    this.chosenMemoryShape = memoryShape;
+    this.picker.memoryShapeOnConveyor = memoryShape;
   }
 
   update(time, delta): void {
