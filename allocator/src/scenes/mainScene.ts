@@ -63,7 +63,11 @@ export class MainScene extends Phaser.Scene {
   setupInputs() {
     this.input.on('gameobjectdown', (pointer, gameObject) => {
       if (gameObject instanceof GridCell) {
-        this.picker.onGridCellDown(gameObject);
+        var shape_placed = this.picker.onGridCellDown(gameObject);
+        if (shape_placed) {
+          this.shapeConveyor.deleteShape(this.picker.memoryShapeOnConveyor);
+          this.picker.memoryShapeOnConveyor = null;
+        } 
       }
     });
 

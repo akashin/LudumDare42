@@ -36,4 +36,10 @@ export class ShapeConveyor extends Phaser.GameObjects.Container {
     this.shapes.push(shape);
     this.layout.addItem(shape);
   }
+
+  deleteShape(shape_on_conveyor: MemoryShapeOnConveyor) {
+    console.log("Deleting shape");
+    this.shapes = this.shapes.filter(shape => shape !== shape_on_conveyor);
+    this.layout.removeItem(shape_on_conveyor);
+  }
 }

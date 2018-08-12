@@ -35,18 +35,24 @@ export class Picker {
         this._isOccupiedPlacement = is_occupied_placement;
     }
 
-    onGridCellDown(grid_cell: GridCell) {
+    onGridCellDown(grid_cell: GridCell): boolean {
         if (this.memoryShapeAndGridOverlap != null) {
             if (this.isOccupiedPlacement) {
                 console.log("Placing on a forbidden space!");
             }
             else {
                 this.memoryShapeAndGridOverlap.forEach((value) => {value.setIsOccupied(true)});
+                this.onGridCellOut(grid_cell);
+                this.memoryShapeAndGridOverlap = null;
+                
+                return true;
             }
         }
         else {
             grid_cell.setIsOccupied(true);
         }
+
+        return false;
     }
 
     onGridCellHower(grid_cell: GridCell, grid: Grid) {

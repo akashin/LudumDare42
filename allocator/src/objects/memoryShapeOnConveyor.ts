@@ -4,7 +4,6 @@ import { GridCell } from "./gridCell";
 
 export class MemoryShapeOnConveyor extends Phaser.GameObjects.Container {
   private memoryShape: MemoryShape;
-  private currentScene;
   private isChosen: boolean = false;
 
   constructor(scene, shape, params) {

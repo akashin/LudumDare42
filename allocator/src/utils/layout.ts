@@ -47,5 +47,10 @@ export class TiledLayout extends Phaser.GameObjects.Container {
         this.apply_centering();
       }
     }
+
+    removeItem(item) {
+      this.remove(item);
+      // TODO: refresh positioning of all remaining elements.
+    }
 };
 
