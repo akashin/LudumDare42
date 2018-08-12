@@ -7,8 +7,10 @@ export class MemoryCell extends Phaser.GameObjects.Sprite {
 
     // Color to distinguish from grid cells.
     if (params.shapeType == ShapeType.Creator) {
+      this.setTint(CONVEYOR_CONST.CREATOR_SHAPE_COLOR);
       this.setTexture('positive_atom');
     } else if (params.shapeType == ShapeType.Eraser) {
+      this.setTint(CONVEYOR_CONST.ERASER_SHAPE_COLOR);
       this.setTexture('negative_atom');
     } else {
       alert("Wrong shape type!");
