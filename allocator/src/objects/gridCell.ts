@@ -8,7 +8,6 @@ export enum CellStatus {
 }
 
 export class GridCell extends Phaser.GameObjects.Sprite {
-  private _isOccupied: boolean;
   private column;
   private row;
   private status: CellStatus;
@@ -28,18 +27,8 @@ export class GridCell extends Phaser.GameObjects.Sprite {
     this.status = CellStatus.FREE;
   }
 
-  set isOccupied(isOccupied: boolean) {
-    this._isOccupied = isOccupied;
-
-    if (this._isOccupied) {
-      this.setAlpha(0.5);
-    } else {
-      this.setAlpha(1.0);
-    }
-  }
-
   get isOccupied(): boolean {
-    return this._isOccupied;
+    return this.status != CellStatus.FREE;
   }
 
   getColumn(): number {

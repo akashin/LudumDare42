@@ -36,7 +36,7 @@ export class Picker {
       TaskType.ALLOCATE,
       gridCell.getRow(),
       gridCell.getColumn(),
-      this.pickedShape.getMemoryShape().mask
+      this.pickedShape.memoryShape.mask
     );
     this.onGridCellOut(gridCell);
     this.coveredCells = null;
