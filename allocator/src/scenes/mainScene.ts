@@ -2,7 +2,7 @@ import { CONST, CONVEYOR_CONST } from "../const/const";
 import { GridCell } from "../objects/gridCell";
 import { ShapeConveyor } from "../objects/shapeConveyor";
 import { MemoryShapeOnConveyor } from "../objects/memoryShapeOnConveyor";
-import { Robot, RobotType } from "../logic/robot";
+import { Robot, RobotType } from "../objects/robot";
 import { Task } from "../logic/task";
 import { TiledLayout, LayoutDirection } from "../utils/layout";
 import { Grid } from "../objects/grid";
