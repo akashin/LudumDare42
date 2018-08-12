@@ -9,7 +9,7 @@ export class MemoryShapeOnConveyor extends Phaser.GameObjects.Container {
   private _shapeType: ShapeType;
 
   constructor(scene, shape, shapeType, params) {
-    super(scene, params.x, params.y);
+    super(scene, CONST.GAME_WIDTH, params.y);
 
     this._memoryShape = shape;
     this._shapeType = shapeType;
@@ -29,26 +29,53 @@ export class MemoryShapeOnConveyor extends Phaser.GameObjects.Container {
     this.setInteractive(new Phaser.Geom.Rectangle(
       0, 0, this.getBounds().width, this.getBounds().height), Phaser.Geom.Rectangle.Contains);
 
-    this.on('pointerover', function() {
-      if (!this.isChosen) {
-        this.setAlpha(0.7);
-      }
-    });
-    this.on('pointerout', function() {
-      if (!this.isChosen) {
-        this.setAlpha(1.0);
-      }
-    });
+    this.moveAnimated(params.x);
 
-    this.on('pointerdown', function() {
-      if (this.isChosen) {
-        this.setChosen(false);
-        scene.setChosenMemoryShape(null);
-      } else {
-        this.setChosen(true);
-        scene.setChosenMemoryShape(this);
-      }
+    this.startInputEvents();
+  }
+
+  moveAnimated(x: number) {
+    let moveDelay = 1000;
+    this.scene.tweens.add({
+      targets: [ this ],
+      x: x,
+      ease: 'Sine.easeInOut',
+      duration: moveDelay
     });
+  }
+
+  onPointerOver() {
+    if (!this.isChosen) {
+      this.setAlpha(0.7);
+    }
+  }
+
+  onPointerOut() {
+    if (!this.isChosen) {
+      this.setAlpha(1.0);
+    }
+  }
+
+  onPointerDown() {
+    if (this.isChosen) {
+      this.setChosen(false);
+      (this.scene as any).setChosenMemoryShape(null);
+    } else {
+      this.setChosen(true);
+      (this.scene as any).setChosenMemoryShape(this);
+    }
+  }
+
+  startInputEvents() {
+    this.on('pointerover', this.onPointerOver, this);
+    this.on('pointerout', this.onPointerOut, this);
+    this.on('pointerdown', this.onPointerDown, this);
+  }
+
+  stopInputEvents() {
+    this.off('pointerover', this.onPointerOver, null, false);
+    this.off('pointerout', this.onPointerOut, null, false);
+    this.off('pointerdown', this.onPointerDown, null, false);
   }
 
   get memoryShape() : MemoryShape {
