@@ -80,7 +80,7 @@ export class MainScene extends Phaser.Scene {
         if (isShapePlaced) {
           this.addTask(task);
           this.shapeConveyor.deleteShape(this.picker.pickedShape);
-          this.scoreManager.onMemoryShapePlaced(this.picker.pickedShape.getMemoryShape());
+          this.scoreManager.onMemoryShapePlaced(this.picker.pickedShape.memoryShape);
           this.picker.pickedShape = null;
         }
       }

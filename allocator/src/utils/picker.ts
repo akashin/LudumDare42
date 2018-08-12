@@ -49,7 +49,7 @@ export class Picker {
     }
 
     [this.coveredCells, this.canPlace] =
-      grid.getCoveredCells(gridCell, this.pickedShape.getMemoryShape());
+      grid.getCoveredCells(gridCell, this.pickedShape.memoryShape, this.pickedShape.shapeType);
 
     this.coveredCells.forEach((cell) => { cell.setHovered(this.canPlace); });
   }

@@ -1,6 +1,7 @@
 import { GridCell } from './gridCell';
 import { GRID_CONST } from '../const/const';
 import { MemoryShape } from './memoryShape';
+import { ShapeType } from '../logic/shapeType';
 
 export class Grid extends Phaser.GameObjects.Container {
   private grid: Array<Array<GridCell>>;
@@ -37,7 +38,9 @@ export class Grid extends Phaser.GameObjects.Container {
     return (row < 0 || row >= GRID_CONST.H_CELLS) || (column < 0 || column >= GRID_CONST.W_CELLS);
   }
 
-  getCoveredCells(cell: GridCell, memoryShape: MemoryShape): [Array<GridCell>, boolean] {
+  getCoveredCells(cell: GridCell,
+                  memoryShape: MemoryShape,
+                  shapeType: ShapeType): [Array<GridCell>, boolean] {
     var coveredCells = new Array<GridCell>();
     var canPlace = true;
 
@@ -57,9 +60,17 @@ export class Grid extends Phaser.GameObjects.Container {
 
         let currentCell = this.grid[gridRow][gridColumn];
         coveredCells.push(currentCell);
-        // If we overlap with already placed cell, then we can't place shape here.
-        if (currentCell.isOccupied) {
-          canPlace = false;
+
+        if (shapeType == ShapeType.Creator) {
+          // If we overlap with already placed cell, then we can't place a shape here.
+          if (currentCell.isOccupied) {
+            canPlace = false;
+          }
+        } else if (shapeType == ShapeType.Eraser) {
+          // If current cell is not covered, then we can't place a shape here.
+          if (!currentCell.isOccupied) {
+            canPlace = false;
+          }
         }
       }
     }
@@ -67,7 +78,7 @@ export class Grid extends Phaser.GameObjects.Container {
     return [coveredCells, canPlace];
   }
 
-  getCell(h_index: number, w_index: number): GridCell {
-    return this.grid[h_index][w_index] as GridCell;
+  getCell(row: number, column: number): GridCell {
+    return this.grid[row][column] as GridCell;
   }
 }

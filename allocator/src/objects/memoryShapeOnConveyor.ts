@@ -4,15 +4,15 @@ import { MemoryCell } from "./memoryCell";
 import { ShapeType } from "../logic/shapeType";
 
 export class MemoryShapeOnConveyor extends Phaser.GameObjects.Container {
-  private memoryShape: MemoryShape;
+  private _memoryShape: MemoryShape;
   private isChosen: boolean = false;
-  private shapeType: ShapeType;
+  private _shapeType: ShapeType;
 
   constructor(scene, shape, shapeType, params) {
     super(scene, params.x, params.y);
 
-    this.memoryShape = shape;
-    this.shapeType = shapeType;
+    this._memoryShape = shape;
+    this._shapeType = shapeType;
 
     for (var row = 0; row < this.memoryShape.getHeight(); ++row) {
       for (var column = 0; column < this.memoryShape.getWidth(); ++column) {
@@ -20,7 +20,7 @@ export class MemoryShapeOnConveyor extends Phaser.GameObjects.Container {
           let cell = new MemoryCell(scene, {
             x: column * CONVEYOR_CONST.SHAPE_CELL_WIDTH,
             y: row * CONVEYOR_CONST.SHAPE_CELL_HEIGHT,
-            shapeType: shapeType,
+            shapeType: this.shapeType,
           });
           this.add(cell);
         }
@@ -51,8 +51,12 @@ export class MemoryShapeOnConveyor extends Phaser.GameObjects.Container {
     });
   }
 
-  getMemoryShape() : MemoryShape {
-    return this.memoryShape;
+  get memoryShape() : MemoryShape {
+    return this._memoryShape;
+  }
+
+  get shapeType() {
+    return this._shapeType;
   }
 
   setChosen(isChosen: boolean) {
