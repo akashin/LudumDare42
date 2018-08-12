@@ -140,7 +140,6 @@ export class MainScene extends Phaser.Scene {
     this.shapeConveyor.update();
     if (this.shapeConveyor.isFull()) {
       this.loseLife();
-      // TODO: Show end game screen.
     }
 
     if (this.tasks.length > 0) {
@@ -150,10 +149,6 @@ export class MainScene extends Phaser.Scene {
       task.updateGrid(this.grid);
       if (task.isFinished()) {
         this.tasks.splice(0, 1);
-
-        // TODO: remove this and make health disappear correcly
-        this.playerInfo.damage();
-        this.updateHealthBar();
       }
     }
 
@@ -164,11 +159,7 @@ export class MainScene extends Phaser.Scene {
     console.log("Life is lost!");
     this.timeTicker = 0;
     this.shapeConveyor.clear();
-    // TODO: Show animations.
-  }
-
-  updateHealthBar() {
-
+    this.playerInfo.damage();
   }
 
   addTask(task: Task): void {
