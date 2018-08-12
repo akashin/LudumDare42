@@ -86,7 +86,7 @@ export class Picker {
 
     let row = Math.round(posY / gridCell.width);
     let column = Math.round(posX / gridCell.height);
-    console.log(x, pointer.x, y, pointer.y, row, column);
+    //console.log(x, pointer.x, y, pointer.y, row, column);
 
     if (row < 0 || column < 0) {
       return null;
