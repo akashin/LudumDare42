@@ -16,13 +16,20 @@ export class ScoreManager {
     }
 
     onMemoryShapePlaced(memory_shape: MemoryShape) {
+        this.score += this.calculateMemoryShapeCost(memory_shape);
+        this.score_text.setText(SCORE_CONST.TITLE + this.score);
+    }
+
+    calculateMemoryShapeCost(memory_shape: MemoryShape): number {
+        var cost = 0;
         for (var w = 0; w < memory_shape.getWidth(); ++w) {
             for (var h = 0; h < memory_shape.getHeight(); ++h) {
                 if (memory_shape.hasCell(w, h)) {
-                    this.score += SCORE_CONST.GRID_CELL_VALUE;
-                    this.score_text.setText(SCORE_CONST.TITLE + this.score);    
+                    cost += SCORE_CONST.GRID_CELL_VALUE;
                 }
             }
         }
+        
+        return cost;
     }
 }
