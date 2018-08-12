@@ -24,7 +24,9 @@ export let CONVEYOR_CONST = {
   SHAPE_CELL_BORDER_SIZE: 1,
   CREATOR_SHAPE_COLOR: 0x00FF00,
   ERASER_SHAPE_COLOR: 0xFF0000,
-  DEATH_TIMER_TICKS: 60 * 4,
+  // TODO: Move this to a separate map.
+  DEATH_TIMER_SECONDS: 4,
+  DEATH_TIMER_FONT_SIZE: "32px",
 }
 
 // Robot constants.

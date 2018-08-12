@@ -83,6 +83,9 @@ export class MainScene extends Phaser.Scene {
 
     this.deathTimerText = this.make.text({}, false);
     this.deathTimerText.setText("");
+    this.deathTimerText.setStyle({
+      fontSize: CONVEYOR_CONST.DEATH_TIMER_FONT_SIZE,
+    });
 
     this.wastebin = this.make.sprite({
       // TODO: Why do we need this constant?
@@ -191,17 +194,14 @@ export class MainScene extends Phaser.Scene {
       this.updateStep();
       this.timeTicker -= this.gameSpeed;
     }
-  }
 
-  updateStep(): void {
-    this.shapeConveyor.update();
     if (this.shapeConveyor.isFull()) {
       if (this.deathTimer == null) {
-        this.deathTimer = CONVEYOR_CONST.DEATH_TIMER_TICKS;
+        this.deathTimer = CONVEYOR_CONST.DEATH_TIMER_SECONDS;
         //this.alarmSound.play();
       }
-      this.deathTimer = Math.max(0, this.deathTimer - 1);
-      this.deathTimerText.setText(this.deathTimer.toString());
+      this.deathTimer = Math.max(0, this.deathTimer - delta / 1000);
+      this.deathTimerText.setText(Math.ceil(this.deathTimer).toString());
       if (this.deathTimer == 0) {
         this.loseLife();
       }
@@ -209,6 +209,10 @@ export class MainScene extends Phaser.Scene {
       this.deathTimer = null;
       this.deathTimerText.setText("");
     }
+  }
+
+  updateStep(): void {
+    this.shapeConveyor.update();
 
     let finishedTasks = new Array<number>();
     for (var i = 0; i < this.tasks.length; ++i) {
