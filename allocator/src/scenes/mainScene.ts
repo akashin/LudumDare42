@@ -55,6 +55,7 @@ export class MainScene extends Phaser.Scene {
 
     // Load sounds.
     this.load.audio('shapePlaced', './assets/sounds/put.wav');
+    this.load.audio('alarm', './assets/sounds/alarm.wav');
   }
 
   create(): void {
