@@ -78,7 +78,7 @@ export class MainScene extends Phaser.Scene {
 
     this.input.on('gameobjectover', (pointer, gameObject) => {
       if (gameObject instanceof GridCell) {
-        this.picker.onGridCellHower(gameObject, this.grid);
+        this.picker.onGridCellHover(gameObject, this.grid);
       }
     });
 

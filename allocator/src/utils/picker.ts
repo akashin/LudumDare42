@@ -55,7 +55,7 @@ export class Picker {
         return false;
     }
 
-    onGridCellHower(grid_cell: GridCell, grid: Grid) {
+    onGridCellHover(grid_cell: GridCell, grid: Grid) {
         if (this.memoryShapeOnConveyor != null) {
             [this.memoryShapeAndGridOverlap, this.isOccupiedPlacement] = 
               grid.getAllOverlappedCells(grid_cell, this.memoryShapeOnConveyor.getMemoryShape());
