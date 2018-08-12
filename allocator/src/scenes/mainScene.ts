@@ -15,6 +15,7 @@ import { ShapeType } from "../logic/shapeType";
 export class MainScene extends Phaser.Scene {
   private grid: Grid;
   private lastHoverCell: GridCell;
+  private lastHoverPointer;
   private robots: Array<Robot>;
   private tasks: Array<Task>;
   private shapeConveyor: ShapeConveyor;
@@ -121,7 +122,7 @@ export class MainScene extends Phaser.Scene {
     this.input.on('gameobjectdown', (pointer, gameObject) => {
       if (gameObject instanceof GridCell) {
         this.picker.onGridCellDown(
-          gameObject, this.grid, (task: Task) => {
+          pointer, gameObject, this.grid, (task: Task) => {
             this.addTask(task);
             this.shapeConveyor.deleteShape(this.picker.pickedShape);
             this.playerInfo.onMemoryShapePlaced(this.picker.pickedShape.memoryShape);
@@ -132,8 +133,9 @@ export class MainScene extends Phaser.Scene {
 
     this.input.on('gameobjectover', (pointer, gameObject) => {
       if (gameObject instanceof GridCell) {
-        this.picker.onGridCellHover(gameObject, this.grid);
+        this.picker.onGridCellHover(pointer, gameObject, this.grid);
         this.lastHoverCell = gameObject as GridCell;
+        this.lastHoverPointer = pointer;
       }
     });
 
@@ -141,6 +143,7 @@ export class MainScene extends Phaser.Scene {
       if (gameObject instanceof GridCell) {
         this.picker.onGridCellOut(gameObject);
         this.lastHoverCell = null;
+        this.lastHoverPointer = null;
       }
     });
   }
@@ -243,7 +246,7 @@ export class MainScene extends Phaser.Scene {
     this.updateGameSpeed();
 
     if (this.lastHoverCell != null) {
-      this.picker.onGridCellHover(this.lastHoverCell, this.grid);
+      this.picker.onGridCellHover(this.lastHoverPointer, this.lastHoverCell, this.grid);
     }
   }
 
