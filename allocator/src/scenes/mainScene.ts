@@ -136,6 +136,7 @@ export class MainScene extends Phaser.Scene {
   updateStep(): void {
     this.shapeConveyor.update();
     if (this.shapeConveyor.isFull()) {
+      this.loseLife();
       // TODO: Show end game screen.
     }
 
@@ -157,7 +158,9 @@ export class MainScene extends Phaser.Scene {
   }
 
   loseLife() {
-    // TODO: Refresh conveyer here.
+    console.log("Life is lost!");
+    this.timeTicker = 0;
+    this.shapeConveyor.clear();
     // TODO: Show animations.
   }
 

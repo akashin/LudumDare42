@@ -8,15 +8,20 @@ export class ShapeConveyor extends Phaser.GameObjects.Container {
   private shapes: Array<MemoryShapeOnConveyor>;
   private shapeGenerator: ShapeGenerator;
   private layout: TiledLayout;
-  private generationCounter: number = CONVEYOR_CONST.SHAPE_GEN_PERIOD;
+  private generationCounter: number;
 
   constructor(scene, params) {
     super(scene, params.x, params.y);
 
-    this.shapes = new Array<MemoryShapeOnConveyor>();
+    this.initBegin();
     this.shapeGenerator = params.shapeGenerator;
 
     this.createShapes(scene);
+  }
+
+  private initBegin() {
+    this.shapes = new Array<MemoryShapeOnConveyor>();
+    this.generationCounter = CONVEYOR_CONST.SHAPE_GEN_PERIOD;
   }
 
   createShapes(scene): void {
@@ -63,5 +68,12 @@ export class ShapeConveyor extends Phaser.GameObjects.Container {
       }
       this.generationCounter = CONVEYOR_CONST.SHAPE_GEN_PERIOD;
     }
+  }
+
+  clear() {
+    this.shapes.map((shape) => {
+      this.layout.removeItem(shape);
+    });
+    this.initBegin();
   }
 }
