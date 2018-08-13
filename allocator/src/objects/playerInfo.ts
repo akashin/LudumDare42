@@ -2,16 +2,61 @@ import { MemoryShape } from './memoryShape';
 import { CONST, SCORE_CONST, PLAYER_CONST, RECYCLE_CONST } from '../const/const';
 import { TiledLayout, LayoutDirection } from '../utils/layout'
 
+function setupText(textBox: Phaser.GameObjects.Text, text: string) {
+  textBox.setText(text);
+  textBox.setStyle({
+    fontSize: SCORE_CONST.FONT_SIZE,
+    fill: SCORE_CONST.TEXT_FILL
+  });
+  textBox.setColor(SCORE_CONST.TEXT_COLOR);
+}
+
+class Recycler extends Phaser.GameObjects.Container {
+  private recycle: Phaser.GameObjects.Sprite;
+  private recycles_text: Phaser.GameObjects.Text;
+
+  constructor(scene, params) {
+    super(scene, params.x, params.y);
+
+    this.recycle = scene.make.sprite({
+      key: 'recycle',
+    }, false);
+    this.recycle.setOrigin(0, 0);
+    this.recycle.setScale(
+      60 / this.recycle.width,
+      60 / this.recycle.height,
+    );
+    this.recycle.setInteractive();
+    this.recycle.on('pointerdown', () => {
+      scene.tryRecycleConveyor();
+    });
+
+    this.recycles_text = scene.make.text({
+      x: 60,
+      y: 40,
+    }, false);
+    setupText(this.recycles_text, params.recycles);
+
+    this.add(this.recycle);
+    this.add(this.recycles_text);
+  }
+
+  setRecycles(recycles) {
+    this.recycles_text.setText(recycles);
+  }
+}
+
 export class PlayerInfo extends Phaser.GameObjects.Container {
   private health: number;
   private _recycles: number = PLAYER_CONST.STARTING_RECYCLES;
   private healthSprites: Array<Phaser.GameObjects.Sprite>;
   private score_text: Phaser.GameObjects.Text;
   private _score: number = 0;
-  private recycles_text: Phaser.GameObjects.Text;
   private layout: TiledLayout;
 
-  constructor(scene: Phaser.Scene) {
+  private recycler: Recycler;
+
+  constructor(scene) {
     super(scene);
 
     this.layout = new TiledLayout(scene, LayoutDirection.Horizontal, 0);
@@ -29,26 +74,22 @@ export class PlayerInfo extends Phaser.GameObjects.Container {
     }
 
     this.score_text = scene.make.text({}, false);
-    this.createText(this.score_text, SCORE_CONST.TITLE + this.score);
-
-    this.recycles_text = scene.make.text({}, false);
-    this.createText(this.recycles_text, RECYCLE_CONST.TITLE + this.recycles);
+    setupText(this.score_text, SCORE_CONST.TITLE + this.score);
 
     for (var i = 0; i < this.healthSprites.length; ++i) {
       this.layout.addItem(this.healthSprites[i]);
     }
-    this.layout.addItem(this.score_text);
-    this.layout.addItem(this.recycles_text, 50);
-    this.add(this.layout);
-  }
 
-  private createText(textBox: Phaser.GameObjects.Text, text: string) {
-    textBox.setText(text);
-    textBox.setStyle({
-      fontSize: SCORE_CONST.FONT_SIZE,
-      fill: SCORE_CONST.TEXT_FILL
+    this.recycler = new Recycler(scene, {
+      x: 0,
+      y: 10,
+      recycles: this.recycles,
     });
-    textBox.setColor(SCORE_CONST.TEXT_COLOR);
+
+
+    this.layout.addItem(this.score_text);
+    this.layout.addItem(this.recycler, 50);
+    this.add(this.layout);
   }
 
   get score() {
@@ -71,7 +112,7 @@ export class PlayerInfo extends Phaser.GameObjects.Container {
 
   set recycles(newRecycles: number) {
     this._recycles = newRecycles;
-    this.recycles_text.setText(RECYCLE_CONST.TITLE + this.recycles);
+    this.recycler.setRecycles(this.recycles);
   }
 
   onMemoryShapePlaced(memory_shape: MemoryShape) {

@@ -24,7 +24,6 @@ export class MainScene extends Phaser.Scene {
   private shapeGenerator: ShapeGenerator;
   private gameSpeed: number = CONST.BASE_GAME_SPEED;
   private timeTicker: number = 0;
-  private wastebin: Phaser.GameObjects.Sprite;
   private deathTimer: number = null;
   private deathTimerText: Phaser.GameObjects.Text;
   private shapePlacedMusic: Phaser.Sound.HTML5AudioSound;
@@ -56,7 +55,7 @@ export class MainScene extends Phaser.Scene {
     this.load.image('negative_atom_table', 'assets/negative_table.png');
     this.load.image("engineer", "./assets/engineer.png");
     this.load.image("heart", "./assets/heart.png");
-    this.load.image("wastebin", "./assets/wastebin.png");
+    this.load.image("recycle", "./assets/recycle.png");
     this.load.image("conveyor", "./assets/conveyor.png");
     this.load.image("table", "./assets/table.png");
     this.load.image("blank", "./assets/blank.png");
@@ -93,22 +92,11 @@ export class MainScene extends Phaser.Scene {
       fontSize: CONVEYOR_CONST.DEATH_TIMER_FONT_SIZE,
     });
 
-    this.wastebin = this.make.sprite({
-      // TODO: Why do we need this constant?
-      x: 100,
-      key: 'wastebin',
-      scale: 0.3,
-    }, false);
-    this.wastebin.setInteractive();
-    this.wastebin.on('pointerdown', () => {
-      this.tryRecycleConveyor();
-    });
-
     this.gameLayout.addItem(this.playerInfo);
     this.gameLayout.addItem(this.grid);
     //this.gameLayout.addItem(this.shapeConveyor, 10);
     this.gameLayout.addItem(this.deathTimerText);
-    this.gameLayout.addItem(this.wastebin, 20);
+    //this.gameLayout.addItem(this.recycle);
 
     this.add.existing(this.gameLayout);
 
