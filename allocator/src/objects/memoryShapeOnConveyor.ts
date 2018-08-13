@@ -8,7 +8,7 @@ export class MemoryShapeOnConveyor extends Phaser.GameObjects.Container {
   private _memoryShape: MemoryShape;
   private isChosen: boolean = false;
   private _shapeType: ShapeType;
-  private isChosenEmphasis: Phaser.GameObjects.Graphics;
+  private isChosenSprite: Phaser.GameObjects.Sprite;
 
   constructor(scene, shape, shapeType, params) {
     super(scene, CONST.GAME_WIDTH, params.y);
@@ -18,21 +18,24 @@ export class MemoryShapeOnConveyor extends Phaser.GameObjects.Container {
 
     // Debug graphics.
     //let g = scene.make.graphics({
-    //}).fillStyle(0xFFFFFF, 1.0)
+    //}).fillStyle(0xFFFF00, 1.0)
       //.fillRect(0, 0, 30 * 3, 30 * 3);
     //this.add(g);
 
-    let blankSprite = scene.make.sprite({
-      // TODO: For some reason one needs to add this for sprite, but not for graphics.
-      x: 35,
-      y: 35,
-      scale: CONVEYOR_CONST.SHAPE_CELL_WIDTH * 3 / 256,
+    this.isChosenSprite = scene.make.sprite({
       key: 'blank'
-    })
-    //blankSprite.visible = false;
-    this.add(blankSprite);
-    console.log(blankSprite.getBounds());
-    console.log(blankSprite.displayHeight, blankSprite.displayWidth);
+    });
+    this.isChosenSprite.setOrigin(0, 0);
+    this.isChosenSprite.setScale(
+      CONVEYOR_CONST.SHAPE_CELL_WIDTH * 3 / this.isChosenSprite.width,
+      CONVEYOR_CONST.SHAPE_CELL_HEIGHT * 3 / this.isChosenSprite.height,
+    );
+    this.isChosenSprite.alpha = 0.0;
+    this.isChosenSprite.setTint(0xFFFF00);
+    //this.isChosenSprite.visible = false;
+    this.add(this.isChosenSprite);
+    //console.log(this.isChosenSprite.getBounds());
+    //console.log(this.isChosenSprite.displayHeight, this.isChosenSprite.displayWidth);
 
     let dx = (CONVEYOR_CONST.MEMORY_SHAPE_COLUMNS - this.memoryShape.getWidth()) * CONVEYOR_CONST.SHAPE_CELL_WIDTH / 2;
     let dy = (CONVEYOR_CONST.MEMORY_SHAPE_ROWS - this.memoryShape.getHeight()) * CONVEYOR_CONST.SHAPE_CELL_HEIGHT / 2;
@@ -55,13 +58,6 @@ export class MemoryShapeOnConveyor extends Phaser.GameObjects.Container {
 
     this.moveAnimated(params.x);
 
-    var graphics = (scene as MainScene).add.graphics();
-    graphics.lineStyle(5, COLOR_CONST.CHOSEN_SHAPE_EMPHASIS);
-    this.isChosenEmphasis = graphics.lineBetween(
-      0, this.getBounds().height, this.getBounds().width, this.getBounds().height);
-    this.isChosenEmphasis.setAlpha(0.0);
-    this.add(this.isChosenEmphasis);
-
     this.startInputEvents();
   }
 
@@ -77,13 +73,13 @@ export class MemoryShapeOnConveyor extends Phaser.GameObjects.Container {
 
   onPointerOver() {
     if (!this.isChosen) {
-      this.setAlpha(0.7);
+      this.isChosenSprite.setAlpha(0.3);
     }
   }
 
   onPointerOut() {
     if (!this.isChosen) {
-      this.setAlpha(1.0);
+      this.isChosenSprite.setAlpha(0.0);
     }
   }
 
@@ -120,9 +116,9 @@ export class MemoryShapeOnConveyor extends Phaser.GameObjects.Container {
   setChosen(isChosen: boolean) {
     this.isChosen = isChosen;
     if (isChosen) {
-      this.isChosenEmphasis.setAlpha(1.0);
+      this.isChosenSprite.setAlpha(0.5);
     } else {
-      this.isChosenEmphasis.setAlpha(0.0);
+      this.isChosenSprite.setAlpha(0.0);
     }
   }
 
@@ -139,9 +135,9 @@ export class MemoryShapeOnConveyor extends Phaser.GameObjects.Container {
 
   // Not to be confused with getRect
   getRekt() {
-    this.isChosenEmphasis.setAlpha(0.0);
+    this.isChosenSprite.setAlpha(0.0);
     for (let childIt of this.list) {
-      if (childIt == this.isChosenEmphasis) {
+      if (childIt == this.isChosenSprite) {
         // TODO: some dirty hack, boundingBox in the container negatively affects animation.
         // consider deleting boundingBox from the container.
         continue;
