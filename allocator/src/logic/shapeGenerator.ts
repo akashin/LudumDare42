@@ -1,6 +1,6 @@
-import { randomInt } from "../logic/math";
+import { randomInt } from "./math";
 import { MemoryShape } from "../objects/memoryShape";
-import { ShapeType } from "../logic/shapeType";
+import { ShapeType } from "./shapeType";
 
 export class ShapeGenerator {
   private shapes = new Array<MemoryShape>();

@@ -28,13 +28,23 @@ export class HighScoresManager {
     }
 
     serialize() : string {
+        this.highestScores = this.highestScores.sort((entry1, entry2) => {
+            if (+entry1[1] > +entry2[1]) {
+                return -1;
+            }
+            else if (+entry1[1] < +entry2[1]) {
+                return 1;
+            }
+            return 0;
+        })
+        
         var serializedScores = new Object();
         serializedScores["version"] = 1;
-        serializedScores["records"] = this.highestScores.length;
-
-        for (var i = 0; i < this.highestScores.length; ++i) {
+        serializedScores["records"] = Math.min(10, this.highestScores.length);
+        for (var i = 0; i < Math.min(10, this.highestScores.length); ++i) {
             serializedScores[i] = [this.highestScores[i][0], this.highestScores[i][1]];
         }
+
         return JSON.stringify(serializedScores); 
     }
 

@@ -1,6 +1,6 @@
 import { SCORE_CONST, CONST } from '../const/const';
 import { PlayerInfo } from '../objects/playerInfo';
-import { HighScoresManager } from '../utils/HighScoresManager';
+import { HighScoresManager } from '../utils/highScoresManager';
 export class TitleScene extends Phaser.Scene {
   private phaserSprite: Phaser.GameObjects.Sprite;
   private startKey: Phaser.Input.Keyboard.Key;
