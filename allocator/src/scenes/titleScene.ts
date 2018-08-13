@@ -1,5 +1,6 @@
 import { SCORE_CONST, CONST } from '../const/const';
 import { PlayerInfo } from '../objects/playerInfo';
+import { HighScoresManager } from '../utils/HighScoresManager';
 export class TitleScene extends Phaser.Scene {
   private phaserSprite: Phaser.GameObjects.Sprite;
   private startKey: Phaser.Input.Keyboard.Key;
@@ -18,7 +19,9 @@ export class TitleScene extends Phaser.Scene {
     );
     
     if (data instanceof PlayerInfo) {
-      console.log("Player score = " + (data as PlayerInfo).score);
+      var highScoresManager = new HighScoresManager(this);
+      highScoresManager.addEntry("you", (data as PlayerInfo).score);
+      highScoresManager.writeToLocalStorage();
     }
 
     this.optionCount = 1;
