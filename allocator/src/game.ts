@@ -12,7 +12,7 @@ const config: GameConfig = {
   type: Phaser.AUTO,
   parent: "game",
   // Change the order here to disable the menu screen.
-  scene: [MainScene, TitleScene],
+  scene: [TitleScene],
   physics: {
     default: "arcade",
     arcade: {

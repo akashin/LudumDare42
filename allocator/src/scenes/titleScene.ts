@@ -30,7 +30,9 @@ export class TitleScene extends Phaser.Scene {
 
   preload(): void {
     this.load.image("menuBackground", "./assets/menu.png");
-    this.load.spritesheet("button", "./assets/button.png", {frameWidth: 80, frameHeight: 20});
+    this.load.image("start_button", "./assets/start_button.png");
+    this.load.image("options_button", "./assets/options_button.png");
+    this.load.image("credits_button", "./assets/credits_button.png");
   }
 
   create(): void {
@@ -53,16 +55,16 @@ export class TitleScene extends Phaser.Scene {
     this.highScoresManager.createView();
     this.add.existing(this.highScoresManager);
 
-    this.addMenuOption('Start', () => {
+    this.addMenuOption('start_button', () => {
       console.log('You clicked Start!');
       this.scene.start(CONST.MAIN_SCENE);
     });
 
-    this.addMenuOption('Options', () => {
+    this.addMenuOption('options_button', () => {
       console.log('You clicked Options!');
     });
 
-    this.addMenuOption('Credits', () => {
+    this.addMenuOption('credits_button', () => {
       console.log('You clicked Credits!');
     });
   }
@@ -75,19 +77,12 @@ export class TitleScene extends Phaser.Scene {
   }
 
   addMenuOption(name: string, callback) {
-    var sprite = this.add.sprite(30, (this.optionCount * 80) + 200, "button");
+    var sprite = this.add.sprite(30, (this.optionCount * 80) + 200, name);
     sprite.setInteractive();
-
-    var text = this.add.text(30 + 10, (this.optionCount * 80) + 200 + 5, name, {
-      ontSize: SCORE_CONST.FONT_SIZE,
-      fill: SCORE_CONST.TEXT_FILL
-    });
 
     sprite.setFrame(1);
     sprite.setOrigin(0, 0);
     sprite.setScale(2, 2);
-    text.setScale(2, 2);
-    text.setColor("#008000");
 
     sprite.on('pointerover', function (target) {
       sprite.setFrame(2);
