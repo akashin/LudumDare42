@@ -7,6 +7,7 @@ export class TitleScene extends Phaser.Scene {
   private highScoresManager: HighScoresManager;
 
   private optionCount = 0;
+  private savedData;
 
   constructor() {
     super({
@@ -18,12 +19,8 @@ export class TitleScene extends Phaser.Scene {
     this.startKey = this.input.keyboard.addKey(
       Phaser.Input.Keyboard.KeyCodes.SPACE
     );
-    this.highScoresManager = new HighScoresManager(this);
 
-    if (data instanceof PlayerInfo) {
-      this.highScoresManager.addEntry("you", (data as PlayerInfo).score);
-      this.highScoresManager.writeToLocalStorage();
-    }
+    this.savedData = data
 
     this.optionCount = 1;
   }
@@ -34,7 +31,13 @@ export class TitleScene extends Phaser.Scene {
   }
 
   create(): void {
+    this.highScoresManager = new HighScoresManager(this);
+    if (this.savedData instanceof PlayerInfo) {
+      this.highScoresManager.addEntry("you", (this.savedData as PlayerInfo).score);
+      this.highScoresManager.writeToLocalStorage();
+    }
     this.highScoresManager.createView();
+    this.add.existing(this.highScoresManager);
 
     this.phaserSprite = this.add.sprite(0, 0, "menuBackground");
     this.phaserSprite.setOrigin(0, 0);

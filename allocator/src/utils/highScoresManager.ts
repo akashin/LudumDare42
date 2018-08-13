@@ -14,22 +14,22 @@ export class HighScoresManager extends Phaser.GameObjects.Container {
             20,
             false,
             this.scene.sys.canvas.height);
-        
+
         this.readFromLocalStorage();
     }
 
     createView() {
-        var title = this.scene.make.text({}, false);
-        this.createText(title, "High Scores");
-        this.layout.addItem(title);
+      var title = this.scene.make.text({}, false);
+      this.createText(title, "High Scores");
+      this.layout.addItem(title);
 
-        this.highestScores.forEach((value, index) => {
-            var score = this.scene.make.text({}, false);
-            this.createText(score, value[0] + ": " + value[1]);
-            this.layout.addItem(score);
-        });
+      this.highestScores.forEach((value, index) => {
+        var score = this.scene.make.text({}, false);
+        this.createText(score, value[0] + ": " + value[1]);
+        this.layout.addItem(score);
+      });
 
-        //this.scene.add(this.layout);
+      //this.scene.add(this.layout);
     }
 
     addEntry(name: string, score: number) {
