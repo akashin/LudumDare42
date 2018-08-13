@@ -4,6 +4,7 @@ import { HighScoresManager } from '../utils/highScoresManager';
 export class TitleScene extends Phaser.Scene {
   private phaserSprite: Phaser.GameObjects.Sprite;
   private startKey: Phaser.Input.Keyboard.Key;
+  private highScoresManager: HighScoresManager;
 
   private optionCount = 0;
 
@@ -17,11 +18,11 @@ export class TitleScene extends Phaser.Scene {
     this.startKey = this.input.keyboard.addKey(
       Phaser.Input.Keyboard.KeyCodes.SPACE
     );
-    
+    this.highScoresManager = new HighScoresManager(this);
+
     if (data instanceof PlayerInfo) {
-      var highScoresManager = new HighScoresManager(this);
-      highScoresManager.addEntry("you", (data as PlayerInfo).score);
-      highScoresManager.writeToLocalStorage();
+      this.highScoresManager.addEntry("you", (data as PlayerInfo).score);
+      this.highScoresManager.writeToLocalStorage();
     }
 
     this.optionCount = 1;
@@ -33,9 +34,10 @@ export class TitleScene extends Phaser.Scene {
   }
 
   create(): void {
-    this.phaserSprite = this.add.sprite(400, 300, "logo");
-    this.add.text(300, 450, "Click space to start!"); 
-    
+    //this.phaserSprite = this.add.sprite(400, 300, "logo");
+    //this.add.text(300, 450, "Click space to start!"); 
+    this.highScoresManager.createView();
+
     this.addMenuOption('Start', () => {
       console.log('You clicked Start!');
       this.scene.start(CONST.MAIN_SCENE);
