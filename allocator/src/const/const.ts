@@ -1,6 +1,6 @@
 export let CONST = {
   GAME_WIDTH: 1000,
-  GAME_HEIGHT: 900,
+  GAME_HEIGHT: 850,
   BASE_GAME_SPEED: 20,
   TITLE_SCENE: "TitleScene",
   MAIN_SCENE: "MainScene"
