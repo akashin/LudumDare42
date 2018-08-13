@@ -13,22 +13,10 @@ export class MemoryCell extends Phaser.GameObjects.Sprite {
     }
   }
 
-  static getTint(type: ShapeType) : number {
-    if (type == ShapeType.Creator) {
-      return CONVEYOR_CONST.CREATOR_SHAPE_COLOR;
-    } else if (type == ShapeType.Eraser) {
-      return CONVEYOR_CONST.ERASER_SHAPE_COLOR;
-    } else {
-      alert("Wrong shape type!");
-      return 0;
-    }
-  }
-
   constructor(scene, params) {
     super(scene, params.x, params.y, '');
 
     this.setTexture(MemoryCell.getTexture(params.shapeType));
-    this.setTint(MemoryCell.getTint(params.shapeType));
 
     this.setOrigin(0, 0);
     this.setScale(
