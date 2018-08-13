@@ -81,7 +81,7 @@ export class PlayerInfo extends Phaser.GameObjects.Container {
     setupText(this.score_text, SCORE_CONST.TITLE + this.score);
 
     for (var i = 0; i < this.healthSprites.length; ++i) {
-      this.layout.addItem(this.healthSprites[i]);
+      this.layout.addItem(this.healthSprites[i], 10);
     }
     this.layout.x = 20;
     this.layout.y = 30;
