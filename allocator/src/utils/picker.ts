@@ -43,7 +43,6 @@ export class Picker {
       return;
     }
 
-    console.log(pointer.downX);
     let centerCell = this.getCenterCell(pointer, gridCell, grid);
     if (!centerCell) {
       return;
@@ -88,7 +87,7 @@ export class Picker {
 
     let column = Math.floor(posX / width);
     let row = Math.floor(posY / height);
-    console.log(dx, width, dy, height);
+    //console.log(dx, width, dy, height);
 
     if (row < 0 || column < 0) {
       return null;
@@ -101,7 +100,6 @@ export class Picker {
       return;
     }
 
-    //console.log(pointer.x);
     let centerCell = this.getCenterCell(pointer, gridCell, grid);
     if (!centerCell) {
       return;
