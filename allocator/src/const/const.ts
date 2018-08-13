@@ -2,6 +2,8 @@ export let CONST = {
   GAME_WIDTH: 800,
   GAME_HEIGHT: 600,
   BASE_GAME_SPEED: 20,
+  TITLE_SCENE: "TitleScene",
+  MAIN_SCENE: "MainScene"
 }
 
 // Game grid constants.

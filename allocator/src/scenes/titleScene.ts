@@ -1,4 +1,5 @@
-import { SCORE_CONST } from '../const/const';
+import { SCORE_CONST, CONST } from '../const/const';
+import { PlayerInfo } from '../objects/playerInfo';
 export class TitleScene extends Phaser.Scene {
   private phaserSprite: Phaser.GameObjects.Sprite;
   private startKey: Phaser.Input.Keyboard.Key;
@@ -7,15 +8,19 @@ export class TitleScene extends Phaser.Scene {
 
   constructor() {
     super({
-      key: "TitleScene"
+      key: CONST.TITLE_SCENE
     });
   }
 
-  init(): void {
+  init(data): void {
     this.startKey = this.input.keyboard.addKey(
       Phaser.Input.Keyboard.KeyCodes.SPACE
     );
     
+    if (data instanceof PlayerInfo) {
+      console.log("Player score = " + (data as PlayerInfo).score);
+    }
+
     this.optionCount = 1;
   }
 
@@ -30,7 +35,7 @@ export class TitleScene extends Phaser.Scene {
     
     this.addMenuOption('Start', () => {
       console.log('You clicked Start!');
-      this.scene.start("MainScene");
+      this.scene.start(CONST.MAIN_SCENE);
     });
 
     this.addMenuOption('Options', () => {
@@ -45,7 +50,7 @@ export class TitleScene extends Phaser.Scene {
   update(): void {
     if (this.startKey.isDown) {
       console.log("Space pressed");
-      this.scene.start("MainScene");
+      this.scene.start(CONST.MAIN_SCENE);
     }
   }
 

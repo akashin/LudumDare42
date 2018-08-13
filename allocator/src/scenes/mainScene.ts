@@ -1,4 +1,4 @@
-import { CONST, CONVEYOR_CONST, SCORE_CONST } from "../const/const";
+import { CONST, CONVEYOR_CONST, SCORE_CONST } from '../const/const';
 import { GridCell } from "../objects/gridCell";
 import { ShapeConveyor } from "../objects/shapeConveyor";
 import { MemoryShapeOnConveyor } from "../objects/memoryShapeOnConveyor";
@@ -34,7 +34,7 @@ export class MainScene extends Phaser.Scene {
 
   constructor() {
     super({
-      key: "MainScene"
+      key: CONST.MAIN_SCENE
     });
   }
 
@@ -239,8 +239,13 @@ export class MainScene extends Phaser.Scene {
     this.timeTicker = 0;
     this.shapeConveyor.clear();
     this.picker.clear();
-    this.playerInfo.damage();
     this.alarmSound.stop();
+    
+    var isAlive = this.playerInfo.damage();
+    if (!isAlive) {
+      // TODO allow the scene to show explosion of conveyor before exiting
+      this.scene.start(CONST.TITLE_SCENE, this.playerInfo);
+    }
   }
 
   tryRecycleConveyor() {
