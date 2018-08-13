@@ -83,15 +83,7 @@ export class TitleScene extends Phaser.Scene {
 
     sprite.setFrame(1);
     sprite.setOrigin(0, 0);
-    sprite.setScale(2, 2);
-
-    sprite.on('pointerover', function (target) {
-      sprite.setFrame(2);
-    });
-
-    sprite.on('pointerout', function (target) {
-      sprite.setFrame(1);
-    });
+    sprite.setScale(1, 1);
 
     sprite.on('pointerup', callback);
 
