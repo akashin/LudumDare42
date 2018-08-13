@@ -12,7 +12,7 @@ export let GRID_CONST = {
   H_CELLS: 10,
   CELL_WIDTH: 64,
   CELL_HEIGHT: 64,
-  BORDER_SIZE: 10,
+  BORDER_SIZE: 15,
 }
 
 // Conveyor constants.
@@ -41,7 +41,7 @@ export let ROBOT_CONST = {
 }
 
 export let TASK_CONST = {
-  EXECUTION_TICKS: 60 * 4,
+  EXECUTION_TICKS: 0,
 }
 
 export let COLOR_CONST = {

@@ -81,9 +81,7 @@ export class GridCell extends Phaser.GameObjects.Sprite {
   }
 
   private updateGraphics() {
-    let suffix = "";
     if (this.hoverStatus != HoverStatus.NONE) {
-      suffix = "_border";
       if (this.hoverStatus == HoverStatus.CORRECT) {
         this.setTint(0xFFFF00);
       } else {
@@ -94,16 +92,16 @@ export class GridCell extends Phaser.GameObjects.Sprite {
     }
     if (this.status == CellStatus.FREE) {
       this.setAlpha(1.0);
-      this.setTexture("negative_atom" + suffix);
+      this.setTexture("negative_atom_table");
     } else if (this.status == CellStatus.ALLOCATED) {
       this.setAlpha(1.0);
-      this.setTexture("positive_atom" + suffix);
+      this.setTexture("positive_atom_table");
     } else if (this.status == CellStatus.FREEING) {
       this.setAlpha(0.5);
-      this.setTexture("negative_atom" + suffix);
+      this.setTexture("negative_atom_table");
     } else if (this.status == CellStatus.ALLOCATING) {
       this.setAlpha(0.5);
-      this.setTexture("positive_atom" + suffix);
+      this.setTexture("positive_atom_table");
     }
   }
 }
