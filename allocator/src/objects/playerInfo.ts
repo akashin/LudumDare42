@@ -83,7 +83,7 @@ export class PlayerInfo extends Phaser.GameObjects.Container {
     for (var i = 0; i < this.healthSprites.length; ++i) {
       this.layout.addItem(this.healthSprites[i]);
     }
-    this.layout.x = 10;
+    this.layout.x = 20;
     this.layout.y = 30;
 
     this.recycler = new Recycler(scene, {
@@ -102,8 +102,8 @@ export class PlayerInfo extends Phaser.GameObjects.Container {
     });
 
     this.layout.addItem(this.deathTimerText, 50);
-    this.layout.addItem(this.score_text, 70);
-    this.layout.addItem(this.recycler, 100);
+    this.layout.addItem(this.score_text, 200);
+    this.layout.addItem(this.recycler, 30);
     this.add(this.layout);
   }
 
