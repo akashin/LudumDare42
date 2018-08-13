@@ -16,12 +16,21 @@ export class MemoryShapeOnConveyor extends Phaser.GameObjects.Container {
     this._memoryShape = shape;
     this._shapeType = shapeType;
 
+    // Debug graphics.
+    //let g = scene.make.graphics({
+    //}).fillStyle(0xFFFFFF, 1.0)
+      //.fillRect(0, 0, 20 * 3, 20 * 3);
+    //this.add(g);
+
+    let dx = (CONVEYOR_CONST.MEMORY_SHAPE_COLUMNS - this.memoryShape.getWidth()) * CONVEYOR_CONST.SHAPE_CELL_WIDTH / 2;
+    let dy = (CONVEYOR_CONST.MEMORY_SHAPE_ROWS - this.memoryShape.getHeight()) * CONVEYOR_CONST.SHAPE_CELL_HEIGHT / 2;
+
     for (var row = 0; row < this.memoryShape.getHeight(); ++row) {
       for (var column = 0; column < this.memoryShape.getWidth(); ++column) {
         if (this.memoryShape.hasCell(row, column)) {
           let cell = new MemoryCell(scene, {
-            x: column * CONVEYOR_CONST.SHAPE_CELL_WIDTH,
-            y: row * CONVEYOR_CONST.SHAPE_CELL_HEIGHT,
+            x: column * CONVEYOR_CONST.SHAPE_CELL_WIDTH + dx,
+            y: row * CONVEYOR_CONST.SHAPE_CELL_HEIGHT + dy,
             shapeType: this.shapeType,
           });
           this.add(cell);
@@ -32,7 +41,7 @@ export class MemoryShapeOnConveyor extends Phaser.GameObjects.Container {
       0, 0, this.getBounds().width, this.getBounds().height), Phaser.Geom.Rectangle.Contains);
 
     this.moveAnimated(params.x);
-    
+
     var graphics = (scene as MainScene).add.graphics();
     graphics.lineStyle(5, COLOR_CONST.CHOSEN_SHAPE_EMPHASIS);
     this.isChosenEmphasis = graphics.lineBetween(
