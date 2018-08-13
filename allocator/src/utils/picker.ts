@@ -1,6 +1,6 @@
 import { MemoryShapeOnConveyor } from '../objects/memoryShapeOnConveyor';
 import { GridCell } from '../objects/gridCell';
-import { COLOR_CONST } from '../const/const';
+import { COLOR_CONST, GRID_CONST } from '../const/const';
 import { Grid } from '../objects/grid';
 import { Task, TaskType } from '../logic/task'
 import { ShapeType } from '../logic/shapeType'
@@ -75,18 +75,20 @@ export class Picker {
   getCenterCell(pointer, gridCell: GridCell, grid: Grid) {
     //return gridCell;
     let [x, y] = this.getXYwrtScene(gridCell);
-    let dx = x - pointer.x;
-    let dy = y - pointer.y;
+    let dx = pointer.x - x;
+    let dy = pointer.y - y;
+    let height = GRID_CONST.CELL_HEIGHT;
+    let width = GRID_CONST.CELL_WIDTH;
 
-    let midRow = this.pickedShape.memoryShape.getHeight() / 2;
-    let midColumn = this.pickedShape.memoryShape.getWidth() / 2;
+    let midRow = (this.pickedShape.memoryShape.getHeight() - 1) / 2;
+    let midColumn = (this.pickedShape.memoryShape.getWidth() - 1) / 2;
 
-    let posX = (gridCell.getColumn() - midColumn) * gridCell.width - dx;
-    let posY = (gridCell.getRow() - midRow) * gridCell.height - dy;
+    let posX = (gridCell.getColumn() - midColumn) * width + dx;
+    let posY = (gridCell.getRow() - midRow) * height + dy;
 
-    let row = Math.round(posY / gridCell.width);
-    let column = Math.round(posX / gridCell.height);
-    //console.log(x, pointer.x, y, pointer.y, row, column);
+    let column = Math.floor(posX / width);
+    let row = Math.floor(posY / height);
+    console.log(dx, width, dy, height);
 
     if (row < 0 || column < 0) {
       return null;
@@ -103,6 +105,10 @@ export class Picker {
     let centerCell = this.getCenterCell(pointer, gridCell, grid);
     if (!centerCell) {
       return;
+    }
+
+    if (this.coveredCells) {
+      this.coveredCells.forEach((cell) => { cell.clearHover(); });
     }
 
     [this.coveredCells, this.canPlace] =
