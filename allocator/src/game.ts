@@ -21,7 +21,8 @@ const config: GameConfig = {
   },
   audio: {
     disableWebAudio: true
-  }
+  },
+  backgroundColor: 0x8ac8ff,
 };
 
 // game class
