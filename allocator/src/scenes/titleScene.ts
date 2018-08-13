@@ -44,7 +44,7 @@ export class TitleScene extends Phaser.Scene {
 
     this.highScoresManager = new HighScoresManager(this, {
       x: 500,
-      y: 150,
+      y: 50,
     });
     if (this.savedData instanceof PlayerInfo) {
       this.highScoresManager.addEntry("you", (this.savedData as PlayerInfo).score);
