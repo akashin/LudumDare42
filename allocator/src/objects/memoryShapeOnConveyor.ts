@@ -2,11 +2,13 @@ import { CONST, CONVEYOR_CONST } from "../const/const";
 import { MemoryShape } from "./memoryShape";
 import { MemoryCell } from "./memoryCell";
 import { ShapeType } from "../logic/shapeType";
+import { MainScene } from '../scenes/mainScene';
 
 export class MemoryShapeOnConveyor extends Phaser.GameObjects.Container {
   private _memoryShape: MemoryShape;
   private isChosen: boolean = false;
   private _shapeType: ShapeType;
+  private isChosenEmphasis: Phaser.GameObjects.Graphics;
 
   constructor(scene, shape, shapeType, params) {
     super(scene, CONST.GAME_WIDTH, params.y);
@@ -30,6 +32,13 @@ export class MemoryShapeOnConveyor extends Phaser.GameObjects.Container {
       0, 0, this.getBounds().width, this.getBounds().height), Phaser.Geom.Rectangle.Contains);
 
     this.moveAnimated(params.x);
+    
+    var graphics = (scene as MainScene).add.graphics();
+    graphics.lineStyle(5, 0xffff00);
+    this.isChosenEmphasis = graphics.lineBetween(
+      0, this.getBounds().height, this.getBounds().width, this.getBounds().height);
+    this.isChosenEmphasis.setAlpha(0.0);
+    this.add(this.isChosenEmphasis);
 
     this.startInputEvents();
   }
@@ -89,9 +98,9 @@ export class MemoryShapeOnConveyor extends Phaser.GameObjects.Container {
   setChosen(isChosen: boolean) {
     this.isChosen = isChosen;
     if (isChosen) {
-      this.setAlpha(0.5);
+      this.isChosenEmphasis.setAlpha(1.0);
     } else {
-      this.setAlpha(1.0);
+      this.isChosenEmphasis.setAlpha(0.0);
     }
   }
 
@@ -108,7 +117,13 @@ export class MemoryShapeOnConveyor extends Phaser.GameObjects.Container {
 
   // Not to be confused with getRect
   getRekt() {
+    this.isChosenEmphasis.setAlpha(0.0);
     for (let childIt of this.list) {
+      if (childIt == this.isChosenEmphasis) {
+        // TODO: some dirty hack, boundingBox in the container negatively affects animation.
+        // consider deleting boundingBox from the container.
+        continue;
+      }
       let child = childIt as any;
       let [x, y] = this.getXYwrtScene(child);
       let emitter = (this.scene as any).getEmitter(this._shapeType);

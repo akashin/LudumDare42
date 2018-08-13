@@ -1,4 +1,4 @@
-import { CONST, CONVEYOR_CONST, GRID_CONST, SCORE_CONST, COLOR_CONST } from "../const/const";
+import { CONST, CONVEYOR_CONST, SCORE_CONST } from "../const/const";
 import { GridCell } from "../objects/gridCell";
 import { ShapeConveyor } from "../objects/shapeConveyor";
 import { MemoryShapeOnConveyor } from "../objects/memoryShapeOnConveyor";
@@ -9,7 +9,6 @@ import { TiledLayout, LayoutDirection } from "../utils/layout";
 import { Grid } from "../objects/grid";
 import { Picker } from '../utils/picker';
 import { PlayerInfo } from '../objects/playerInfo';
-import { MemoryShape } from "../objects/memoryShape";
 import { ShapeType } from "../logic/shapeType";
 
 export class MainScene extends Phaser.Scene {
@@ -22,13 +21,12 @@ export class MainScene extends Phaser.Scene {
   private gameLayout: TiledLayout;
   private picker: Picker;
   private playerInfo: PlayerInfo;
-  private deathTimerText: Phaser.GameObjects.Text;
   private shapeGenerator: ShapeGenerator;
   private gameSpeed: number = CONST.BASE_GAME_SPEED;
   private timeTicker: number = 0;
-  private health: number;
   private wastebin: Phaser.GameObjects.Sprite;
   private deathTimer: number = null;
+  private deathTimerText: Phaser.GameObjects.Text;
   private shapePlacedMusic: Phaser.Sound.HTML5AudioSound;
   private alarmSound: Phaser.Sound.HTML5AudioSound;
 
