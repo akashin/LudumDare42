@@ -41,6 +41,7 @@ export let TASK_CONST = {
 export let COLOR_CONST = {
   OCCUPIED_HOVER: 0xff0000,
   UNOCCUPIED_HOVER: 0x00ff00,
+  CHOSEN_SHAPE_EMPHASIS: 0xffff00
 }
 
 export let SCORE_CONST = {

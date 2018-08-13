@@ -1,4 +1,4 @@
-import { CONST, CONVEYOR_CONST } from "../const/const";
+import { CONST, CONVEYOR_CONST, COLOR_CONST } from '../const/const';
 import { MemoryShape } from "./memoryShape";
 import { MemoryCell } from "./memoryCell";
 import { ShapeType } from "../logic/shapeType";
@@ -34,7 +34,7 @@ export class MemoryShapeOnConveyor extends Phaser.GameObjects.Container {
     this.moveAnimated(params.x);
     
     var graphics = (scene as MainScene).add.graphics();
-    graphics.lineStyle(5, 0xffff00);
+    graphics.lineStyle(5, COLOR_CONST.CHOSEN_SHAPE_EMPHASIS);
     this.isChosenEmphasis = graphics.lineBetween(
       0, this.getBounds().height, this.getBounds().width, this.getBounds().height);
     this.isChosenEmphasis.setAlpha(0.0);
