@@ -98,7 +98,7 @@ export class MainScene extends Phaser.Scene {
 
     this.gameLayout.addItem(this.playerInfo);
     this.gameLayout.addItem(this.grid);
-    this.gameLayout.addItem(this.shapeConveyor);
+    this.gameLayout.addItem(this.shapeConveyor, 10);
     this.gameLayout.addItem(this.deathTimerText);
     this.gameLayout.addItem(this.wastebin, 20);
 
