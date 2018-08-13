@@ -57,6 +57,7 @@ export class MainScene extends Phaser.Scene {
     this.load.image("wastebin", "./assets/wastebin.png");
     this.load.image("conveyor", "./assets/conveyor.png");
     this.load.image("table", "./assets/table.png");
+    this.load.image("blank", "./assets/blank.png");
 
     // Load sounds.
     this.load.audio('shapePlaced', './assets/sounds/put.wav');

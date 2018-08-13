@@ -19,8 +19,17 @@ export class MemoryShapeOnConveyor extends Phaser.GameObjects.Container {
     // Debug graphics.
     //let g = scene.make.graphics({
     //}).fillStyle(0xFFFFFF, 1.0)
-      //.fillRect(0, 0, 20 * 3, 20 * 3);
+      //.fillRect(0, 0, 30 * 3, 30 * 3);
     //this.add(g);
+
+    let blankSprite = scene.make.sprite({
+      x: 40,
+      y: 40,
+      scale: 30 * 3 / 600,
+      key: 'blank'
+    })
+    //blankSprite.visible = false;
+    this.add(blankSprite);
 
     let dx = (CONVEYOR_CONST.MEMORY_SHAPE_COLUMNS - this.memoryShape.getWidth()) * CONVEYOR_CONST.SHAPE_CELL_WIDTH / 2;
     let dy = (CONVEYOR_CONST.MEMORY_SHAPE_ROWS - this.memoryShape.getHeight()) * CONVEYOR_CONST.SHAPE_CELL_HEIGHT / 2;
@@ -37,8 +46,15 @@ export class MemoryShapeOnConveyor extends Phaser.GameObjects.Container {
         }
       }
     }
+
+    // TODO: Add emply tile behind.
+    //this.width = CONVEYOR_CONST.MEMORY_SHAPE_COLUMNS * CONVEYOR_CONST.SHAPE_CELL_WIDTH;
+    //this.height = CONVEYOR_CONST.MEMORY_SHAPE_ROWS * CONVEYOR_CONST.SHAPE_CELL_HEIGHT;
+
+    console.log(this.getBounds());
+
     this.setInteractive(new Phaser.Geom.Rectangle(
-      0, 0, this.getBounds().width, this.getBounds().height), Phaser.Geom.Rectangle.Contains);
+      0, params.y, this.getBounds().width, this.getBounds().height), Phaser.Geom.Rectangle.Contains);
 
     this.moveAnimated(params.x);
 
