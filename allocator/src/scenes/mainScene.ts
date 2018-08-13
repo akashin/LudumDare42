@@ -240,9 +240,9 @@ export class MainScene extends Phaser.Scene {
     this.shapeConveyor.clear();
     this.picker.clear();
     this.alarmSound.stop();
-    
-    var isAlive = this.playerInfo.damage();
-    if (!isAlive) {
+
+    this.playerInfo.damage();
+    if (!this.playerInfo.isAlive) {
       // TODO allow the scene to show explosion of conveyor before exiting
       this.scene.start(CONST.TITLE_SCENE, this.playerInfo);
     }

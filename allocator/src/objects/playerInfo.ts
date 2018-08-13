@@ -90,9 +90,12 @@ export class PlayerInfo extends Phaser.GameObjects.Container {
     return cost;
   }
 
-  damage(): boolean {
+  damage(): void {
     this.health = Math.max(0, this.health - 1);
     this.healthSprites[this.health].setAlpha(0.5);
+  }
+
+  isAlive(): boolean {
     return this.health > 0;
   }
 
