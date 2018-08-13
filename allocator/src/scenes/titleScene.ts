@@ -33,6 +33,7 @@ export class TitleScene extends Phaser.Scene {
     this.load.image("start_button", "./assets/start_button.png");
     this.load.image("options_button", "./assets/options_button.png");
     this.load.image("credits_button", "./assets/credits_button.png");
+    this.load.image("blank", "./assets/blank.png");
   }
 
   create(): void {
@@ -45,8 +46,8 @@ export class TitleScene extends Phaser.Scene {
     );
 
     this.highScoresManager = new HighScoresManager(this, {
-      x: 500,
-      y: 50,
+      x: 600,
+      y: 100,
     });
     if (this.savedData instanceof PlayerInfo) {
       this.highScoresManager.addEntry("you", (this.savedData as PlayerInfo).score);
@@ -77,7 +78,7 @@ export class TitleScene extends Phaser.Scene {
   }
 
   addMenuOption(name: string, callback) {
-    var sprite = this.add.sprite(30, (this.optionCount * 80) + 200, name);
+    var sprite = this.add.sprite(200, (this.optionCount * 100) + 180, name);
     sprite.setInteractive();
 
     sprite.setFrame(1);

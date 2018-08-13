@@ -15,6 +15,21 @@ export class HighScoresManager extends Phaser.GameObjects.Container {
         false,
         this.scene.sys.canvas.height);
 
+      let backgroundSprite = scene.make.sprite({
+        x: -90,
+        y: -120,
+        key: 'blank'
+      });
+      backgroundSprite.setOrigin(0, 0);
+      backgroundSprite.setScale(
+        400 / backgroundSprite.width,
+        900 / backgroundSprite.height,
+      );
+      backgroundSprite.alpha = 0.3;
+      backgroundSprite.setTint(0x0000FF);
+      //this.backgroundSprite.visible = false;
+      this.add(backgroundSprite);
+
       this.add(this.layout);
       this.readFromLocalStorage();
     }
