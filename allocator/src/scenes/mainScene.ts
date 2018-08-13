@@ -84,7 +84,10 @@ export class MainScene extends Phaser.Scene {
     this.add.existing(this.shapeConveyor);
 
     this.playerInfo = new PlayerInfo(this);
-    this.grid = new Grid(this);
+    this.grid = new Grid(this, {
+      x: 40,
+      y: 0,
+    });
 
     this.deathTimerText = this.make.text({}, false);
     this.deathTimerText.setText("");

@@ -7,8 +7,8 @@ export class Grid extends Phaser.GameObjects.Container {
   private grid: Array<Array<GridCell>>;
   private background: Phaser.GameObjects.Sprite;
 
-  constructor(scene: Phaser.Scene) {
-    super(scene);
+  constructor(scene: Phaser.Scene, params) {
+    super(scene, params.x, params.y);
 
     this.grid = new Array<Array<GridCell>>();
 
