@@ -21,17 +21,18 @@ export class ShapeConveyor extends Phaser.GameObjects.Container {
 
     this.layout = new TiledLayout(scene, LayoutDirection.Horizontal, CONVEYOR_CONST.SPACING);
 
-    let slot_size = CONVEYOR_CONST.SHAPE_CELL_WIDTH * 3 + CONVEYOR_CONST.SPACING
+    let slot_size = CONVEYOR_CONST.SHAPE_CELL_WIDTH * 3 + 40;
     this.conveyor = scene.make.tileSprite({
-      x: CONVEYOR_CONST.SHAPE_CAPACITY * slot_size / 2,
-      // TODO: No idea what I'm doing here.
-      y: 60 / 2,
-      width: CONVEYOR_CONST.TILE_SIZE * CONVEYOR_CONST.SHAPE_CAPACITY,
-      height: CONVEYOR_CONST.TILE_SIZE,
-      scale: slot_size / CONVEYOR_CONST.TILE_SIZE,
+      width: CONVEYOR_CONST.TILE_SIZE,
+      height: CONVEYOR_CONST.TILE_SIZE * CONVEYOR_CONST.SHAPE_CAPACITY,
       key: 'conveyor',
       add: false
     });
+    this.conveyor.setOrigin(0, 0);
+    this.conveyor.setScale(
+      slot_size / this.conveyor.width,
+      slot_size / this.conveyor.width,
+    )
     this.add(this.conveyor);
 
     this.add(this.layout);
@@ -58,25 +59,28 @@ export class ShapeConveyor extends Phaser.GameObjects.Container {
     return this.shapes.length == CONVEYOR_CONST.SHAPE_CAPACITY;
   }
 
-  getShapeX(index: number) {
+  getShapeY(index: number) {
     let spacing = CONVEYOR_CONST.SPACING;
-    let x = this.conveyor.displayWidth - CONVEYOR_CONST.SHAPE_CELL_HEIGHT * 3;
+    //let y = this.conveyor.displayHeight - CONVEYOR_CONST.SHAPE_CELL_HEIGHT * 3.5;
+    // TODO: This should depend on
+    //let y = this.conveyor.displayHeight / 8;
+    let y = 20;
 
     for (let i = 0; i < index; i++) {
-      x += this.shapes[i].getBounds().width;
-      x += spacing;
+      y += this.shapes[i].getBounds().height;
+      y += spacing;
     }
 
-    return x;
+    return y;
   }
 
   addNewShape(scene): void {
     console.log("Adding shape");
     let [shape, shapeType] = this.shapeGenerator.generateShape();
     let shapeOnConveyor = new MemoryShapeOnConveyor(scene, shape, shapeType, {
-      x: this.getShapeX(this.shapes.length),
-      // TODO: Make this depend on size of conveyor.
-      y: this.conveyor.displayHeight / 2 - CONVEYOR_CONST.SHAPE_CELL_HEIGHT * 1.5
+      // TODO: Tweak this.
+      x: this.conveyor.displayWidth / 2 - CONVEYOR_CONST.SHAPE_CELL_WIDTH * 1.5,
+      y: this.getShapeY(this.shapes.length),
     });
     this.shapes.push(shapeOnConveyor);
     this.add(shapeOnConveyor);
@@ -90,9 +94,9 @@ export class ShapeConveyor extends Phaser.GameObjects.Container {
     this.remove(shapeOnConveyor);
 
     for (let i = 0; i < this.shapes.length; i++) {
-      let targetX = this.getShapeX(i);
-      if (this.shapes[i].x != targetX) {
-        this.shapes[i].moveAnimated(targetX);
+      let targetY = this.getShapeY(i);
+      if (this.shapes[i].y != targetY) {
+        this.shapes[i].moveAnimated(targetY);
       }
     }
 

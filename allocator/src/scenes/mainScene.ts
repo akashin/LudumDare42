@@ -76,10 +76,12 @@ export class MainScene extends Phaser.Scene {
 
     this.shapeGenerator = new ShapeGenerator();
     this.shapeConveyor = new ShapeConveyor(this, {
-      x: 0,
-      y: 0,
+      x: 800,
+      y: 30,
       shapeGenerator: this.shapeGenerator,
     });
+    this.add.existing(this.shapeConveyor);
+
     this.playerInfo = new PlayerInfo(this);
     this.grid = new Grid(this);
 
@@ -102,7 +104,7 @@ export class MainScene extends Phaser.Scene {
 
     this.gameLayout.addItem(this.playerInfo);
     this.gameLayout.addItem(this.grid);
-    this.gameLayout.addItem(this.shapeConveyor, 10);
+    //this.gameLayout.addItem(this.shapeConveyor, 10);
     this.gameLayout.addItem(this.deathTimerText);
     this.gameLayout.addItem(this.wastebin, 20);
 

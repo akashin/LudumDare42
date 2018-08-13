@@ -11,7 +11,7 @@ export class MemoryShapeOnConveyor extends Phaser.GameObjects.Container {
   private isChosenSprite: Phaser.GameObjects.Sprite;
 
   constructor(scene, shape, shapeType, params) {
-    super(scene, CONST.GAME_WIDTH, params.y);
+    super(scene, params.x, CONST.GAME_HEIGHT);
 
     this._memoryShape = shape;
     this._shapeType = shapeType;
@@ -54,18 +54,18 @@ export class MemoryShapeOnConveyor extends Phaser.GameObjects.Container {
     }
 
     this.setInteractive(new Phaser.Geom.Rectangle(
-      0, params.y, this.getBounds().width, this.getBounds().height), Phaser.Geom.Rectangle.Contains);
+      params.x, 0, this.getBounds().width, this.getBounds().height), Phaser.Geom.Rectangle.Contains);
 
-    this.moveAnimated(params.x);
+    this.moveAnimated(params.y);
 
     this.startInputEvents();
   }
 
-  moveAnimated(x: number) {
+  moveAnimated(y: number) {
     let moveDelay = 500;
     this.scene.tweens.add({
       targets: [ this ],
-      x: x,
+      y: y,
       ease: 'Sine.easeInOut',
       duration: moveDelay
     });
