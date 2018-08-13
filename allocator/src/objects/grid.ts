@@ -5,11 +5,19 @@ import { ShapeType } from '../logic/shapeType';
 
 export class Grid extends Phaser.GameObjects.Container {
   private grid: Array<Array<GridCell>>;
+  private background: Phaser.GameObjects.Sprite;
 
-  constructor(scene) {
+  constructor(scene: Phaser.Scene) {
     super(scene);
 
     this.grid = new Array<Array<GridCell>>();
+
+    this.background = scene.make.sprite({}, false);
+    this.background.setTexture("table");
+    this.background.setPosition(0, 0);
+    this.background.setOrigin(0, 0);
+    this.add(this.background);
+
     this.createGrid(scene);
   }
 
@@ -18,8 +26,8 @@ export class Grid extends Phaser.GameObjects.Container {
       this.grid.push(new Array<GridCell>());
       for (var column = 0; column < GRID_CONST.W_CELLS; ++column) {
         let cell = new GridCell(scene, {
-          x: column * GRID_CONST.CELL_WIDTH,
-          y: row * GRID_CONST.CELL_HEIGHT,
+          x: GRID_CONST.BORDER_SIZE + column * GRID_CONST.CELL_WIDTH,
+          y: GRID_CONST.BORDER_SIZE + row * GRID_CONST.CELL_HEIGHT,
           column: column,
           row: row,
         });

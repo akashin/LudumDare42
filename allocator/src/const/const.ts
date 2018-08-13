@@ -1,6 +1,6 @@
 export let CONST = {
-  GAME_WIDTH: 800,
-  GAME_HEIGHT: 600,
+  GAME_WIDTH: 1000,
+  GAME_HEIGHT: 900,
   BASE_GAME_SPEED: 20,
   TITLE_SCENE: "TitleScene",
   MAIN_SCENE: "MainScene"
@@ -10,9 +10,9 @@ export let CONST = {
 export let GRID_CONST = {
   W_CELLS: 10,
   H_CELLS: 10,
-  CELL_WIDTH: 30,
-  CELL_HEIGHT: 30,
-  CELL_BORDER_SIZE: 1,
+  CELL_WIDTH: 64,
+  CELL_HEIGHT: 64,
+  BORDER_SIZE: 10,
 }
 
 // Conveyor constants.
