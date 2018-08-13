@@ -83,6 +83,8 @@ export class PlayerInfo extends Phaser.GameObjects.Container {
     for (var i = 0; i < this.healthSprites.length; ++i) {
       this.layout.addItem(this.healthSprites[i]);
     }
+    this.layout.x = 10;
+    this.layout.y = 30;
 
     this.recycler = new Recycler(scene, {
       x: 0,

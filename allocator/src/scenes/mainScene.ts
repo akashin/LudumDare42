@@ -68,7 +68,7 @@ export class MainScene extends Phaser.Scene {
     this.gameLayout = new TiledLayout(
       this,
       LayoutDirection.Vertical,
-      /* spacing = */ 25,
+      /* spacing = */ 0,
       // TODO: Why centering breaks redraws?
       /* center_elements = */ false,
       /* size = */ this.sys.canvas.width
@@ -84,7 +84,7 @@ export class MainScene extends Phaser.Scene {
 
     this.playerInfo = new PlayerInfo(this);
     this.grid = new Grid(this, {
-      x: 40,
+      x: 60,
       y: 0,
     });
 
