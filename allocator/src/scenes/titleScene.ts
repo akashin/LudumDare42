@@ -29,14 +29,20 @@ export class TitleScene extends Phaser.Scene {
   }
 
   preload(): void {
-    this.load.image("logo", "./assets/phaser.png");
+    this.load.image("menuBackground", "./assets/menu.png");
     this.load.spritesheet("button", "./assets/button.png", {frameWidth: 80, frameHeight: 20});
   }
 
   create(): void {
-    //this.phaserSprite = this.add.sprite(400, 300, "logo");
-    //this.add.text(300, 450, "Click space to start!"); 
     this.highScoresManager.createView();
+
+    this.phaserSprite = this.add.sprite(0, 0, "menuBackground");
+    this.phaserSprite.setOrigin(0, 0);
+    let ratio = this.phaserSprite.width / this.phaserSprite.height;
+    this.phaserSprite.setScale(
+      CONST.GAME_HEIGHT / this.phaserSprite.height,
+      CONST.GAME_HEIGHT / this.phaserSprite.height,
+    );
 
     this.addMenuOption('Start', () => {
       console.log('You clicked Start!');
@@ -46,7 +52,7 @@ export class TitleScene extends Phaser.Scene {
     this.addMenuOption('Options', () => {
       console.log('You clicked Options!');
     });
-    
+
     this.addMenuOption('Credits', () => {
       console.log('You clicked Credits!');
     });
@@ -62,7 +68,7 @@ export class TitleScene extends Phaser.Scene {
   addMenuOption(name: string, callback) {
     var sprite = this.add.sprite(30, (this.optionCount * 80) + 200, "button");
     sprite.setInteractive();
-    
+
     var text = this.add.text(30 + 10, (this.optionCount * 80) + 200 + 5, name, {
       ontSize: SCORE_CONST.FONT_SIZE,
       fill: SCORE_CONST.TEXT_FILL
@@ -73,7 +79,7 @@ export class TitleScene extends Phaser.Scene {
     sprite.setScale(2, 2);
     text.setScale(2, 2);
     text.setColor("#008000");
-    
+
     sprite.on('pointerover', function (target) {
       sprite.setFrame(2);
     });
@@ -83,7 +89,7 @@ export class TitleScene extends Phaser.Scene {
     });
 
     sprite.on('pointerup', callback);
-    
+
     ++this.optionCount;
   }
 }
