@@ -7,7 +7,7 @@ export class TitleScene extends Phaser.Scene {
   private highScoresManager: HighScoresManager;
 
   private optionCount = 0;
-  private savedData;
+  private savedData: PlayerInfo;
 
   constructor() {
     super({
@@ -20,7 +20,10 @@ export class TitleScene extends Phaser.Scene {
       Phaser.Input.Keyboard.KeyCodes.SPACE
     );
 
-    this.savedData = data
+    if (this.savedData instanceof PlayerInfo) {
+      console.log("HERE");
+    }
+    this.savedData = <PlayerInfo> data;
 
     this.optionCount = 1;
   }
@@ -31,14 +34,6 @@ export class TitleScene extends Phaser.Scene {
   }
 
   create(): void {
-    this.highScoresManager = new HighScoresManager(this);
-    if (this.savedData instanceof PlayerInfo) {
-      this.highScoresManager.addEntry("you", (this.savedData as PlayerInfo).score);
-      this.highScoresManager.writeToLocalStorage();
-    }
-    this.highScoresManager.createView();
-    this.add.existing(this.highScoresManager);
-
     this.phaserSprite = this.add.sprite(0, 0, "menuBackground");
     this.phaserSprite.setOrigin(0, 0);
     let ratio = this.phaserSprite.width / this.phaserSprite.height;
@@ -46,6 +41,17 @@ export class TitleScene extends Phaser.Scene {
       CONST.GAME_HEIGHT / this.phaserSprite.height,
       CONST.GAME_HEIGHT / this.phaserSprite.height,
     );
+
+    this.highScoresManager = new HighScoresManager(this, {
+      x: 500,
+      y: 150,
+    });
+    if (this.savedData instanceof PlayerInfo) {
+      this.highScoresManager.addEntry("you", (this.savedData as PlayerInfo).score);
+      this.highScoresManager.writeToLocalStorage();
+    }
+    this.highScoresManager.createView();
+    this.add.existing(this.highScoresManager);
 
     this.addMenuOption('Start', () => {
       console.log('You clicked Start!');
