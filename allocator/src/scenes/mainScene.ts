@@ -191,6 +191,11 @@ export class MainScene extends Phaser.Scene {
 
   updateGameSpeed(): void {
     let speedMultiplier = SCORE_CONST.GAME_SPEED_PER_SCORE_CHANGE * this.playerInfo.score;
+    if (speedMultiplier <= 1.0) {
+      speedMultiplier *= speedMultiplier;
+    } else {
+      speedMultiplier = Math.pow(speedMultiplier, 0.5);
+    }
     this.gameSpeed = CONST.BASE_GAME_SPEED / (1 + speedMultiplier);
   }
 
