@@ -1,5 +1,6 @@
 import { CONST, GRID_CONST, COLOR_CONST } from "../const/const";
 import { ShapeType } from "../logic/shapeType"
+import { randomInt } from "../logic/math";
 
 export enum CellStatus {
   FREE,
@@ -8,13 +9,20 @@ export enum CellStatus {
   ALLOCATING,
 }
 
+enum HoverStatus {
+  NONE,
+  CORRECT,
+  INCORRECT,
+}
+
 export class GridCell extends Phaser.GameObjects.Sprite {
   private column;
   private row;
   private status: CellStatus;
+  private hoverStatus: HoverStatus;
 
   constructor(scene, params) {
-    super(scene, params.x, params.y, 'negative_atom');
+    super(scene, params.x, params.y, "negative_atom");
 
     this.column = params.column;
     this.row = params.row;
@@ -25,7 +33,15 @@ export class GridCell extends Phaser.GameObjects.Sprite {
       GRID_CONST.CELL_HEIGHT / this.height
     );
 
-    this.status = CellStatus.FREE;
+    if (randomInt(2) == 0) {
+      this.status = CellStatus.FREE;
+    } else {
+      this.status = CellStatus.ALLOCATED;
+    }
+
+    this.hoverStatus = HoverStatus.NONE;
+
+    this.updateGraphics();
   }
 
   isSuitableFor(shapeType: ShapeType): boolean {
@@ -34,6 +50,7 @@ export class GridCell extends Phaser.GameObjects.Sprite {
     } else {
       return this.status == CellStatus.ALLOCATED;
     }
+    this.updateGraphics();
   }
 
   getColumn(): number {
@@ -46,31 +63,47 @@ export class GridCell extends Phaser.GameObjects.Sprite {
 
   setHovered(withCorrectPlacement: boolean = true) {
     if (withCorrectPlacement) {
-      this.setTint(COLOR_CONST.UNOCCUPIED_HOVER);
+      this.hoverStatus = HoverStatus.CORRECT;
     } else {
-      this.setTint(COLOR_CONST.OCCUPIED_HOVER);
+      this.hoverStatus = HoverStatus.INCORRECT;
     }
+    this.updateGraphics();
   }
 
   clearHover() {
-    this.clearTint();
+    this.hoverStatus = HoverStatus.NONE;
+    this.updateGraphics();
   }
 
   setStatus(status: CellStatus) {
     this.status = status;
+    this.updateGraphics();
+  }
 
+  private updateGraphics() {
+    let suffix = "";
+    if (this.hoverStatus != HoverStatus.NONE) {
+      suffix = "_border";
+      if (this.hoverStatus == HoverStatus.CORRECT) {
+        this.setTint(0xFFFF00);
+      } else {
+        this.setTint(0x0000FF);
+      }
+    } else {
+      this.clearTint();
+    }
     if (this.status == CellStatus.FREE) {
       this.setAlpha(1.0);
-      this.setTexture('negative_atom');
+      this.setTexture("negative_atom" + suffix);
     } else if (this.status == CellStatus.ALLOCATED) {
       this.setAlpha(1.0);
-      this.setTexture('positive_atom');
+      this.setTexture("positive_atom" + suffix);
     } else if (this.status == CellStatus.FREEING) {
       this.setAlpha(0.5);
-      this.setTexture('negative_atom');
+      this.setTexture("negative_atom" + suffix);
     } else if (this.status == CellStatus.ALLOCATING) {
       this.setAlpha(0.5);
-      this.setTexture('positive_atom');
+      this.setTexture("positive_atom" + suffix);
     }
   }
 }

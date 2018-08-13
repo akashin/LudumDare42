@@ -50,6 +50,8 @@ export class MainScene extends Phaser.Scene {
     this.load.image('cell', 'assets/cell.png');
     this.load.image('positive_atom', 'assets/positive.png');
     this.load.image('negative_atom', 'assets/negative.png');
+    this.load.image('positive_atom_border', 'assets/positive_border.png');
+    this.load.image('negative_atom_border', 'assets/negative_border.png');
     this.load.image("engineer", "./assets/engineer.png");
     this.load.image("heart", "./assets/heart.png");
     this.load.image("wastebin", "./assets/wastebin.png");
