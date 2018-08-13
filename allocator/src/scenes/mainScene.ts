@@ -25,7 +25,6 @@ export class MainScene extends Phaser.Scene {
   private gameSpeed: number = CONST.BASE_GAME_SPEED;
   private timeTicker: number = 0;
   private deathTimer: number = null;
-  private deathTimerText: Phaser.GameObjects.Text;
   private shapePlacedMusic: Phaser.Sound.HTML5AudioSound;
   private alarmSound: Phaser.Sound.HTML5AudioSound;
 
@@ -89,16 +88,10 @@ export class MainScene extends Phaser.Scene {
       y: 0,
     });
 
-    this.deathTimerText = this.make.text({}, false);
-    this.deathTimerText.setText("");
-    this.deathTimerText.setStyle({
-      fontSize: CONVEYOR_CONST.DEATH_TIMER_FONT_SIZE,
-    });
-
     this.gameLayout.addItem(this.playerInfo);
     this.gameLayout.addItem(this.grid);
     //this.gameLayout.addItem(this.shapeConveyor, 10);
-    this.gameLayout.addItem(this.deathTimerText);
+    //this.gameLayout.addItem(this.deathTimerText);
     //this.gameLayout.addItem(this.recycle);
 
     this.add.existing(this.gameLayout);
@@ -203,13 +196,13 @@ export class MainScene extends Phaser.Scene {
         //this.alarmSound.play();
       }
       this.deathTimer = Math.max(0, this.deathTimer - delta / 1000);
-      this.deathTimerText.setText(Math.ceil(this.deathTimer).toString());
+      this.playerInfo.setDeathTimer(Math.ceil(this.deathTimer).toString());
       if (this.deathTimer == 0) {
         this.loseLife();
       }
     } else {
       this.deathTimer = null;
-      this.deathTimerText.setText("");
+      this.playerInfo.setDeathTimer("");
     }
   }
 

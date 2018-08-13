@@ -1,5 +1,5 @@
 import { MemoryShape } from './memoryShape';
-import { CONST, SCORE_CONST, PLAYER_CONST, RECYCLE_CONST } from '../const/const';
+import { CONST, SCORE_CONST, PLAYER_CONST, RECYCLE_CONST, CONVEYOR_CONST } from '../const/const';
 import { TiledLayout, LayoutDirection } from '../utils/layout'
 
 function setupText(textBox: Phaser.GameObjects.Text, text: string) {
@@ -53,6 +53,7 @@ export class PlayerInfo extends Phaser.GameObjects.Container {
   private score_text: Phaser.GameObjects.Text;
   private _score: number = 0;
   private layout: TiledLayout;
+  private deathTimerText: Phaser.GameObjects.Text;
 
   private recycler: Recycler;
 
@@ -73,7 +74,10 @@ export class PlayerInfo extends Phaser.GameObjects.Container {
       this.healthSprites.push(sprite);
     }
 
-    this.score_text = scene.make.text({}, false);
+    this.score_text = scene.make.text({
+      x: 0,
+      y: 40,
+    }, false);
     setupText(this.score_text, SCORE_CONST.TITLE + this.score);
 
     for (var i = 0; i < this.healthSprites.length; ++i) {
@@ -82,14 +86,27 @@ export class PlayerInfo extends Phaser.GameObjects.Container {
 
     this.recycler = new Recycler(scene, {
       x: 0,
-      y: 10,
+      y: 30,
       recycles: this.recycles,
     });
 
+    this.deathTimerText = scene.make.text({
+      x: 0,
+      y: 30,
+    }, false);
+    this.deathTimerText.setText("");
+    this.deathTimerText.setStyle({
+      fontSize: CONVEYOR_CONST.DEATH_TIMER_FONT_SIZE,
+    });
 
-    this.layout.addItem(this.score_text);
-    this.layout.addItem(this.recycler, 50);
+    this.layout.addItem(this.deathTimerText, 50);
+    this.layout.addItem(this.score_text, 70);
+    this.layout.addItem(this.recycler, 100);
     this.add(this.layout);
+  }
+
+  setDeathTimer(text: string) {
+    this.deathTimerText.setText(text);
   }
 
   get score() {

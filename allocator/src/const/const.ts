@@ -32,7 +32,7 @@ export let CONVEYOR_CONST = {
   ERASER_SHAPE_COLOR: 0xFF0000,
   // TODO: Move this to a separate map.
   DEATH_TIMER_SECONDS: 4,
-  DEATH_TIMER_FONT_SIZE: "32px",
+  DEATH_TIMER_FONT_SIZE: "64px",
 }
 
 // Robot constants.
